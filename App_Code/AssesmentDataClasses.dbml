@@ -1097,6 +1097,15 @@
       <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.TakeTestDyanamicContent" Member="TakeTestDyanamicContents">
+    <Type Name="TakeTestDyanamicContent">
+      <Column Name="ContentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Description1" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Description2" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Description3" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Description4" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
   <Function Name="AddDesignation">
     <Parameter Name="PostId" Parameter="postId" Type="System.Int32" DbType="Int" />
     <Parameter Name="PostName" Parameter="postName" Type="System.String" DbType="NVarChar(50)" />

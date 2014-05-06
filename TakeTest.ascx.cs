@@ -393,4 +393,11 @@ public partial class TakeTest : System.Web.UI.UserControl
        ////// pnlTestList.Controls.Clear();
        ////// pnlTestList.Controls.Add(PnlDefaultText); lbtnBack_1.Visible = false;
     }
+    protected void lnk_contact_Click(object sender, EventArgs e)
+    {
+        Session["ControlToReDirect"] = "Taketestdescription.ascx";
+        Response.Redirect("FJAHome.aspx");        
+
+        //Taketestdescription.ascx
+    }
 }

@@ -78,7 +78,9 @@ get back to you immediately
 
 <div id="magento-com">
 	<div class="btn-outline">
-    	<div class="contact-us"><a href="#">Contact Us</a></div>
+    	<div class="contact-us">
+            <asp:LinkButton ID="lnk_contact" runat="server" OnClick="lnk_contact_Click">Contact Us</asp:LinkButton>
+            <%--<a href="#">Contact Us</a>--%></div>
     </div>
 </div>
 
@@ -94,7 +96,7 @@ get back to you immediately
                 <div class="right_menu_bg"><a href="#">Career Profiling Tests</a></div>
                 <div class="right_menu_bg"><a href="#">General Aptitude Tests</a></div>
                 <div class="right_menu_bg"><a href="#">Creative Art Tests</a></div>
-                <div class="right_menu_bg"><a href="#">Social Skills Tasts</a></div>
+                <div class="right_menu_bg"><a href="#">Social Skills Tests</a></div>
             </div>
     
     
