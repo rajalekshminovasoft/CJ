@@ -29,9 +29,23 @@ public partial class Taketestdescription : System.Web.UI.UserControl
         if (Details.Count() > 0)
         {
             if (Details.First().Description1 != null && Details.First().Description1 != "")
-                lit_righttop.Text  += Details.First().Description1.ToString();
+                lit_righttop.Text  = Details.First().Description1.ToString();
+
+            if (Details.First().Description2 != null && Details.First().Description2 != "")
+                lit_innerhead.Text = Details.First().Description2.ToString();
+
+            if (Details.First().Description3 != null && Details.First().Description3 != "")
+                lit_innercontent.Text = Details.First().Description3.ToString();
+
+            if (Details.First().Description4 != null && Details.First().Description4 != "")
+                lit_inner1.Text = Details.First().Description4.ToString();
         }
         
 
+    }
+    protected void lnk_register_Click(object sender, EventArgs e)
+    {
+        Session["ControlToReDirect"] = "UserCreation.ascx";
+        Response.Redirect("FJAHome.aspx");        
     }
 }

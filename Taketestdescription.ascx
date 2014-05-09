@@ -10,9 +10,12 @@
             
             
        <div class="take_a_test_text">
-   		<div class="left_text_head">Realize your real potential </div>
+   		<div class="left_text_head">
+               <asp:Literal ID="lit_innerhead" runat="server"></asp:Literal> </div>
      
-        <div class="left_text_inner">Welcome to Career Judge’s online assessment engine TalentSCOUT™ . You can take tests of your choice from a long list of test batteries and assessments available through this engine. You can select a test of your choice or contact us for more support in selecting the right test that suits your objective.<br/>
+        <div class="left_text_inner">
+            <asp:Literal ID="lit_innercontent" runat="server"></asp:Literal>
+            <%--Welcome to Career Judge’s online assessment engine TalentSCOUT™ . You can take tests of your choice from a long list of test batteries and assessments available through this engine. You can select a test of your choice or contact us for more support in selecting the right test that suits your objective.<br/>
         
         
         
@@ -32,19 +35,24 @@ Different art works require different abilities in varying proportions. We have 
 <div class="hd">Social Skills Tests</div>
 Social life requires several skills to be effective in our relationships and social interactions. You can learn about yourself, where you are standing on different social skills. <br/>   
         <br/>
-        
-        
-        Select any of the test categories from the left-side menu bar for learning more about tests available with us.
-        
-        
-        
-        
-        
-        
-        
-        
-        
+                        Select any of the test categories from the left-side menu bar for learning more about tests available with us.
+      
+      --%>
+
+            <div id="magento-com">
+	<div class="btn-outline">
+    	<div class="contact-us">
+            <asp:LinkButton ID="lnk_register" runat="server" OnClick="lnk_register_Click" >Register</asp:LinkButton>
+            <%--<a href="#">Contact Us</a>--%></div>
+    </div>
+</div>
+
         </div>
+
+           <div class="left_text_inner">
+
+            <asp:Literal ID="lit_inner1" runat="server"></asp:Literal>
+               </div>
    </div> 
             
             
