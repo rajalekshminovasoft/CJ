@@ -45,7 +45,7 @@ public partial class Taketestdescription : System.Web.UI.UserControl
     }
     protected void lnk_register_Click(object sender, EventArgs e)
     {
-        Session["ControlToReDirect"] = "UserCreation.ascx";
+        Session["ControlToReDirect"] = "UserCreationFromSite.ascx";
         Response.Redirect("FJAHome.aspx");        
     }
 }
