@@ -4,9 +4,9 @@
         <table>
             <tr>
                 <td align="left" valign="top">
-                    <table style=" height: 350px">
+                    <%--<table style=" height: 350px">
                         <tr>
-                            <td colspan="2"  valign="top">
+                            <td colspan="2"  valign="top">--%>
                                 <div class="titlemain">
                                     User Creation</div>
                             </td>
@@ -31,6 +31,7 @@
                                 </asp:LinqDataSource>
                             </td>
                         </tr>
+
                         <tr>
                             <td class="label">
                                 Name of Test :</td>
@@ -148,21 +149,7 @@
             </td>
         </tr>
 
-                          <tr>
-                            <td class="label" >
-                                User Name:</td>
-                            <td>
-                                <asp:TextBox ID="txtUserName" runat="server" Width="400px"></asp:TextBox>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label" >
-                                Password:</td>
-                            <td>
-                                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" Width="400px"></asp:TextBox>
-                            </td>
-                        </tr>
-                       
+                        
                          <tr>
                             <td class="label" >
                                 User Type :</td>
@@ -216,7 +203,7 @@
                 Vocation:</td>
             <td>
                 <asp:DropDownList ID="ddlJobCatgy" runat="server" AppendDataBoundItems="True" 
-                    DataSourceID="LinqDataSource4" DataTextField="Name" 
+                    DataSourceID="LinqDataSource4" DataTextField="Name" DataValueField="JobCatID"
                      Width="355px">
                     <asp:ListItem Value="0">--Select--</asp:ListItem>
                 </asp:DropDownList>
@@ -405,8 +392,8 @@
                             <td>
                                 <asp:TextBox ID="txtLoginToDate" runat="server"  ></asp:TextBox>
                                 <input id="txtLoginToDate" runat="server" onclick="dispCal('txtLoginToDate')" 
-                    readonly="readonly" />--%></td>
-                        </tr>
+                    readonly="readonly" /></td>
+                        </tr>--%>
                         <tr>
                             <td class="label" >
                                 Status:</td>
@@ -417,16 +404,33 @@
                                 </asp:DropDownList>
                             </td>
                         </tr>
+
+              <tr>
+                            <td class="label" >
+                                User Name:</td>
+                            <td>
+                                <asp:TextBox ID="txtUserName" runat="server" Width="400px"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label" >
+                                Password:</td>
+                            <td>
+                                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" Width="400px"></asp:TextBox>
+                            </td>
+                        </tr>
+                       
+
                         <tr>
                             <td colspan="2">
-                                <asp:Label ID="lblMessage" runat="server" ForeColor="#FF3300"></asp:Label>
+                                <asp:Label ID="lblMessage" runat="server" ForeColor="#FF3300" Text="test"></asp:Label>
                             </td>
                         </tr>
                         <tr>
                             <td >
                                 &nbsp;</td>
                             <td>
-                                <asp:Button ID="btnSave" runat="server" Text="Submit" />
+                                <asp:Button ID="btnSave" runat="server" Text="Submit" OnClick="btnSave_Click" />
                                 <%--<asp:Button ID="btnReset" runat="server" Text="Reset" 
                     onclick="btnReset_Click" />
                                 <asp:Button ID="btnDelete" runat="server" onclick="btnDelete_Click" 
@@ -437,9 +441,7 @@
                         </tr>
                         
                     </table>
-                </td>
-            </tr>
-        </table>
+                
    </asp:Panel>
 </div>
 
