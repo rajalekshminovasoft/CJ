@@ -423,7 +423,7 @@
 
                         <tr>
                             <td colspan="2">
-                                <asp:Label ID="lblMessage" runat="server" ForeColor="#FF3300" Text="test"></asp:Label>
+                                <asp:Label ID="lblMessage" runat="server" ForeColor="#FF3300" ></asp:Label>
                             </td>
                         </tr>
                         <tr>

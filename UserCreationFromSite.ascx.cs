@@ -393,8 +393,12 @@ public partial class UserCreationFromSite : System.Web.UI.UserControl
                 txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue), int.Parse(ddlTotExpMonths.SelectedValue),
                 int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue), qualification,
                 txtProffQual.Text, txtPhoneNumber.Text);
+            Session["UserTestId"] = testid;
+            Session["UserTestId1"] = testid1;
+            Session["SubCtrl"] = "UserTrainingControl.ascx";
+            Response.Redirect("FJAHome.aspx");
             lblMessage.Text = "Profile Details are Saved Successfully";
-
+            //Redirect to take a test page
         }
         catch (Exception ex)
         {
