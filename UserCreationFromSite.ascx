@@ -1,7 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="UserCreationFromSite.ascx.cs" Inherits="UserCreationFromSite" %>
-<div align="left" style="padding-top: 10px; ">
+<div  align="center" style="padding-top: 5px; ">
     <asp:Panel ID="pnlUserCreation" runat="server">
         <table>
+           
             <tr>
                 <td align="left" valign="top">
                     <%--<table style=" height: 350px">
@@ -11,13 +12,15 @@
                                     User Creation</div>
                             </td>
                         </tr>
+             
+            <tr><td class="titlesub">Organizational Details</td></tr>
                       
                         <tr>
-                            <td class="label">
+                            <td class="label1">
                                 Name Of Organisation:</td>
                             <td>
                                 <asp:DropDownList ID="ddlOrg" runat="server" 
-                    AppendDataBoundItems="True" AutoPostBack="True"  Width="402px" OnSelectedIndexChanged="ddlOrg_SelectedIndexChanged">
+                    AppendDataBoundItems="True" AutoPostBack="True"  Width="250px" OnSelectedIndexChanged="ddlOrg_SelectedIndexChanged">
                                     <asp:ListItem Value="0">--select--</asp:ListItem>
                                 </asp:DropDownList>
                                 <asp:LinqDataSource ID="OrgLinqDataSource" runat="server" 
@@ -30,14 +33,29 @@
                                     </WhereParameters>
                                 </asp:LinqDataSource>
                             </td>
+                             <td class="label1" >
+                                Group Name:</td>
+                            <td>
+                                <asp:DropDownList ID="ddlUserGroup" runat="server" AppendDataBoundItems="True" 
+                                    Width="250px" AutoPostBack="True" >
+                                    <asp:ListItem Value="0">--select--</asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:LinqDataSource ID="GrpUserLinqDataSource" runat="server" 
+                                    ContextTypeName="AssesmentDataClassesDataContext" 
+                                    Select="new (GroupName, GroupUserID, OrganizationID)" TableName="GroupUsers" Where="OrganizationID == @OrganizationID">
+                                    <WhereParameters>
+                                        <asp:Parameter DefaultValue="1" Name="OrganizationID" Type="Int32" />
+                                    </WhereParameters>
+                                </asp:LinqDataSource>
+                            </td>
                         </tr>
 
                         <tr>
-                            <td class="label">
+                            <td class="label1">
                                 Name of Test :</td>
                             <td>
                                 <asp:DropDownList ID="ddlTestLists" runat="server" AppendDataBoundItems="True" 
-                                    Width="402px" AutoPostBack="True">
+                                    Width="250px" AutoPostBack="True">
                                     <asp:ListItem Value="0">-- Select --</asp:ListItem>
                                 </asp:DropDownList>
                                 <asp:LinqDataSource ID="LinqTestLists" runat="server" 
@@ -50,13 +68,13 @@
                                     </WhereParameters>
                                 </asp:LinqDataSource>
                             </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
+                       <%-- </tr>
+                        <tr>--%>
+                            <td class="label1">
                                 Name of Test1 :</td>
                             <td>
                                 <asp:DropDownList ID="ddlTestlIst2" runat="server" AppendDataBoundItems="True" 
-                                    Width="402px" AutoPostBack="True" >
+                                    Width="250px" AutoPostBack="True" >
                                     <asp:ListItem Value="0">-- Select --</asp:ListItem>
                                 </asp:DropDownList>
                                 <asp:LinqDataSource ID="LinqDataSource1" runat="server" 
@@ -71,48 +89,30 @@
                             </td>
                         </tr>
 
+                       
+            <tr><td class="titlesub">Personal Details</td></tr>
                         <tr>
-                            <td class="label" >
-                                Group Name:</td>
-                            <td>
-                                <asp:DropDownList ID="ddlUserGroup" runat="server" AppendDataBoundItems="True" 
-                                    Width="402px" AutoPostBack="True" >
-                                    <asp:ListItem Value="0">--select--</asp:ListItem>
-                                </asp:DropDownList>
-                                <asp:LinqDataSource ID="GrpUserLinqDataSource" runat="server" 
-                                    ContextTypeName="AssesmentDataClassesDataContext" 
-                                    Select="new (GroupName, GroupUserID, OrganizationID)" TableName="GroupUsers" Where="OrganizationID == @OrganizationID">
-                                    <WhereParameters>
-                                        <asp:Parameter DefaultValue="1" Name="OrganizationID" Type="Int32" />
-                                    </WhereParameters>
-                                </asp:LinqDataSource>
-                            </td>
-                        </tr>
-                        <tr>
-            <td class="label">
+            <td class="label1">
                 First Name:</td>
             <td>
-                <asp:TextBox ID="txtFsName" runat="server" MaxLength="100" Width="350px"></asp:TextBox>
+                <asp:TextBox ID="txtFsName" runat="server" MaxLength="100" Width="250px"></asp:TextBox>
                 <asp:Label ID="Label1" runat="server" ForeColor="#FF3300" Text="*"></asp:Label>
             </td>
-        </tr>
-        <tr>
-            <td class="label">
+       
+            <td class="label1">
                 Middle Name:</td>
             <td>
-                <asp:TextBox ID="txtMidName" runat="server" MaxLength="100" Width="350px"></asp:TextBox>
+                <asp:TextBox ID="txtMidName" runat="server" MaxLength="100" Width="250px"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <td class="label">
+            <td class="label1">
                 Last Name:</td>
             <td>
-                <asp:TextBox ID="txtLstName" runat="server" MaxLength="100" Width="350px"></asp:TextBox>
+                <asp:TextBox ID="txtLstName" runat="server" MaxLength="100" Width="250px"></asp:TextBox>
                 <asp:Label ID="Label5" runat="server" ForeColor="#FF3300" Text="*"></asp:Label>
             </td>
-        </tr>
-        <tr>
-            <td class="label">
+                   <td class="label1">
                 Gender:</td>
             <td>
                 <asp:DropDownList ID="ddlGender" runat="server" Width="80px">
@@ -122,7 +122,7 @@
             </td>
         </tr>
         <tr>
-            <td class="label">
+            <td class="label1">
                 Age:</td>
             <td>
                 <asp:TextBox ID="txtAge" runat="server" Text="0"  
@@ -130,28 +130,7 @@
                     inblur="myJSFunction(this);" MaxLength="3" Width="75px"></asp:TextBox>
                 <asp:Label ID="Label6" runat="server" ForeColor="#FF3300" Text="*"></asp:Label>
             </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Email:</td>
-            <td>
-                <asp:TextBox ID="txtEmailId" runat="server" MaxLength="100" Width="350px"></asp:TextBox>
-                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
-                    ControlToValidate="txtEmailId" ErrorMessage="Invalid email" 
-                    ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Contact Number:</td>
-            <td>
-                <asp:TextBox ID="txtPhoneNumber" runat="server" MaxLength="20" Width="350px"></asp:TextBox>
-            </td>
-        </tr>
-
-                        
-                         <tr>
-                            <td class="label" >
+             <td class="label1" >
                                 User Type :</td>
                             <td>
                                 <asp:DropDownList ID="ddlUserType" runat="server" Width="128px">
@@ -163,7 +142,25 @@
                                     <asp:ListItem>User</asp:ListItem>
                                 </asp:DropDownList>
                             </td>
-                        </tr>
+        </tr>
+        <tr>
+            <td class="label1">
+                Email:</td>
+            <td>
+                <asp:TextBox ID="txtEmailId" runat="server" MaxLength="100" Width="250px"></asp:TextBox>
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                    ControlToValidate="txtEmailId" ErrorMessage="Invalid email" 
+                    ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
+            </td>
+          <td class="label1">
+                Contact Number:</td>
+            <td>
+                <asp:TextBox ID="txtPhoneNumber" runat="server" MaxLength="20" Width="250px"></asp:TextBox>
+            </td>
+        </tr>
+
+                        
+                        
 
               <%--             <tr>
             <td class="label">
@@ -182,29 +179,30 @@
                 </asp:LinqDataSource>
             </td>
         </tr>--%>
+            <tr><td class="titlesub">Working Details</td></tr>
         <tr>
-            <td class="label">
+            <td class="label1">
                 Industry:</td>
             <td>
                 <asp:DropDownList ID="ddlIndustry" runat="server" AppendDataBoundItems="True" 
-                    AutoPostBack="True"                   Width="355px">
+                    AutoPostBack="True"                   Width="250px">
                     <asp:ListItem Value="0">--Select--</asp:ListItem>
                 </asp:DropDownList>
                 <asp:LinqDataSource ID="LinqDataSource3" runat="server" 
                     ContextTypeName="AssesmentDataClassesDataContext" 
                     Select="new (Name, IndustryID)" TableName="Industries">
                 </asp:LinqDataSource>
-                <br /><asp:TextBox ID="txtIndustry" runat="server" Visible="False" Width="350px" 
+                <br /><asp:TextBox ID="txtIndustry" runat="server" Visible="False" Width="250px" 
                     MaxLength="200"></asp:TextBox>
             </td>
-        </tr>
-        <tr>
-            <td class="label">
+<%--        </tr>
+        <tr>--%>
+            <td class="label1">
                 Vocation:</td>
             <td>
                 <asp:DropDownList ID="ddlJobCatgy" runat="server" AppendDataBoundItems="True" 
                     DataSourceID="LinqDataSource4" DataTextField="Name" DataValueField="JobCatID"
-                     Width="355px">
+                     Width="250px">
                     <asp:ListItem Value="0">--Select--</asp:ListItem>
                 </asp:DropDownList>
                 <asp:LinqDataSource ID="LinqDataSource4" runat="server" 
@@ -215,14 +213,14 @@
             </td>
         </tr>
         <tr>
-            <td class="label">
+            <td class="label1">
                 Designation:</td>
             <td>
-                <asp:TextBox ID="txtJob" runat="server" MaxLength="100" Width="350px"></asp:TextBox>
+                <asp:TextBox ID="txtJob" runat="server" MaxLength="100" Width="250px"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <td class="label">
+            <td class="label1">
                 Total Years of Experience:</td>
             <td>
                 <table>
@@ -281,9 +279,9 @@
                     </tr>
                 </table>
             </td>
-        </tr>
-        <tr>
-            <td class="label">
+       <%-- </tr>
+        <tr>--%>
+            <td class="label1">
                 Experience in Present Job:</td>
             <td>
                 <table>
@@ -343,13 +341,14 @@
                 </table>
             </td>
         </tr>
+            <tr><td class="titlesub">Educational Details</td></tr>
         <tr>
-            <td class="label">
+            <td class="label1">
                 Educational Qualification:</td>
             <td>
                 <asp:DropDownList ID="ddlQualification" runat="server" 
                     AppendDataBoundItems="True" AutoPostBack="True" 
-                                    Width="350px">
+                                    Width="250px">
                     <asp:ListItem Value="0">-- Select --</asp:ListItem>
                 </asp:DropDownList>
                 <asp:LinqDataSource ID="LinqQualifications" runat="server" 
@@ -362,20 +361,19 @@
                     MaxLength="50"></asp:TextBox>
                 
             </td>
-        </tr>
-        <tr>
-            <td class="label">
+        
+            <td class="label1">
                 Professional Qualification :</td>
             <td>
-                <asp:TextBox ID="txtEduQual_professional" runat="server" Width="350px"></asp:TextBox>
+                <asp:TextBox ID="txtEduQual_professional" runat="server" Width="250px"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <td class="label">
+            <td class="label1">
                 Professional Certification:</td>
             <td>
                 <asp:TextBox ID="txtProffQual" runat="server" TextMode="MultiLine" 
-                    Height="100px" Width="350px"></asp:TextBox>
+                    Height="100px" Width="250px"></asp:TextBox>
             </td>
         </tr>
                       <%--   <tr>
@@ -394,8 +392,42 @@
                                 <input id="txtLoginToDate" runat="server" onclick="dispCal('txtLoginToDate')" 
                     readonly="readonly" /></td>
                         </tr>--%>
-                        <tr>
-                            <td class="label" >
+                        
+            <tr><td class="titlesub">User Details</td></tr>
+              <tr>
+                            <td class="label1" >
+                                User Name:</td>
+                            <td>
+                                <asp:TextBox ID="txtUserName" runat="server" Width="250px"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="*" ControlToValidate="txtUserName"></asp:RequiredFieldValidator>
+                            </td>
+                        
+                            <td class="label1" >
+                                Password:</td>
+                            <td>
+                                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" Width="250px"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*" ControlToValidate="txtPassword"></asp:RequiredFieldValidator>
+                            </td>
+                        </tr>
+            <tr><td>Are you recruited by someone?</td>
+                <td>
+                    <asp:DropDownList ID="ddlrecruiter" runat="server" OnSelectedIndexChanged="ddlrecruiter_SelectedIndexChanged" AutoPostBack="True">
+                        <asp:ListItem >Select</asp:ListItem>
+                        <asp:ListItem>Yes</asp:ListItem>
+                        <asp:ListItem>No</asp:ListItem>
+                    </asp:DropDownList>
+                   <%-- <asp:DropDownList ID="ddlrecruiter" runat="server" Width="83px" OnSelectedIndexChanged="ddlrecruiter_SelectedIndexChanged" >
+                        <asp:ListItem>- -Select--</asp:ListItem>
+                    <asp:ListItem>Yes</asp:ListItem>
+                        <asp:ListItem>No</asp:ListItem>
+                    </asp:DropDownList>--%>
+                    <asp:TextBox ID="txtrecrutr" runat="server" Enabled="false"   Width="163px" ></asp:TextBox>
+
+                </td>
+                
+          <%--  </tr>
+                       <tr>
+          --%>                  <td class="label1" >
                                 Status:</td>
                             <td>
                                 <asp:DropDownList ID="ddlStatus" runat="server" Width="128px">
@@ -405,21 +437,6 @@
                             </td>
                         </tr>
 
-              <tr>
-                            <td class="label" >
-                                User Name:</td>
-                            <td>
-                                <asp:TextBox ID="txtUserName" runat="server" Width="400px"></asp:TextBox>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label" >
-                                Password:</td>
-                            <td>
-                                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" Width="400px"></asp:TextBox>
-                            </td>
-                        </tr>
-                       
 
                         <tr>
                             <td colspan="2">

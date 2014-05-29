@@ -57,7 +57,7 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
                     return;
                 }
             }
-            ShowNextControl();
+         //////   ShowNextControl();
         }
         //******************************
         if (Session["UserTestId1"] != null)
@@ -81,6 +81,7 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
                 }
             }
             ShowNextControl();
+        }
         //**********************
     }
 

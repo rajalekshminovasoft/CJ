@@ -407,12 +407,13 @@ public partial class MasterPage5 : System.Web.UI.MasterPage
     }
     protected void lbtnTakeaTest_Click(object sender, EventArgs e)
     {
-       // AddControl("TakeaTestOnline.ascx");
-       // ReDirectToCareerJudge("TakeTest.ascx");
-        AddControl("TakeTest.ascx");
-        Session["ControlToReDirect"] = "TakeTest.ascx";
-        //ShowPopup();
-
+       ////// AddControl("TakeaTestOnline.ascx");
+       ////// ReDirectToCareerJudge("TakeTest.ascx");
+       //// AddControl("TakeTest.ascx");
+       //// Session["ControlToReDirect"] = "TakeTest.ascx";
+       //// //ShowPopup();
+        AddControl("WebUserCreation.ascx");
+        Session["ControlToReDirect"] = "WebUserCreation.ascx";
     }
     protected void lbtnProducts_Click(object sender, EventArgs e)
     {

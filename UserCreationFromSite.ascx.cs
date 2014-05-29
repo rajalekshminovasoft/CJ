@@ -387,23 +387,37 @@ public partial class UserCreationFromSite : System.Web.UI.UserControl
             //    txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue), int.Parse(ddlTotExpMonths.SelectedValue),
             //    int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue), ddlQualification.SelectedItem.Text  ,
             //    txtProffQual.Text, txtPhoneNumber.Text);
-            dataclasses.AddUser(txtUserName.Text, txtPassword.Text, ddlUserType.SelectedValue, int.Parse(ddlOrg.SelectedValue),
-                int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, status, 0, emailid, testid, 1, testid1, txtFsName.Text,
-                txtMidName.Text, txtLstName.Text, ddlGender.SelectedValue, age, industryid, int.Parse(ddlJobCatgy.SelectedValue),
-                txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue), int.Parse(ddlTotExpMonths.SelectedValue),
-                int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue), qualification,
-                txtProffQual.Text, txtPhoneNumber.Text);
+            //////dataclasses.AddUser(txtUserName.Text, txtPassword.Text, ddlUserType.SelectedValue, int.Parse(ddlOrg.SelectedValue),
+            //////    int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, status, 0, emailid, testid, 1, testid1, txtFsName.Text,
+            //////    txtMidName.Text, txtLstName.Text, ddlGender.SelectedValue, age, industryid, int.Parse(ddlJobCatgy.SelectedValue),
+            //////    txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue), int.Parse(ddlTotExpMonths.SelectedValue),
+            //////    int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue), qualification,
+            //////    txtProffQual.Text, txtPhoneNumber.Text,txtrecrutr.Text );
             Session["UserTestId"] = testid;
             Session["UserTestId1"] = testid1;
+            
+            //lblMessage.Text = "Profile Details are Saved Successfully";
+            //Redirect to take a test page
             Session["SubCtrl"] = "UserTrainingControl.ascx";
             Response.Redirect("FJAHome.aspx");
-            lblMessage.Text = "Profile Details are Saved Successfully";
-            //Redirect to take a test page
         }
         catch (Exception ex)
         {
             lblMessage.Text = ex.Message;
             return;
+        }
+    }
+     
+   
+    protected void ddlrecruiter_SelectedIndexChanged(object sender, EventArgs e)
+    { 
+        if (ddlrecruiter.SelectedItem.Text == "Yes")
+        {
+            txtrecrutr.Enabled = true;
+        }
+        else
+        {
+            txtrecrutr.Enabled = false;
         }
     }
 }

@@ -212,10 +212,10 @@
         <elementListCompartment Id="7b184647-5b79-4fb6-a473-4be416658d4c" absoluteBounds="24.39, 4.21, 1.9700000000000002, 1.7878011067708333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="3dcf84d7-509c-479a-a91e-1ee9162e9a8b" absoluteBounds="18.75, 0.5, 2, 7.5399397786458326">
+    <classShape Id="3dcf84d7-509c-479a-a91e-1ee9162e9a8b" absoluteBounds="18.75, 0.5, 2, 7.7322412109375005">
       <DataClassMoniker Name="/AssesmentDataClassesDataContext/UserProfile" />
       <nestedChildShapes>
-        <elementListCompartment Id="d4842eb0-f6a8-4ff6-b6d8-f0572169e544" absoluteBounds="18.765, 0.96, 1.9700000000000002, 6.979939778645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d4842eb0-f6a8-4ff6-b6d8-f0572169e544" absoluteBounds="18.765, 0.96, 1.9700000000000002, 7.1722412109375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="df3bf8a1-069a-46c3-948c-585cd634bc50" absoluteBounds="12.75, 16.25, 2, 3.88621256510417">
