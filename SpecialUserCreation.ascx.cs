@@ -545,7 +545,7 @@ public partial class SpecialUserCreation : System.Web.UI.UserControl
                 int createdby = 0;
                 if (Session["UserID"] != null)
                     createdby = int.Parse(Session["UserID"].ToString());
-                dataclasses.AddTestLists(0, testname, organizationName, 1, "", "", 0, createdby, "",0,0);
+                dataclasses.AddTestLists(0, testname, organizationName, 1, "", "", 0, createdby, "",0,0,0,"");
 
                 var testexists1 = from testcheck1 in dataclasses.TestLists
                                   where testcheck1.OrganizationName == organizationName && testcheck1.TestName == testname

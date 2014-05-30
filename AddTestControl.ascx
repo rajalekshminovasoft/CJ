@@ -72,6 +72,17 @@
                     UpdateToolbar="True"></FTB:FreeTextBox></td>
         </tr>
         <tr>
+            <td>Price</td>
+            <td>
+                <asp:TextBox ID="txtprice" runat="server"></asp:TextBox></td>
+        </tr>
+        <tr>
+            <td>Remark</td>
+            <td>
+                <asp:TextBox ID="txtremark" runat="server" Height="49px" TextMode="MultiLine" Width="520px"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
             <td>
                 Status</td>
             <td colspan="2">

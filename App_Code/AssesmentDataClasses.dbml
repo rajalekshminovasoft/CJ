@@ -693,7 +693,7 @@
       <Column Name="TestId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="AdminAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="TestId1" Type="System.Int32" CanBeNull="true" />
-      <Column Member="Recruiter" Type="System.String" CanBeNull="false" />
+      <Column Name="Recruiter" Type="System.String" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.View_UserDetails" Member="View_UserDetails">
@@ -850,6 +850,8 @@
       <Column Name="ReportType" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="AdminAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="GroupReportAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Member="Price" Type="System.String" CanBeNull="false" />
+      <Column Member="Remark" Type="System.String" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Organization" Member="Organizations">
@@ -1695,6 +1697,8 @@
     <Parameter Name="ReportType" Parameter="reportType" Type="System.String" DbType="VarChar(100)" />
     <Parameter Name="AdminAccess" Parameter="adminAccess" Type="System.Int32" DbType="Int" />
     <Parameter Name="GroupReportAccess" Parameter="groupReportAccess" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Price" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Remark" Parameter="remark" Type="System.String" DbType="VarChar(max)" />
     <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.AddOrganization" Method="AddOrganization">

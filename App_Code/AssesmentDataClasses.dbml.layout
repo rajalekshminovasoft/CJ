@@ -278,10 +278,10 @@
         <elementListCompartment Id="666f63e0-3cfd-4b82-856e-8261e6a43b24" absoluteBounds="3.6400000000000006, 13.085, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="1a60a355-ed58-495c-b818-d016809c40c1" absoluteBounds="24.375, 9.75, 2, 3.5016097005208326">
+    <classShape Id="1a60a355-ed58-495c-b818-d016809c40c1" absoluteBounds="24.375, 9.75, 2, 3.8862125651041666">
       <DataClassMoniker Name="/AssesmentDataClassesDataContext/TestList" />
       <nestedChildShapes>
-        <elementListCompartment Id="cf353f76-bbaa-4242-8c5e-9919e5806964" absoluteBounds="24.39, 10.21, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="cf353f76-bbaa-4242-8c5e-9919e5806964" absoluteBounds="24.39, 10.21, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="f83beaf6-4da9-4cff-9544-fa4318b929fa" absoluteBounds="3.625, 9.5, 2, 2.9247054036458326">

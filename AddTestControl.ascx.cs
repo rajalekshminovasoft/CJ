@@ -82,7 +82,7 @@ public partial class AddTestControl : System.Web.UI.UserControl
         if (ddlReportType.SelectedIndex <= 0 && chbGroupReport.Checked == false)
         { lblMessage.Text = "Please select Report type/Report Access"; return; }
 
-        assesDataClasses.AddTestLists(testid, txtTestName.Text.Trim(), organizationName, status, FreeTextBox1.Text, "", passmark, createdby, ddlReportType.SelectedValue,adminaccess,groupreportaccess);
+        assesDataClasses.AddTestLists(testid, txtTestName.Text.Trim(), organizationName, status, FreeTextBox1.Text, "", passmark, createdby, ddlReportType.SelectedValue,adminaccess,groupreportaccess,Convert.ToInt32(txtprice.Text),txtremark.Text );
         
         /*
         if (testid == 0)
