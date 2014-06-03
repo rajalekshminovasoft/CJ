@@ -704,3 +704,175 @@ a
 
 
 /*.............................Take a Test End...........................*/
+
+
+
+
+
+
+
+
+
+
+
+
+.testlist
+
+{
+		width:710px;
+		height:500px;
+		float:left;
+		
+}
+
+.testlist1
+
+{
+		width:350px;
+		height:auto;
+		float:left;
+		background:#0CF;	
+		
+}
+
+.testlist_a
+
+{
+		width:350px;
+		height:auto;
+		float:left;
+		margin-left:9px;
+		background:#CCC;	
+		
+}
+
+
+
+.testlist1_head
+
+{
+		width:350px;
+		height:54px;
+		float:left;
+}
+
+.testlist2
+
+{
+		width:332px;
+		height:auto;
+		float:left;
+		background:#FFF;
+		margin-left:9px;
+		margin-bottom:9px;
+}
+
+.tab_box
+{
+		width:1000px;
+		height:38px;
+		float:left;
+		
+		border-bottom:#FFF solid 5px;
+}
+
+.tab_box_but
+
+{
+	
+	width:auto;
+	height:32px;
+	float:left;
+	padding:6px 30px 0px 30px;
+	background:#ffcf08;
+	color:#FFF;
+	font-weight:bold;
+	margin-right:3px;
+-webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;
+-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+
+
+}
+
+
+
+
+
+.tab_box_login
+{
+		width:1000px;
+		height:auto;
+		float:left;
+		margin-top:6px;
+		background:#FFF;
+
+}
+
+
+.tab_box_login1
+{
+		width:300px;
+		height:auto;
+		float:left;
+
+}
+
+.tab_box_login2
+{
+		width:700px;
+		height:auto;
+		float:left;
+
+}
+
+.tab_box_login1_head
+{
+		width:290px;
+		height:auto;
+		float:left;
+		font-family:"Aachen BT";
+		-webkit-font-smoothing: antialiased;
+		font-size:31px;
+		color:#ffcf08;
+		padding-top:27px;
+		padding-left:10px;
+		padding-bottom:10px;
+
+}
+
+.tab_box_login1_head_2
+{
+		width:690px;
+		height:auto;
+		float:left;
+		font-family:"Aachen BT";
+		-webkit-font-smoothing: antialiased;
+		font-size:31px;
+		color:#ffcf08;
+		padding-top:27px;
+		padding-left:10px;
+		padding-bottom:10px;
+
+}
+
+
+.tab_box_login1_inner
+{
+		width:300px;
+		height:auto;
+		float:left;
+
+}
+
+
+.tab_box_login2_inner
+{
+		width:700px;
+		height:auto;
+		float:left;
+
+}

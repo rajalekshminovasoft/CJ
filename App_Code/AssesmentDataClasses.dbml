@@ -850,8 +850,8 @@
       <Column Name="ReportType" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="AdminAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="GroupReportAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Member="Price" Type="System.String" CanBeNull="false" />
-      <Column Member="Remark" Type="System.String" CanBeNull="false" />
+      <Column Name="Price" Type="System.String" CanBeNull="false" />
+      <Column Name="Remark" Type="System.String" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Organization" Member="Organizations">
@@ -1107,6 +1107,26 @@
       <Column Name="Description2" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Description3" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Description4" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TestLists" Member="TestList1s">
+    <Type Name="TestList1">
+      <Column Name="TestId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TestName" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="OrganizationName" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="PassMark" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ModifiedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Instructions" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ReportType" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="AdminAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GroupReportAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Remark" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
   <Function Name="AddDesignation">
