@@ -12,6 +12,8 @@
               <asp:LinkButton ID="btnstp3" runat="server" OnClick="btnstp3_Click">Payment</asp:LinkButton>
         </div>
     </div>
+
+
        <%-- <div>
             <asp:Button ID="btnstp1" runat="server" Text="Select Test" OnClick="btnstp1_Click"  />
             <asp:Button ID="btnstp2" runat="server" Text="Sign In" OnClick="btnstp2_Click"  />
@@ -21,7 +23,7 @@
 <div>
     <asp:Label ID="lblmsg" runat="server" ForeColor="#CC0000" ></asp:Label>
 </div>
-                <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="3"  NavigationStyle-VerticalAlign="Top" NavigationStyle-HorizontalAlign="NotSet" HeaderStyle-VerticalAlign="Top" OnNextButtonClick="Wizard1_NextButtonClick" >
+                <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1"  NavigationStyle-VerticalAlign="Top" NavigationStyle-HorizontalAlign="NotSet" HeaderStyle-VerticalAlign="Top" OnNextButtonClick="Wizard1_NextButtonClick" DisplaySideBar="False" >
                     <HeaderStyle VerticalAlign="Top" />
             <NavigationButtonStyle ForeColor="#660033" />
                     <NavigationStyle VerticalAlign="Top" />
@@ -90,14 +92,39 @@
     
     	<div class="tab_box_login1">       
         			<div class="tab_box_login1_head">New User</div>
-                    <div class="tab_box_login1_inner"><asp:LinkButton ID="lnkSignup" runat="server" OnClick="lnkSignup_Click" ForeColor="#006600">Sign Up</asp:LinkButton></div>
+                    <div class="tab_box_login1_inner">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="tab_box_butsign"><asp:LinkButton ID="lnkSignup" runat="server" ForeColor="#006600" OnClick="lnkSignup_Click" >Sign Up</asp:LinkButton></div>
+                                    
+                                </td>
+                            </tr>
+                        </table>
+                        </div>
         </div>        
         <div class="tab_box_login1">       
         <div class="tab_box_login1_head">Registered User</div>
         <div class="tab_box_login1_inner">
-           Username: <asp:TextBox ID="txtuname" runat="server"></asp:TextBox><br />
-            Password: <asp:TextBox ID="txtpwd" runat="server"></asp:TextBox><br />
-            <asp:LinkButton ID="lnklogin" runat="server" ForeColor="#006600" OnClick="lnklogin_Click">Log In</asp:LinkButton></div>
+            <table>
+                <tr>
+                    <td>Username:</td>
+                    <td><asp:TextBox ID="txtuname" runat="server"></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><asp:TextBox ID="txtpwd" runat="server" TextMode="Password"></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="tab_box_butsign">
+                            <asp:LinkButton ID="lnklogin" runat="server" ForeColor="#006600" OnClick="lnklogin_Click">Log In</asp:LinkButton>
+                        </div> 
+                    </td>
+                </tr>
+            </table>
+          
+            </div>
             </div> 
         <div class="tab_box_login1">       
         <div class="tab_box_login1_head">Forgot Password</div>
@@ -140,7 +167,7 @@
                                 Name Of Organisation:</td>
                             <td>
                                 <asp:DropDownList ID="ddlOrg" runat="server" 
-                    AppendDataBoundItems="True" AutoPostBack="True"  Width="250px" OnSelectedIndexChanged="ddlOrg_SelectedIndexChanged">
+                    AppendDataBoundItems="True" AutoPostBack="True"  Width="250px" >
                                     <asp:ListItem Value="0">--select--</asp:ListItem>
                                 </asp:DropDownList>
                                 <asp:LinqDataSource ID="OrgLinqDataSource" runat="server" 
@@ -234,7 +261,7 @@
                    <td class="label1">
                 Gender:</td>
             <td>
-                <asp:DropDownList ID="ddlGender" runat="server" Width="80px">
+                <asp:DropDownList ID="ddlGender" runat="server" Width="250px">
                     <asp:ListItem>Male</asp:ListItem>
                     <asp:ListItem>Female</asp:ListItem>
                 </asp:DropDownList>
@@ -246,36 +273,46 @@
             <td>
                 <asp:TextBox ID="txtAge" runat="server" Text="0"  
                                         onChange="myJSFunction(this);" 
-                    inblur="myJSFunction(this);" MaxLength="3" Width="75px"></asp:TextBox>
+                    inblur="myJSFunction(this);" MaxLength="3" Width="250px"></asp:TextBox>
                 <asp:Label ID="Label6" runat="server" ForeColor="#FF3300" Text="*"></asp:Label>
             </td>
-             <td class="label1" >
+            <td class="label1">
+                Contact Number:</td>
+            <td>
+                <asp:TextBox ID="txtPhoneNumber" runat="server" MaxLength="20" Width="250px"></asp:TextBox>
+            </td>
+             <%--<td class="label1" >
                                 User Type :</td>
                             <td>
-                                <asp:DropDownList ID="ddlUserType" runat="server" Width="128px">
-                                    <%--<asp:ListItem Value="0">--select--</asp:ListItem>
-                                    <asp:ListItem Value="SuperAdmin">Super Admin</asp:ListItem>
-                                    <asp:ListItem Value="SpecialAdmin">Special Admin</asp:ListItem>
-                                    <asp:ListItem>OrgAdmin</asp:ListItem>
-                                    <asp:ListItem>GrpAdmin</asp:ListItem>--%>
+                                <asp:DropDownList ID="ddlUserType" runat="server" Width="250px">                                   
                                     <asp:ListItem>User</asp:ListItem>
                                 </asp:DropDownList>
-                            </td>
+                            </td>--%>
         </tr>
         <tr>
             <td class="label1">
                 Email:</td>
             <td>
                 <asp:TextBox ID="txtEmailId" runat="server" MaxLength="100" Width="250px"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="*" ControlToValidate="txtEmailId"></asp:RequiredFieldValidator>
                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
                     ControlToValidate="txtEmailId" ErrorMessage="Invalid email" 
                     ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
             </td>
-          <td class="label1">
-                Contact Number:</td>
-            <td>
-                <asp:TextBox ID="txtPhoneNumber" runat="server" MaxLength="20" Width="250px"></asp:TextBox>
-            </td>
+          
+              <td>Are you recruited by someone?</td>
+                <td>
+                    <asp:DropDownList ID="ddlrecruiter" runat="server"  AutoPostBack="True" OnSelectedIndexChanged="ddlrecruiter_SelectedIndexChanged">
+                        <asp:ListItem >Select</asp:ListItem>
+                        <asp:ListItem>Yes</asp:ListItem>
+                        <asp:ListItem>No</asp:ListItem>
+                    </asp:DropDownList>
+                  
+                    <asp:TextBox ID="txtrecrutr" runat="server" Enabled="false"   Width="163px" ></asp:TextBox>
+                    <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
+                </td>
+                
+
         </tr>
 
                         
@@ -528,34 +565,7 @@
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*" ControlToValidate="txtPassword"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
-            <tr><td>Are you recruited by someone?</td>
-                <td>
-                    <asp:DropDownList ID="ddlrecruiter" runat="server" OnSelectedIndexChanged="ddlrecruiter_SelectedIndexChanged" AutoPostBack="True">
-                        <asp:ListItem >Select</asp:ListItem>
-                        <asp:ListItem>Yes</asp:ListItem>
-                        <asp:ListItem>No</asp:ListItem>
-                    </asp:DropDownList>
-                   <%-- <asp:DropDownList ID="ddlrecruiter" runat="server" Width="83px" OnSelectedIndexChanged="ddlrecruiter_SelectedIndexChanged" >
-                        <asp:ListItem>- -Select--</asp:ListItem>
-                    <asp:ListItem>Yes</asp:ListItem>
-                        <asp:ListItem>No</asp:ListItem>
-                    </asp:DropDownList>--%>
-                    <asp:TextBox ID="txtrecrutr" runat="server" Enabled="false"   Width="163px" ></asp:TextBox>
-
-                </td>
-                
-          <%--  </tr>
-                       <tr>
-          --%><%--                  <td class="label1" >
-                                Status:</td>
-                            <td>
-                                <asp:DropDownList ID="ddlStatus" runat="server" Width="128px">
-                                    <asp:ListItem Value="1">Active</asp:ListItem>
-                                    <asp:ListItem Value="0">InActive</asp:ListItem>
-                                </asp:DropDownList>
-                            </td>--%>
-                        </tr>
-
+          
 
                         <tr>
                             <td colspan="2">
@@ -566,7 +576,7 @@
                             <td >
                                 &nbsp;</td>
                             <td>
-                                <asp:Button ID="btnSave" runat="server" Text="Submit" OnClick="btnSave_Click" />
+                                <asp:Button ID="btnSave" runat="server" Text="Submit" OnClick="btnSave_Click"  />
                                 <%--<asp:Button ID="btnReset" runat="server" Text="Reset" 
                     onclick="btnReset_Click" />
                                 <asp:Button ID="btnDelete" runat="server" onclick="btnDelete_Click" 

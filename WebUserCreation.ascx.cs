@@ -22,66 +22,85 @@ public partial class WebUserCreation : System.Web.UI.UserControl
         //{
         //    Wizard1.ActiveStepIndex = 0;
         //}
+        if ((Wizard1.ActiveStepIndex == 3) && (Session["TestIDList"] == null))
+        {
+            lblmsg.Text = "";
+            checkdata();
+            Wizard1.ActiveStepIndex = 0;
+        }
+        else
+        {
+            fillComboValues();
+        }
+
+    }
+    private void fillComboValues()
+    {
+        // int orgvalue = 0;
+        ListItem listnew;
+        listnew = new ListItem("--select--", "0");
+        ddlOrg.Items.Clear();
+        ddlOrg.Items.Add(listnew);
+        int orgIndex = 0;
+
+        if (Session["OrgIndex"] != null)
+        {
+            orgIndex = int.Parse(Session["OrgIndex"].ToString());
+        }
+
+        ddlOrg.DataSource = OrgLinqDataSource;
+        ddlOrg.DataTextField = "Name";
+        ddlOrg.DataValueField = "OrganizationID";
+        ddlOrg.DataBind();
+        if (ddlOrg.SelectedValue == "00")
+            ////// txtOrganization.Visible = true;
+
+            listnew = new ListItem("--select--", "0");
+        ddlUserGroup.Items.Clear();
+        ddlUserGroup.Items.Add(listnew);
+        ddlUserGroup.DataSource = GrpUserLinqDataSource;
+        ddlUserGroup.DataTextField = "GroupName";
+        ddlUserGroup.DataValueField = "GroupUserID";
+        ddlUserGroup.DataBind();
+        if (orgIndex > 0)
+        {
+            //////fillprofiles();
+        }
+
+        listnew = new ListItem("--select--", "0");
+        ddlQualification.Items.Clear();
+        ddlQualification.Items.Add(listnew);
+        ddlQualification.DataSource = LinqQualifications;
+        ddlQualification.DataTextField = "Qualification1";
+        ddlQualification.DataValueField = "Qualificationid";
+        ddlQualification.DataBind();
+        listnew = new ListItem("--other--", "00");
+        ddlQualification.Items.Add(listnew);
+        if (Session["qualIndex"] != null)
+        {
+            ddlQualification.SelectedIndex = int.Parse(Session["qualIndex"].ToString());
+            if (ddlQualification.SelectedValue == "00")
+                txtEduQual.Visible = true;
+        }
+        int industryindex = 0;
+        if (Session["industryindex"] != null)
+            industryindex = int.Parse(Session["industryindex"].ToString());
+        listnew = new ListItem("--select--", "0");
+        ddlIndustry.Items.Clear();
+        ddlIndustry.Items.Add(listnew);
+        ddlIndustry.DataSource = LinqDataSource3;
+        ddlIndustry.DataTextField = "Name";
+        ddlIndustry.DataValueField = "IndustryID";
+        ddlIndustry.DataBind();
+        listnew = new ListItem("--other--", "00");
+        ddlIndustry.Items.Add(listnew);
+        ddlIndustry.SelectedIndex = industryindex;
+        if (ddlIndustry.SelectedValue == "00")
+            txtIndustry.Visible = true;
+       
     }
 
 
-    //protected void Wizard1_FinishButtonClick(object sender, WizardNavigationEventArgs e)
-    //{
-
-    //}
-    //protected void Wizard1_SideBarButtonClick(object sender, WizardNavigationEventArgs e)
-    //{
-
-    //}
-
-    //protected void Wizard1_ActiveStepChanged(object sender, EventArgs e)
-    //{
-
-    //}
-    //protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
-    //{
-    //    if (Wizard1.ActiveStepIndex == 0)
-    //    {
-    //        Label1.Text = Wizard1.ActiveStepIndex.ToString();
-    //        Session["TestID"] = "";
-    //        foreach (DataListItem dli in dtTestlist.Items)
-    //        {
-    //            CheckBox productID = ((CheckBox)dli.FindControl("chktest"));
-    //            if (productID.Checked == true)
-    //            {
-    //                Session["TestID"] = ((Label)dli.FindControl("lbltestid")).Text;
-    //                Session["TestIDList"] = Session["TestIDList"] + "," + Session["TestID"];
-    //            }
-    //        }
-    //        //Label1.Text = Session["TestID"].ToString();
-    //    }
-    //    if((Wizard1.ActiveStepIndex>0) && (Session["TestIDList"] == ""))
-    //    {
-    //        lblmsg.Text ="Select Atleast One Test";            }
-    //    }
-       
-
-    //}
-    //protected void Wizard1_PreviousButtonClick(object sender, WizardNavigationEventArgs e)
-    //{
-
-    //}
-    //protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
-    //{
-
-    //}
-    //protected void btnstp1_Click(object sender, EventArgs e)
-    //{
-    //    Wizard1.ActiveStepIndex  = 0;
-    //}
-    //protected void btnstp2_Click(object sender, EventArgs e)
-    //{
-    //    Wizard1.ActiveStepIndex = 1;
-    //}
-    //protected void btnstp3_Click(object sender, EventArgs e)
-    //{
-    //    Wizard1.ActiveStepIndex = 2;
-    //}
     protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
     {
         checkdata();
@@ -187,5 +206,89 @@ public partial class WebUserCreation : System.Web.UI.UserControl
             
         }
 
+    }
+    protected void ddlrecruiter_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlrecruiter.SelectedItem.Text == "Yes")
+        {
+            txtrecrutr.Enabled = true;
+        }
+        else
+        {
+            txtrecrutr.Enabled = false;
+        }
+    }
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        if (txtUserName.Text.Trim() == "" || txtPassword.Text.Trim() == "" || txtFsName.Text.Trim()=="" || txtEmailId.Text.Trim()=="")// || ddlOrg.SelectedIndex < 0 || ddlUserGroup.SelectedIndex < 0)
+        { lblMessage.Text = "Enter the values"; }
+        else
+        {
+            try
+            {
+                if (txtPassword.Text != "")
+                    ViewState["Password"] = txtPassword.Text;
+                DateTime dtFrom = DateTime.Today;
+                DateTime dtTo = DateTime.Today.AddDays(1);
+                var checkDuplication = from userdetails in dataclasses.UserProfiles
+                                       where (userdetails.UserName == txtUserName.Text.Trim() && userdetails.Password == txtPassword.Text.Trim())
+                                       select userdetails;
+                if (checkDuplication.Count() > 0)
+                { lblMessage.Text = "Username/password already exists"; }
+                
+                string emailid = txtEmailId.Text.Trim();
+                int userCode = 0;
+                int age = 0;
+                if (CheckAge() == false)
+                {
+                    lblMessage.Text = "Enter valid age";
+                    return;
+                }
+                int industryid = 0, orgid = 0;
+                string qualification = "";
+                qualification = ddlQualification.SelectedItem.Text;
+
+                if (ddlOrg.SelectedIndex > 0)
+                    orgid = int.Parse(ddlOrg.SelectedValue);
+
+                if (ddlIndustry.SelectedIndex > 0)
+                    industryid = int.Parse(ddlIndustry.SelectedValue);
+
+                if (txtAge.Text != null)
+                    age = int.Parse(txtAge.Text);
+                string tests = "";
+                if (Session["TestIDList"]!=null )
+                {
+                    tests = Convert.ToString(Session["TestIDList"]);
+                }
+                dataclasses.AddUser(txtUserName.Text, txtPassword.Text, "User", int.Parse(ddlOrg.SelectedValue),
+                    int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, 1, 0, txtEmailId.Text, int.Parse(Session["TestID"].ToString()),
+                    1, tests, txtFsName.Text, txtMidName.Text, txtLstName.Text, ddlGender.SelectedValue,
+                    age, industryid, int.Parse(ddlJobCatgy.SelectedValue),txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue), 
+                    int.Parse(ddlTotExpMonths.SelectedValue),int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue),
+                    ddlQualification.SelectedItem.Text,txtProffQual.Text, txtPhoneNumber.Text,txtrecrutr.Text );
+                Session["UserTestId"] = tests; 
+                lblMessage.Text = "Profile Details Saved Successfully";
+                Wizard1.ActiveStepIndex = 2;
+                //Session["SubCtrl"] = "UserTrainingControl.ascx";
+                //Response.Redirect("FJAHome.aspx");
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = ex.Message;
+                return;
+            }
+        }
+    }
+    private bool CheckAge()
+    {
+        try
+        {
+            int age = int.Parse(txtAge.Text.Trim());
+            if (age <= 12) { lblMessage.Text = "age should be greater than 12"; return false; }
+
+            return true;
+        }
+        catch (Exception ex) { lblMessage.Text = "Enter valid age"; return false; }
     }
 }

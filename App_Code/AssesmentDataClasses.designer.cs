@@ -674,6 +674,41 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
 		return ((int)(result.ReturnValue));
 	}
+    [global::System.Data.Linq.Mapping.FunctionAttribute()]
+        public int AddUser([global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserName", DbType = "varchar(100)")] string userName,
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Password", DbType = "varchar(100)")] string password,
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserType", DbType = "varchar(20)")] string userType, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "OrganizationName", DbType = "Int")] System.Nullable<int> organizationName, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "GrpUser", DbType = "Int")] System.Nullable<int> grpUser, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "LoginFromDate", DbType = "DateTime")] System.Nullable<System.DateTime> loginFromDate, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "LoginToDate", DbType = "DateTime")] System.Nullable<System.DateTime> loginToDate,
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Status", DbType = "Int")] System.Nullable<int> status, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "CreatedBy", DbType = "Int")] System.Nullable<int> createdBy,
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EmailId", DbType = "nvarchar(100)")] string emailId, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "TestId", DbType = "Int")] System.Nullable<int> testId, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "AdminAccess", DbType = "Int")] System.Nullable<int> adminAccess,
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "TestId1", DbType = "nvarchar(250)")] string  testId1,
+                [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "FirstName", DbType = "nvarchar(100)")] string firstName,
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "MiddleName", DbType = "nvarchar(100)")] string middleName,
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "LastName", DbType = "nvarchar(100)")] string lastName,
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Gender", DbType = "nvarchar(10)")] string gender, 
+				[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Age", DbType="Int")] System.Nullable<int> age, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CompanyName", DbType="Int")] System.Nullable<int> companyName, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name="JobCategory", DbType="Int")] System.Nullable<int> jobCategory,
+                [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Designation", DbType = "nvarchar(100)")] string designation, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TotWorkExpYrs", DbType="Int")] System.Nullable<int> totWorkExpYrs, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TotWorkExpMonths", DbType="Int")] System.Nullable<int> totWorkExpMonths, 
+				[global::System.Data.Linq.Mapping.ParameterAttribute(Name="PresJobExpYrs", DbType="Int")] System.Nullable<int> presJobExpYrs, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PresJobExpMonths", DbType="Int")] System.Nullable<int> presJobExpMonths,
+                [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EducQualifications", DbType = "nvarchar(200)")] string educQualifications, 
+        [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ProfCertifications", DbType="nvarchar(200)")] string profCertifications,
+                [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "PhoneNum", DbType = "nvarchar(20)")] string phoneNum,
+            [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Recruiter", DbType = "nvarchar(250)")] string recruiter)
+        {
+        IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName, password, userType, organizationName, grpUser, loginFromDate, loginToDate, status, createdBy, emailId, testId, adminAccess, testId1,firstName,middleName,lastName,gender,age ,companyName ,jobCategory,designation,totWorkExpYrs  ,totWorkExpMonths,presJobExpYrs ,presJobExpMonths,educQualifications ,profCertifications,phoneNum,recruiter );
+        return ((int)(result.ReturnValue));
+    }
+
 	
 	[global::System.Data.Linq.Mapping.FunctionAttribute()]
 	public int AddUserProfile(
@@ -1123,7 +1158,7 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
 	}
 	
 	[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddUserCreation")]
-	public int AddUserCreation([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserCode", DbType="Int")] System.Nullable<int> userCode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="NVarChar(50)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Password", DbType="NVarChar(50)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserType", DbType="NVarChar(50)")] string userType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="OrganizationName", DbType="Int")] System.Nullable<int> organizationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="GrpUser", DbType="Int")] System.Nullable<int> grpUser, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LoginFromDate", DbType="DateTime")] System.Nullable<System.DateTime> loginFromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LoginToDate", DbType="DateTime")] System.Nullable<System.DateTime> loginToDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Status", DbType="Int")] System.Nullable<int> status, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CreatedBy", DbType="Int")] System.Nullable<int> createdBy, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="EmailId", DbType="NVarChar(100)")] string emailId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TestId", DbType="Int")] System.Nullable<int> testId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="AdminAccess", DbType="Int")] System.Nullable<int> adminAccess, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TestId1", DbType="Int")] System.Nullable<int> testId1)
+    public int AddUserCreation([global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserCode", DbType = "Int")] System.Nullable<int> userCode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserName", DbType = "NVarChar(50)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Password", DbType = "NVarChar(50)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserType", DbType = "NVarChar(50)")] string userType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "OrganizationName", DbType = "Int")] System.Nullable<int> organizationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "GrpUser", DbType = "Int")] System.Nullable<int> grpUser, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "LoginFromDate", DbType = "DateTime")] System.Nullable<System.DateTime> loginFromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "LoginToDate", DbType = "DateTime")] System.Nullable<System.DateTime> loginToDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Status", DbType = "Int")] System.Nullable<int> status, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "CreatedBy", DbType = "Int")] System.Nullable<int> createdBy, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EmailId", DbType = "NVarChar(100)")] string emailId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "TestId", DbType = "Int")] System.Nullable<int> testId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "AdminAccess", DbType = "Int")] System.Nullable<int> adminAccess, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "TestId1", DbType = "nvarchar(250)")] System.Nullable<int> testId1)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userCode, userName, password, userType, organizationName, grpUser, loginFromDate, loginToDate, status, createdBy, emailId, testId, adminAccess,testId1 );
 		return ((int)(result.ReturnValue));
@@ -12382,8 +12417,10 @@ public partial class UserProfile : INotifyPropertyChanging, INotifyPropertyChang
 	private System.Nullable<int> _TestId;
 	
 	private System.Nullable<int> _AdminAccess;
+
+    private string __TestId1;
 	
-	private System.Nullable<int> _TestId1;
+	// System.Nullable<int> _TestId1;
 	
 	private string _Recruiter;
 	
@@ -13149,26 +13186,45 @@ public partial class UserProfile : INotifyPropertyChanging, INotifyPropertyChang
 			}
 		}
 	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TestId1")]
-	public System.Nullable<int> TestId1
-	{
-		get
-		{
-			return this._TestId1;
-		}
-		set
-		{
-			if ((this._TestId1 != value))
-			{
-				this.OnTestId1Changing(value);
-				this.SendPropertyChanging();
-				this._TestId1 = value;
-				this.SendPropertyChanged("TestId1");
-				this.OnTestId1Changed();
-			}
-		}
-	}
+
+    //[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestId1", DbType = "NVarChar(250)")]
+    //public string TestId1
+    //{
+    //    get
+    //    {
+    //        return this._TestId1;
+    //    }
+    //    set
+    //    {
+    //        if ((this._TestId1 != value))
+    //        {
+    //            this.OnPhoneNumChanging(value);
+    //            this.SendPropertyChanging();
+    //            this._TestId1 = value;
+    //            this.SendPropertyChanged("TestId1");
+    //            this.OnTestId1Changed();
+    //        }
+    //    }
+    //}
+    //[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TestId1")]
+    //public System.Nullable<int> TestId1
+    //{
+    //    get
+    //    {
+    //        return this._TestId1;
+    //    }
+    //    set
+    //    {
+    //        if ((this._TestId1 != value))
+    //        {
+    //            this.OnTestId1Changing(value);
+    //            this.SendPropertyChanging();
+    //            this._TestId1 = value;
+    //            this.SendPropertyChanged("TestId1");
+    //            this.OnTestId1Changed();
+    //        }
+    //    }
+    //}
 	
 	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Recruiter", CanBeNull=false)]
 	public string Recruiter
