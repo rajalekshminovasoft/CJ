@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+
 //using PayPal.Api;
 //using 
 
@@ -290,5 +291,81 @@ public partial class WebUserCreation : System.Web.UI.UserControl
             return true;
         }
         catch (Exception ex) { lblMessage.Text = "Enter valid age"; return false; }
+    }
+    protected void btn_payment_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string PaymentOption = "";
+            string creditCardType = "";
+            string creditCardNumber = "";
+            DateTime expDate;
+            string cvv2="";
+            string firstName="";
+            string lastName = "";
+            string street = "";
+            string city = "";
+            string state = "";
+            string zip = "";
+            string countryCode = "";
+            string currencyCode = "";
+            string orderDescription = "";
+            string paymentType = "";
+            string paymentAmount = "0";
+            PaymentOption = ddlpaymenttype.SelectedItem.Text;
+            if (PaymentOption == "Visa" || PaymentOption == "MasterCard" || PaymentOption == "Amex" || PaymentOption == "Discover")
+            {
+                NVPAPICaller test = new NVPAPICaller();
+
+                creditCardType =ddlpaymenttype.SelectedItem.Text; // "<<Visa/MasterCard/Amex/Discover>>"; // Set this to one of the acceptable values (Visa/MasterCard/Amex/Discover) match it to what was selected on your Billing page
+                creditCardNumber = txtcreditcardnumber.Text; // "<<CC number>>"; //  Set this to the string entered as the credit card number on the Billing page
+                expDate =Convert.ToDateTime(txtexpdate.Text); // "<<Expiry Date>>"; //  Set this to the credit card expiry date entered on the Billing page
+                cvv2 = txtcvv2.Text;// "<<cvv2>>"; //  Set this to the CVV2 string entered on the Billing page 
+                firstName = txtfirstname.Text;//  "<<firstName>>"; //  Set this to the customer's first name that was entered on the Billing page 
+                lastName =txtlastname.Text; // "<<lastName>>"; //  Set this to the customer's last name that was entered on the Billing page 
+                street =txtstreet.Text; // "<<street>>"; //  Set this to the customer's street address that was entered on the Billing page 
+                city =txtcity.Text;// "<<city>>"; //  Set this to the customer's city that was entered on the Billing page 
+                state = txtstate.Text;// "<<state>>"; //  Set this to the customer's state that was entered on the Billing page 
+                zip = txtzip.Text;// "<<zip>>"; //  Set this to the zip code of the customer's address that was entered on the Billing page 
+                countryCode = txtcountry.Text;// "<<PayPal Country Code>>"; //  Set this to the PayPal code for the Country of the customer's address that was entered on the Billing page 
+                currencyCode = txtcurrency.Text;// "<<PayPal Currency Code>>"; //  Set this to the PayPal code for the Currency used by the customer
+                orderDescription = txtdescripion.Text;// "<<OrderDescription>>"; //  Set this to the textual description of this order 
+                string strexpdate = expDate.ToString();
+
+                paymentType = "Sale";
+                string retMsg = "";
+                string finalPaymentAmount = "";
+                //NVPCodec decoder;
+                NVPCodec decoder = new NVPCodec() ;
+                //finalPaymentAmount = Session["payment_amt"].ToString();
+                finalPaymentAmount = "10";
+                bool ret = test.DirectPayment(paymentType, paymentAmount, creditCardType, creditCardNumber, strexpdate, cvv2, firstName, lastName, street, city, state, zip, countryCode, currencyCode, orderDescription,ref decoder, ref retMsg);
+                //bool ret = test.DirectPayment(paymentType, paymentAmount, creditCardType, creditCardNumber, sexpdate, cvv2, firstName, lastName, street, city, state, zip, countryCode, currencyCode, orderDescription, ref retMsg);
+                if (ret)
+                {
+                    // success
+                    Response.Redirect("novasoftindia.blogspot.in");
+                }
+                else
+                {
+                    Response.Redirect("APIError.aspx?" + retMsg);
+                }
+            }
+
+        }
+        catch (Exception ex)
+            {
+            }
+    }
+    protected void btntaketest_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Session["SubCtrl"] = "UserTrainingControl.ascx";
+            Response.Redirect("FJAHome.aspx");
+        }
+        catch (Exception ex)
+        {
+        }
     }
 }

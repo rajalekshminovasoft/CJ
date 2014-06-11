@@ -23,7 +23,7 @@
 <div>
     <asp:Label ID="lblmsg" runat="server" ForeColor="#CC0000" ></asp:Label>
 </div>
-                <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1"  NavigationStyle-VerticalAlign="Top" NavigationStyle-HorizontalAlign="NotSet" HeaderStyle-VerticalAlign="Top" OnNextButtonClick="Wizard1_NextButtonClick" DisplaySideBar="False" >
+                <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="2"  NavigationStyle-VerticalAlign="Top" NavigationStyle-HorizontalAlign="NotSet" HeaderStyle-VerticalAlign="Top" OnNextButtonClick="Wizard1_NextButtonClick" DisplaySideBar="True" >
                     <HeaderStyle VerticalAlign="Top" />
             <NavigationButtonStyle ForeColor="#660033" />
                     <NavigationStyle VerticalAlign="Top" />
@@ -145,6 +145,60 @@
                     </table>--%>
                 </asp:WizardStep>
                 <asp:WizardStep ID="Stp3" runat="server" Title="Payment">
+                    <table>
+                        <tr>
+                            <td>Select Payment Option</td>
+                            <td>
+                                <asp:DropDownList ID="ddlpaymenttype" runat="server">
+                                    <asp:ListItem>Visa</asp:ListItem>
+                                    <asp:ListItem>MasterCard</asp:ListItem>
+                                    <asp:ListItem>Amex</asp:ListItem>
+                                    <asp:ListItem>Discover</asp:ListItem>
+                                </asp:DropDownList></td>
+                            <td>Credit Card Number</td>
+                            <td>
+                                <asp:TextBox ID="txtcreditcardnumber" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td>CVV2 Number</td>
+                            <td>
+                                <asp:TextBox ID="txtcvv2" runat="server"></asp:TextBox></td>
+                            <td>Credit Card Expiry Date</td>
+                            <td><asp:TextBox ID="txtexpdate" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td>First Name</td>
+                            <td><asp:TextBox ID="txtfirstname" runat="server"></asp:TextBox></td>
+                            <td>Last Name</td>
+                            <td><asp:TextBox ID="txtlastname" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td>Street</td>
+                            <td><asp:TextBox ID="txtstreet" runat="server"></asp:TextBox></td>
+                            <td>City</td>
+                            <td><asp:TextBox ID="txtcity" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td>State</td>
+                            <td><asp:TextBox ID="txtstate" runat="server"></asp:TextBox></td>
+                            <td>ZIP</td>
+                            <td><asp:TextBox ID="txtzip" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td>Country Code</td>
+                            <td><asp:TextBox ID="txtcountry" runat="server"></asp:TextBox></td>
+                            <td>Currency Code</td>
+                            <td><asp:TextBox ID="txtcurrency" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td><asp:TextBox ID="txtdescripion" runat="server"></asp:TextBox></td>
+                        </tr>
+                    </table>
+                    <asp:Button ID="btn_payment" runat="server" Text="Payment" OnClick="btn_payment_Click" />
+                    
+                                <asp:Button ID="btntaketest" runat="server" Text="Take Test" OnClick="btntaketest_Click"   />
+                            
                 </asp:WizardStep>
                  <asp:WizardStep ID="stp4" runat="server" Title="User Registration">
                     
@@ -584,6 +638,7 @@
                                 <asp:Button ID="btnBulkCreation" runat="server" 
                     Text="Bulk Upload" onclick="btnBulkCreation_Click" />--%>
                             </td>
+                            
                         </tr>
                         
                     </table>
