@@ -19,7 +19,7 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
     string organizationName = "";
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["usertype"].ToString() == "SpecialAdmin")
+        if (Session["usertype"].ToString() == "SpecialAdmin") 
         {
             lblOrganization.Visible = false; ddlOrganizationList.Visible = false;
             specialadmin = true; OrganizationID = int.Parse(Session["AdminOrganizationID"].ToString());
@@ -38,13 +38,13 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
             //FillTestList();
         }
         else
-        ddlOrganizationList.DataBind();
+            ddlOrganizationList.DataBind();
 
         if (Session["orgIndex_report"] != null)
             ddlOrganizationList.SelectedIndex = int.Parse(Session["orgIndex_report"].ToString());
 
 
-       // FillTestList();
+        // FillTestList();
         FillGroupList();
     }
 
@@ -71,7 +71,7 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
 
             if (groupindex > 0)
                 ddlUserGroup.SelectedIndex = groupindex;
-        
+
         }
 
 
@@ -88,7 +88,24 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
         ListItem litem = new ListItem("-- Select --", "0");
         ddlTestList.Items.Add(litem);
         if (specialadmin == false)
+        {
             organizationName = ddlOrganizationList.SelectedItem.Text;
+            var Gettestdetails = from testdet in dataClasses.TestLists
+                                 select testdet;
+            if (Gettestdetails.Count() > 0)
+            {
+                ddlTestList.DataSource = Gettestdetails;
+                ddlTestList.DataTextField = "TestName";
+                ddlTestList.DataValueField = "TestId";
+                ddlTestList.DataBind();
+                if (testindex > 0)
+                {
+                    ddlTestList.SelectedIndex = testindex;
+                    FilluserList();
+                }
+            }
+        }
+            
 
         if (ddlOrganizationList.SelectedIndex > 0 || specialadmin == true)
         {
@@ -116,15 +133,15 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
         if (Session["userIndex_Report"] != null)
             userindexReport = int.Parse(Session["userIndex_Report"].ToString());
         ddlUserList.Items.Clear();
-        ddlUserList.DataSource = "";ddlUserList.DataBind();
-        ListItem litem=new ListItem("-- select --","0");
+        ddlUserList.DataSource = ""; ddlUserList.DataBind();
+        ListItem litem = new ListItem("-- select --", "0");
         ddlUserList.Items.Add(litem);
 
-        int orgid = 0, testid = 0; 
+        int orgid = 0, testid = 0;
         //if (ddlOrganizationList.SelectedIndex > 0)
         //    orgid = int.Parse(ddlOrganizationList.SelectedValue);
-        if(specialadmin==false)
-            OrganizationID=int.Parse(ddlOrganizationList.SelectedValue);
+        if (specialadmin == false)
+            OrganizationID = int.Parse(ddlOrganizationList.SelectedValue);
 
         ///bip 10042011
         int grpid = 0;
@@ -141,7 +158,7 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
             {
                 ///bip 10042011
                 var userlist = from userdet in dataClasses.UserProfiles
-                               where userdet.FirstLoginDate.HasValue == true && userdet.OrganizationID == OrganizationID && userdet.TestId == testid && userdet.GrpUserID==grpid &&
+                               where userdet.FirstLoginDate.HasValue == true && userdet.OrganizationID == OrganizationID && userdet.TestId == testid && userdet.GrpUserID == grpid &&
                                (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
                                select userdet;// bip 07052010
                 //
@@ -194,21 +211,21 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
             FilluserList();
         }
         else Session["testIndex_report"] = null;
-        
-      
+
+
     }
     protected void btnShow_Click(object sender, EventArgs e)
-    {       
- 
+    {
+
         //// bipson 06022011 new report with colour
-        if (ddlUserGroup.SelectedIndex ==0 && ddlUserList.SelectedIndex == 0)
+        if (ddlUserGroup.SelectedIndex == 0 && ddlUserList.SelectedIndex == 0)
         { lblMessage.Text = "Please select a Group/User from the list"; return; }
 
         if (ddlTestList.SelectedIndex > 0)// || ddlUserList.SelectedIndex > 0)
         {
 
             //if (ddlReportType.SelectedIndex != 2)
-            if(ddlUserList.SelectedIndex >0)
+            if (ddlUserList.SelectedIndex > 0)
             {
                 Session["UserId_Report"] = ddlUserList.SelectedValue;
 
@@ -254,8 +271,8 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
             lblMessage.Text = "Please select a Test/User from the list";
             // else lblMessage.Text = "Please select Graph type";
         }
-        
-        
+
+
         /*
         if (ddlUserList.SelectedIndex > 0)
         {
@@ -282,7 +299,7 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
             // else lblMessage.Text = "Please select Graph type";
         }
         */
-        
+
     }
     protected void ddlUserList_SelectedIndexChanged(object sender, EventArgs e)
     {

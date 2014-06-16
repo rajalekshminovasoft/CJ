@@ -344,7 +344,8 @@ public partial class WebUserCreation : System.Web.UI.UserControl
                 if (ret)
                 {
                     // success
-                    Response.Redirect("novasoftindia.blogspot.in");
+                    retMsg = "Success";
+                    Response.Redirect("APIError.aspx?" + retMsg);
                 }
                 else
                 {
@@ -361,6 +362,11 @@ public partial class WebUserCreation : System.Web.UI.UserControl
     {
         try
         {
+            //if (Session["TestIDList"] != null)
+            //{
+
+            //}
+            Session["UserTestId"] = Session["UserTestId"];
             Session["SubCtrl"] = "UserTrainingControl.ascx";
             Response.Redirect("FJAHome.aspx");
         }

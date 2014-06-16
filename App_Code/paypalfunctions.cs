@@ -18,13 +18,13 @@ public class NVPAPICaller
 
     private string pendpointurl = "https://payflowpro.paypal.com";
 
-    private const string VENDOR = "VENDOR";
+    private const string VENDOR = "support-facilitator_api1.novasoftindia.com";
     private const string PARTNER = "PARTNER";
-    private const string PWD = "PWD";
+    private const string PWD = "1402030562";
 
-    private string APIUser = "user1";
+    private string APIUser = "projects_api1.novasoftindia.com";
     //Fill in the APIPassword variable yourself, the wizard will not do this automatically
-    private string APIPassword = "";
+    private string APIPassword = "1402553986";
     private string APIVendor = "Abc";
     private string APIPartner = "partner1";
     //Flag that determines the Payflow environment (live or pilot)
