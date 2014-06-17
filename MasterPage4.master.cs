@@ -225,7 +225,7 @@ public partial class MasterPage4 : System.Web.UI.MasterPage
         if (dirlog == "No")
             Session.Clear();
 
-        var LoginDetails1 = from LoginDetails in dataclass.UserProfiles
+        var LoginDetails1 = from LoginDetails in dataclass.UserProfile1s
                             where LoginDetails.UserId == userid && LoginDetails.Status == 1
                             select LoginDetails;
         if (LoginDetails1.Count() > 0)
@@ -307,10 +307,13 @@ public partial class MasterPage4 : System.Web.UI.MasterPage
                 else
                 {
                     int testid = 0;
-                    if (LoginDetails1.First().TestId != null && LoginDetails1.First().TestId != 0)
+                    if (LoginDetails1.First().Testid != null && LoginDetails1.First().Testid != 0)
                     {
-                        Session["UserTestId"] = int.Parse(LoginDetails1.First().TestId.ToString());
-                        testid = int.Parse(LoginDetails1.First().TestId.ToString());
+                        Session["UserTestId"] = int.Parse(LoginDetails1.First().Testid.ToString());
+                        testid = int.Parse(LoginDetails1.First().Testid.ToString());
+                        int tst;
+                        string tst1 = LoginDetails1.First().Testid1.ToString();
+                        Session["UserTestId1"] = int.Parse(LoginDetails1.First().Testid1.ToString());
                     }
                     else
                     {

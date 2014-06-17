@@ -130,7 +130,9 @@ public partial class UserProfileControl : System.Web.UI.UserControl
                     age = int.Parse(txtAge.Text);
                 dataclass.AddUserProfile(userid, txtFsName.Text, txtMidName.Text, txtLstName.Text,
                     ddlGender.SelectedValue, age, orgid, industryid, int.Parse(ddlJobCatgy.SelectedValue), int.Parse(ddlGrpUser.SelectedValue),
-                    txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue), int.Parse(ddlTotExpMonths.SelectedValue), int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue), qualification, txtProffQual.Text, 1, userid, txtEmailId.Text, txtPhoneNumber.Text);
+                    txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue), int.Parse(ddlTotExpMonths.SelectedValue),
+                    int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue), qualification,
+                    txtProffQual.Text, 1, userid, txtEmailId.Text, txtPhoneNumber.Text);
 
                 dataclass.AddUserFirstLoginDate(userid);
 

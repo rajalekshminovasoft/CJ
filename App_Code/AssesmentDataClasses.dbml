@@ -1129,6 +1129,46 @@
       <Column Name="Remark" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.UserProfile" Member="UserProfile1s">
+    <Type Name="UserProfile1">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="UserType" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MiddleName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmailId" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="OrganizationID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobCategoryID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GrpUserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Designation" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="TotWorkExpYrs" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotWorkExpMonths" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PresJobExpYrs" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PresJobExpMonths" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EducQualifications" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ProfCertifications" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ModifiedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LoginFromDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LoginToDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReportAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PhoneNum" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="FirstLoginDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LogoutDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Testid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AdminAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Recruiter" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Testid1" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+    </Type>
+  </Table>
   <Function Name="AddDesignation">
     <Parameter Name="PostId" Parameter="postId" Type="System.Int32" DbType="Int" />
     <Parameter Name="PostName" Parameter="postName" Type="System.String" DbType="NVarChar(50)" />
