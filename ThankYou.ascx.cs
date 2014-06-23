@@ -17,12 +17,22 @@ public partial class ThankYou : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
        // return;//bip for testing with same user multiple times only for testing purpose....
-        int userid = 0;       
+        int userid = 0; 
+        int testid=0;
+        int testid1=0;
         string usercode = "";       
         if (Session["UserCode"] != null)
         {
             usercode = Session["UserCode"].ToString();
         }
+        if(Session["curtestid"]!=null)
+        {
+            testid=int.Parse(Session["curtestid"].ToString());
+        }
+        //if(Session["UserTestId1"]!=null)
+        //{
+        //    testid1=int.Parse(Session["UserTestId1"].ToString());
+        //}
         if (Session["UserID"] != null)
             userid = int.Parse(Session["UserID"].ToString());
         string curcontrol = "ThankYou.ascx";
@@ -32,7 +42,7 @@ public partial class ThankYou : System.Web.UI.UserControl
         {
             Evalstatid = int.Parse(Session["EvalStatId"].ToString());
         }
-        dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid);
+        dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid,testid );
         //// 230110 bip        
         dataclass.Procedure_DeleteUserTest_TempValues(userid, 0, 0);
         ////

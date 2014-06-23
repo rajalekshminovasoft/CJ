@@ -136,7 +136,7 @@ public partial class MasterPage5 : System.Web.UI.MasterPage
         if (dirlog == "No")
             Session.Clear();
 
-        var LoginDetails1 = from LoginDetails in dataclass.UserProfiles
+        var LoginDetails1 = from LoginDetails in dataclass.UserProfile1s
                             where LoginDetails.UserId == userid && LoginDetails.Status == 1
                             select LoginDetails;
         if (LoginDetails1.Count() > 0)
@@ -216,10 +216,13 @@ public partial class MasterPage5 : System.Web.UI.MasterPage
                 else
                 {
                     int testid = 0;
-                    if (LoginDetails1.First().TestId != null && LoginDetails1.First().TestId != 0)
+                    int testid1 = 0;
+                    if ((LoginDetails1.First().Testid != null && LoginDetails1.First().Testid != 0)||(LoginDetails1.First().Testid2 != null && LoginDetails1.First().Testid2 != 0))
                     {
-                        Session["UserTestId"] = int.Parse(LoginDetails1.First().TestId.ToString());
-                        testid = int.Parse(LoginDetails1.First().TestId.ToString());
+                        Session["UserTestId"] = int.Parse(LoginDetails1.First().Testid.ToString());
+                        testid = int.Parse(LoginDetails1.First().Testid.ToString());
+                        Session["UserTestId1"] = int.Parse(LoginDetails1.First().Testid2.ToString());
+                        testid1 = int.Parse(LoginDetails1.First().Testid2.ToString());
                     }
                     else
                     {
@@ -270,36 +273,101 @@ public partial class MasterPage5 : System.Web.UI.MasterPage
                     //var EvaluationDetails = from EvalDet in dataclass.EvaluationStatus
                     //                        where EvalDet.EvalCompletionStatus == 0 && EvalDet.UserId == userid
                     //                        select EvalDet;
-                    var EvaluationDetails = from EvalDet in dataclass.EvaluationStatus
-                                            where EvalDet.UserId == userid
+                    //var EvaluationDetails = from EvalDet in dataclass.EvaluationStatus1s
+                    //                        where EvalDet.UserId == userid && (EvalDet.Testid == int.Parse(Session["UserTestId"].ToString()) && EvalDet.Testid == int.Parse(Session["UserTestId1"].ToString())) 
+                    //                        select EvalDet;
+                    /////////////////////////////////////////////////////
+                    var EvaluationDetails = from EvalDet in dataclass.EvaluationStatus1s
+                                            where EvalDet.UserId == userid && (EvalDet.Testid == int.Parse(Session["UserTestId"].ToString()) || EvalDet.Testid == int.Parse(Session["UserTestId1"].ToString()) )
                                             select EvalDet;
                     if (EvaluationDetails.Count() > 0)
                     {
-                        if (EvaluationDetails.First().EvalCompletionStatus != null)
-                            if (EvaluationDetails.First().EvalCompletionStatus.ToString() == "1")
-                            {
-                                if (Session["CurUserReportAccess"] != null)
-                                    if (Session["CurUserReportAccess"].ToString() == "1")
-                                    { Session["SubCtrl"] = "ThankYou.ascx"; Response.Redirect("FJAHome.aspx"); return; }
+                        if (EvaluationDetails.Count() == 1)
+                        {
+                            if (EvaluationDetails.First().EvalCompletionStatus != null)
+                                if (EvaluationDetails.First().EvalCompletionStatus.ToString() == "1")
+                                {
+                                    if (Session["CurUserReportAccess"] != null)
+                                        if (Session["CurUserReportAccess"].ToString() == "1")
+                                        { Session["SubCtrl"] = "ThankYou.ascx"; Response.Redirect("FJAHome.aspx"); return; }
 
-                                lblMessage_Login.Text = "You have already attended the test. For more details please contact  site admin"; return;
-                            }
-                            else
+                                    lblMessage_Login.Text = "You have already attended the test. For more details please contact  site admin"; return;
+                                }
+                                else
+                                {
+                                    DeleteIncompleteTestDetails(userid, testid);
+                                    //dataclass.DeleteEvaluationResult(userid); 
+                                    dataclass.Procedure_DeleteUserTest_TempValues(userid, 0, 0);
+                                }
+                            if (EvaluationDetails.First().EvalStatusId != null)
+                                Session["EvalStatId"] = EvaluationDetails.First().EvalStatusId.ToString();
+                            Evalstatid = int.Parse(Session["EvalStatId"].ToString());
+                        }
+                        if (EvaluationDetails.Count() == 2)
+                        {
+                            if (EvaluationDetails.First().Testid == int.Parse(Session["UserTestId"].ToString()))
                             {
-                                DeleteIncompleteTestDetails(userid, testid);
-                                //dataclass.DeleteEvaluationResult(userid); 
-                                dataclass.Procedure_DeleteUserTest_TempValues(userid, 0, 0);
-                            }
+                                if (EvaluationDetails.First().EvalCompletionStatus != null)
+                                    if (EvaluationDetails.First().EvalCompletionStatus.ToString() == "1")
+                                    {
+                                        var EvaluationDetails1 = from EvalDet in dataclass.EvaluationStatus1s
+                                                                where EvalDet.UserId == userid && (EvalDet.Testid == int.Parse(Session["UserTestId1"].ToString()) || EvalDet.Testid == int.Parse(Session["UserTestId1"].ToString()))
+                                                                select EvalDet;
+                                        if (EvaluationDetails1.Count()>0)
+                                        {
+                                            if (EvaluationDetails1.First().EvalCompletionStatus != null)
+                                                if (EvaluationDetails1.First().EvalCompletionStatus.ToString() == "1")
+                                                {
+                                                    if (Session["CurUserReportAccess"] != null)
+                                                        if (Session["CurUserReportAccess"].ToString() == "1")
+                                                        {
+                                                            Session["SubCtrl"] = "ThankYou.ascx"; Response.Redirect("FJAHome.aspx"); return;
+                                                        }
+                                                }
+                                                else
+                                                {
+                                                    Session["UserTestId"] = Session["UserTestId1"].ToString();
+                                                    curcontrol = "TestIntroductionControl.ascx";
+                                                    Session["SubCtrl"] = curcontrol;
+                                                    Response.Redirect("FJAHome.aspx");
+                                                }
+                                            if (EvaluationDetails1.First().EvalStatusId != null)
+                                                Session["EvalStatId"] = EvaluationDetails1.First().EvalStatusId.ToString();
+                                            Evalstatid = int.Parse(Session["EvalStatId"].ToString());
+                                        }
+                                                
+                                        //if (Session["CurUserReportAccess"] != null)
+                                        //    if (Session["CurUserReportAccess"].ToString() == "1")
+                                        //    {
+                                                
+                                        //        //Session["SubCtrl"] = "ThankYou.ascx"; Response.Redirect("FJAHome.aspx"); return;
+                                        //    }
 
-                        if (EvaluationDetails.First().EvalStatusId != null)
-                            Session["EvalStatId"] = EvaluationDetails.First().EvalStatusId.ToString();
-                        Evalstatid = int.Parse(Session["EvalStatId"].ToString());
+                                        lblMessage_Login.Text = "You have already attended the test. For more details please contact  site admin"; return;
+                                    }
+                                    else
+                                    {
+                                        DeleteIncompleteTestDetails(userid, testid);
+                                        //dataclass.DeleteEvaluationResult(userid); 
+                                        dataclass.Procedure_DeleteUserTest_TempValues(userid, 0, 0);
+                                    }
+                                if (EvaluationDetails.First().EvalStatusId != null)
+                                    Session["EvalStatId"] = EvaluationDetails.First().EvalStatusId.ToString();
+                                Evalstatid = int.Parse(Session["EvalStatId"].ToString());
+                            }
+                            
+                        }
+                        
+                        //if (EvaluationDetails.First().EvalStatusId != null)
+                        //    Session["EvalStatId"] = EvaluationDetails.First().EvalStatusId.ToString();
+                        //Evalstatid = int.Parse(Session["EvalStatId"].ToString());
                         Session["UserCode"] = EvaluationDetails.First().UserCode.ToString();
                         //Session["UserID"] = EvaluationDetails.First().UserId.ToString();
                         curcontrol = EvaluationDetails.First().EvalControl.ToString();
                         //}
                     }
-
+                    ////////////////////////////////////////////////////
+                   
                     if (Session["UserCode"] == null)
                     {
                         Session["UserCode"] = "UID_" + Session["UserID"].ToString() + "_" + DateTime.Now;
@@ -575,7 +643,7 @@ public partial class MasterPage5 : System.Web.UI.MasterPage
             
             int userid_new = 0;
 
-            var LoginDetails1 = from LoginDetails in dataclass.UserProfiles
+            var LoginDetails1 = from LoginDetails in dataclass.UserProfile1s
                                 where LoginDetails.UserName == txtUsername.Text && LoginDetails.Password == txtPassword.Text && LoginDetails.Status == 1
                                 select LoginDetails;
             //var LoginDetails1 = from LoginDetails in dataclass.UserProfiles

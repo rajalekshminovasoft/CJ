@@ -131,6 +131,9 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
   partial void InsertUserProfile1(UserProfile1 instance);
   partial void UpdateUserProfile1(UserProfile1 instance);
   partial void DeleteUserProfile1(UserProfile1 instance);
+  partial void InsertEvaluationStatus1(EvaluationStatus1 instance);
+  partial void UpdateEvaluationStatus1(EvaluationStatus1 instance);
+  partial void DeleteEvaluationStatus1(EvaluationStatus1 instance);
   #endregion
 	
 	public AssesmentDataClassesDataContext() : 
@@ -651,6 +654,14 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
 		}
 	}
 	
+	public System.Data.Linq.Table<EvaluationStatus1> EvaluationStatus1s
+	{
+		get
+		{
+			return this.GetTable<EvaluationStatus1>();
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.FunctionAttribute()]
 	public int AddDesignation([global::System.Data.Linq.Mapping.ParameterAttribute(Name="PostId", DbType="Int")] System.Nullable<int> postId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PostName", DbType="NVarChar(50)")] string postName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Status", DbType="Int")] System.Nullable<int> status, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CreatedBy", DbType="Int")] System.Nullable<int> createdBy)
 	{
@@ -913,9 +924,9 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
 	}
 	
 	[global::System.Data.Linq.Mapping.FunctionAttribute()]
-	public int ProcedureEvaluationStatus([global::System.Data.Linq.Mapping.ParameterAttribute(Name="EvalStatusId", DbType="Int")] System.Nullable<int> evalStatusId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="EvalControl", DbType="NVarChar(50)")] string evalControl, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="EvalCompletionStatus", DbType="Int")] System.Nullable<int> evalCompletionStatus, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="EvalExitStatus", DbType="Int")] System.Nullable<int> evalExitStatus, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserCode", DbType="NVarChar(50)")] string userCode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId)
+    public int ProcedureEvaluationStatus([global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EvalStatusId", DbType = "Int")] System.Nullable<int> evalStatusId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EvalControl", DbType = "NVarChar(50)")] string evalControl, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EvalCompletionStatus", DbType = "Int")] System.Nullable<int> evalCompletionStatus, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EvalExitStatus", DbType = "Int")] System.Nullable<int> evalExitStatus, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserCode", DbType = "NVarChar(50)")] string userCode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserId", DbType = "Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Testid", DbType = "Int")] System.Nullable<int> Testid)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), evalStatusId, evalControl, evalCompletionStatus, evalExitStatus, userCode, userId);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), evalStatusId, evalControl, evalCompletionStatus, evalExitStatus, userCode, userId,Testid);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -1132,13 +1143,21 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), organizationId);
 		return ((int)(result.ReturnValue));
 	}
-	
-	[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddUserCreation")]
-	public int AddUserCreation([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserCode", DbType="Int")] System.Nullable<int> userCode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="NVarChar(50)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Password", DbType="NVarChar(50)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserType", DbType="NVarChar(50)")] string userType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="OrganizationName", DbType="Int")] System.Nullable<int> organizationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="GrpUser", DbType="Int")] System.Nullable<int> grpUser, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LoginFromDate", DbType="DateTime")] System.Nullable<System.DateTime> loginFromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LoginToDate", DbType="DateTime")] System.Nullable<System.DateTime> loginToDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Status", DbType="Int")] System.Nullable<int> status, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CreatedBy", DbType="Int")] System.Nullable<int> createdBy, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="EmailId", DbType="NVarChar(100)")] string emailId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TestId", DbType="Int")] System.Nullable<int> testId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="AdminAccess", DbType="Int")] System.Nullable<int> adminAccess)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userCode, userName, password, userType, organizationName, grpUser, loginFromDate, loginToDate, status, createdBy, emailId, testId, adminAccess);
-		return ((int)(result.ReturnValue));
-	}
+
+    [global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddUserCreation")]
+
+    public int AddUserCreation([global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserCode", DbType = "Int")] System.Nullable<int> userCode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserName", DbType = "NVarChar(50)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Password", DbType = "NVarChar(50)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserType", DbType = "NVarChar(50)")] string userType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "OrganizationName", DbType = "Int")] System.Nullable<int> organizationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "GrpUser", DbType = "Int")] System.Nullable<int> grpUser, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "LoginFromDate", DbType = "DateTime")] System.Nullable<System.DateTime> loginFromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "LoginToDate", DbType = "DateTime")] System.Nullable<System.DateTime> loginToDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Status", DbType = "Int")] System.Nullable<int> status, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "CreatedBy", DbType = "Int")] System.Nullable<int> createdBy, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EmailId", DbType = "NVarChar(100)")] string emailId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "TestId", DbType = "Int")] System.Nullable<int> testId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "AdminAccess", DbType = "Int")] System.Nullable<int> adminAccess, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "TestId1", DbType = "nvarchar(250)")] string testId1, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "TestId2", DbType = "int")] System.Nullable<int> testId2)
+  	{
+
+  		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userCode, userName, password, userType, organizationName, grpUser, loginFromDate, loginToDate, status, createdBy, emailId, testId, adminAccess,testId1,testId2 );
+  		return ((int)(result.ReturnValue));
+     }
+    //[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddUserCreation")]
+    //public int AddUserCreation([global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserCode", DbType = "Int")] System.Nullable<int> userCode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserName", DbType = "NVarChar(50)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Password", DbType = "NVarChar(50)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "UserType", DbType = "NVarChar(50)")] string userType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "OrganizationName", DbType = "Int")] System.Nullable<int> organizationName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "GrpUser", DbType = "Int")] System.Nullable<int> grpUser, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "LoginFromDate", DbType = "DateTime")] System.Nullable<System.DateTime> loginFromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "LoginToDate", DbType = "DateTime")] System.Nullable<System.DateTime> loginToDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "Status", DbType = "Int")] System.Nullable<int> status, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "CreatedBy", DbType = "Int")] System.Nullable<int> createdBy, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EmailId", DbType = "NVarChar(100)")] string emailId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "TestId", DbType = "Int")] System.Nullable<int> testId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "AdminAccess", DbType = "Int")] System.Nullable<int> adminAccess, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "EmailId", DbType = "NVarChar(100)")] string emailId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name = "TestId", DbType = "Int")] System.Nullable<int> testId)
+    //{
+    //    IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userCode, userName, password, userType, organizationName, grpUser, loginFromDate, loginToDate, status, createdBy, emailId, testId, adminAccess);
+    //    return ((int)(result.ReturnValue));
+    //}
 	
 	[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddJobCategory")]
 	public int AddJobCategory([global::System.Data.Linq.Mapping.ParameterAttribute(Name="JobCatCode", DbType="Int")] System.Nullable<int> jobCatCode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="JobCatName", DbType="NVarChar(50)")] string jobCatName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Status", DbType="Int")] System.Nullable<int> status, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CreatedBy", DbType="Int")] System.Nullable<int> createdBy, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="AdminAccess", DbType="Int")] System.Nullable<int> adminAccess)
@@ -2144,6 +2163,8 @@ public partial class EvaluationStatus : INotifyPropertyChanging, INotifyProperty
 	
 	private System.Nullable<System.DateTime> _ModifiedOn;
 	
+	private string _Testid;
+	
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2164,6 +2185,8 @@ public partial class EvaluationStatus : INotifyPropertyChanging, INotifyProperty
     partial void OnCreatedOnChanged();
     partial void OnModifiedOnChanging(System.Nullable<System.DateTime> value);
     partial void OnModifiedOnChanged();
+    partial void OnTestidChanging(string value);
+    partial void OnTestidChanged();
     #endregion
 	
 	public EvaluationStatus()
@@ -2327,6 +2350,26 @@ public partial class EvaluationStatus : INotifyPropertyChanging, INotifyProperty
 				this._ModifiedOn = value;
 				this.SendPropertyChanged("ModifiedOn");
 				this.OnModifiedOnChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Testid", CanBeNull=false)]
+	public string Testid
+	{
+		get
+		{
+			return this._Testid;
+		}
+		set
+		{
+			if ((this._Testid != value))
+			{
+				this.OnTestidChanging(value);
+				this.SendPropertyChanging();
+				this._Testid = value;
+				this.SendPropertyChanged("Testid");
+				this.OnTestidChanged();
 			}
 		}
 	}
@@ -12398,6 +12441,8 @@ public partial class UserProfile : INotifyPropertyChanging, INotifyPropertyChang
 	
 	private string _Recruiter;
 	
+	private string _Testid2;
+	
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -12474,6 +12519,8 @@ public partial class UserProfile : INotifyPropertyChanging, INotifyPropertyChang
     partial void OnTestId1Changed();
     partial void OnRecruiterChanging(string value);
     partial void OnRecruiterChanged();
+    partial void OnTestid2Changing(string value);
+    partial void OnTestid2Changed();
     #endregion
 	
 	public UserProfile()
@@ -13197,6 +13244,26 @@ public partial class UserProfile : INotifyPropertyChanging, INotifyPropertyChang
 				this._Recruiter = value;
 				this.SendPropertyChanged("Recruiter");
 				this.OnRecruiterChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Testid2", CanBeNull=false)]
+	public string Testid2
+	{
+		get
+		{
+			return this._Testid2;
+		}
+		set
+		{
+			if ((this._Testid2 != value))
+			{
+				this.OnTestid2Changing(value);
+				this.SendPropertyChanging();
+				this._Testid2 = value;
+				this.SendPropertyChanged("Testid2");
+				this.OnTestid2Changed();
 			}
 		}
 	}
@@ -21843,6 +21910,8 @@ public partial class UserProfile1 : INotifyPropertyChanging, INotifyPropertyChan
 	
 	private string _Testid1;
 	
+	private System.Nullable<int> _Testid2;
+	
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -21919,6 +21988,8 @@ public partial class UserProfile1 : INotifyPropertyChanging, INotifyPropertyChan
     partial void OnRecruiterChanged();
     partial void OnTestid1Changing(string value);
     partial void OnTestid1Changed();
+    partial void OnTestid2Changing(System.Nullable<int> value);
+    partial void OnTestid2Changed();
     #endregion
 	
 	public UserProfile1()
@@ -22642,6 +22713,280 @@ public partial class UserProfile1 : INotifyPropertyChanging, INotifyPropertyChan
 				this._Testid1 = value;
 				this.SendPropertyChanged("Testid1");
 				this.OnTestid1Changed();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Testid2", DbType="Int")]
+	public System.Nullable<int> Testid2
+	{
+		get
+		{
+			return this._Testid2;
+		}
+		set
+		{
+			if ((this._Testid2 != value))
+			{
+				this.OnTestid2Changing(value);
+				this.SendPropertyChanging();
+				this._Testid2 = value;
+				this.SendPropertyChanged("Testid2");
+				this.OnTestid2Changed();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EvaluationStatus")]
+public partial class EvaluationStatus1 : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _EvalStatusId;
+	
+	private string _EvalControl;
+	
+	private System.Nullable<int> _EvalCompletionStatus;
+	
+	private System.Nullable<int> _EvalExitStatus;
+	
+	private string _UserCode;
+	
+	private System.Nullable<int> _UserId;
+	
+	private System.Nullable<System.DateTime> _CreatedOn;
+	
+	private System.Nullable<System.DateTime> _ModifiedOn;
+	
+	private System.Nullable<int> _Testid;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnEvalStatusIdChanging(int value);
+    partial void OnEvalStatusIdChanged();
+    partial void OnEvalControlChanging(string value);
+    partial void OnEvalControlChanged();
+    partial void OnEvalCompletionStatusChanging(System.Nullable<int> value);
+    partial void OnEvalCompletionStatusChanged();
+    partial void OnEvalExitStatusChanging(System.Nullable<int> value);
+    partial void OnEvalExitStatusChanged();
+    partial void OnUserCodeChanging(string value);
+    partial void OnUserCodeChanged();
+    partial void OnUserIdChanging(System.Nullable<int> value);
+    partial void OnUserIdChanged();
+    partial void OnCreatedOnChanging(System.Nullable<System.DateTime> value);
+    partial void OnCreatedOnChanged();
+    partial void OnModifiedOnChanging(System.Nullable<System.DateTime> value);
+    partial void OnModifiedOnChanged();
+    partial void OnTestidChanging(System.Nullable<int> value);
+    partial void OnTestidChanged();
+    #endregion
+	
+	public EvaluationStatus1()
+	{
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EvalStatusId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int EvalStatusId
+	{
+		get
+		{
+			return this._EvalStatusId;
+		}
+		set
+		{
+			if ((this._EvalStatusId != value))
+			{
+				this.OnEvalStatusIdChanging(value);
+				this.SendPropertyChanging();
+				this._EvalStatusId = value;
+				this.SendPropertyChanged("EvalStatusId");
+				this.OnEvalStatusIdChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EvalControl", DbType="NVarChar(50)")]
+	public string EvalControl
+	{
+		get
+		{
+			return this._EvalControl;
+		}
+		set
+		{
+			if ((this._EvalControl != value))
+			{
+				this.OnEvalControlChanging(value);
+				this.SendPropertyChanging();
+				this._EvalControl = value;
+				this.SendPropertyChanged("EvalControl");
+				this.OnEvalControlChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EvalCompletionStatus", DbType="Int")]
+	public System.Nullable<int> EvalCompletionStatus
+	{
+		get
+		{
+			return this._EvalCompletionStatus;
+		}
+		set
+		{
+			if ((this._EvalCompletionStatus != value))
+			{
+				this.OnEvalCompletionStatusChanging(value);
+				this.SendPropertyChanging();
+				this._EvalCompletionStatus = value;
+				this.SendPropertyChanged("EvalCompletionStatus");
+				this.OnEvalCompletionStatusChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EvalExitStatus", DbType="Int")]
+	public System.Nullable<int> EvalExitStatus
+	{
+		get
+		{
+			return this._EvalExitStatus;
+		}
+		set
+		{
+			if ((this._EvalExitStatus != value))
+			{
+				this.OnEvalExitStatusChanging(value);
+				this.SendPropertyChanging();
+				this._EvalExitStatus = value;
+				this.SendPropertyChanged("EvalExitStatus");
+				this.OnEvalExitStatusChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserCode", DbType="NVarChar(50)")]
+	public string UserCode
+	{
+		get
+		{
+			return this._UserCode;
+		}
+		set
+		{
+			if ((this._UserCode != value))
+			{
+				this.OnUserCodeChanging(value);
+				this.SendPropertyChanging();
+				this._UserCode = value;
+				this.SendPropertyChanged("UserCode");
+				this.OnUserCodeChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int")]
+	public System.Nullable<int> UserId
+	{
+		get
+		{
+			return this._UserId;
+		}
+		set
+		{
+			if ((this._UserId != value))
+			{
+				this.OnUserIdChanging(value);
+				this.SendPropertyChanging();
+				this._UserId = value;
+				this.SendPropertyChanged("UserId");
+				this.OnUserIdChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime")]
+	public System.Nullable<System.DateTime> CreatedOn
+	{
+		get
+		{
+			return this._CreatedOn;
+		}
+		set
+		{
+			if ((this._CreatedOn != value))
+			{
+				this.OnCreatedOnChanging(value);
+				this.SendPropertyChanging();
+				this._CreatedOn = value;
+				this.SendPropertyChanged("CreatedOn");
+				this.OnCreatedOnChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedOn", DbType="DateTime")]
+	public System.Nullable<System.DateTime> ModifiedOn
+	{
+		get
+		{
+			return this._ModifiedOn;
+		}
+		set
+		{
+			if ((this._ModifiedOn != value))
+			{
+				this.OnModifiedOnChanging(value);
+				this.SendPropertyChanging();
+				this._ModifiedOn = value;
+				this.SendPropertyChanged("ModifiedOn");
+				this.OnModifiedOnChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Testid", DbType="Int")]
+	public System.Nullable<int> Testid
+	{
+		get
+		{
+			return this._Testid;
+		}
+		set
+		{
+			if ((this._Testid != value))
+			{
+				this.OnTestidChanging(value);
+				this.SendPropertyChanging();
+				this._Testid = value;
+				this.SendPropertyChanged("Testid");
+				this.OnTestidChanged();
 			}
 		}
 	}

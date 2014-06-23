@@ -41,7 +41,7 @@ public partial class EvaluationReport : System.Web.UI.UserControl
             if (Session["UserID"] != null)
                 userid = int.Parse(Session["UserID"].ToString());
             var Ans1 = from Ans in dataclass.EvaluationResults
-                       where Ans.UserId == userid// && Ans.UserCode == usercode
+                       where Ans.UserId == userid && Ans.TestId == int.Parse(Session["curtestid"].ToString())// && Ans.UserCode == usercode
                        select Ans;
             if (Ans1.Count() > 0)
             {
@@ -273,8 +273,8 @@ public partial class EvaluationReport : System.Web.UI.UserControl
                 res = (marks / numbers) * 100;
             int passmark = 0;
             int testid = 0;
-            if (Session["UserTestId"] != null)
-                testid = int.Parse(Session["UserTestId"].ToString());
+            if (Session["curtestid"] != null)
+                testid = int.Parse(Session["curtestid"].ToString());
 
             var getpassmark = from passmarkdet in dataclass.TestLists
                               where passmarkdet.TestId == testid
@@ -301,7 +301,7 @@ public partial class EvaluationReport : System.Web.UI.UserControl
                 {
                     Evalstatid = int.Parse(Session["EvalStatId"].ToString());
                 }
-                dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid);
+                dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid,int.Parse(Session["curtestid"].ToString()));
             }
             else
             {
@@ -314,7 +314,7 @@ public partial class EvaluationReport : System.Web.UI.UserControl
                 if (Session["EvalStatId"] != null)
                     Evalstatid = int.Parse(Session["EvalStatId"].ToString());
 
-                dataclass.ProcedureEvaluationStatus(Evalstatid, "TestIntroductionControl.ascx", 0, 1, usercode, userid);
+                dataclass.ProcedureEvaluationStatus(Evalstatid, "TestIntroductionControl.ascx", 0, 1, usercode, userid, int.Parse(Session["curtestid"].ToString()));
             }
             // }
         }

@@ -45,6 +45,7 @@
       <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Testid" Type="System.String" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="Industry" Member="Industries">
@@ -694,6 +695,7 @@
       <Column Name="AdminAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="TestId1" Type="System.Int32" CanBeNull="true" />
       <Column Name="Recruiter" Type="System.String" CanBeNull="false" />
+      <Column Name="Testid2" Type="System.String" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.View_UserDetails" Member="View_UserDetails">
@@ -1167,6 +1169,20 @@
       <Column Name="AdminAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Recruiter" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
       <Column Name="Testid1" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Testid2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EvaluationStatus" Member="EvaluationStatus1s">
+    <Type Name="EvaluationStatus1">
+      <Column Name="EvalStatusId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EvalControl" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EvalCompletionStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EvalExitStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Testid" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Function Name="AddDesignation">

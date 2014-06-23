@@ -56,7 +56,8 @@ public partial class ObjectiveQuestns : System.Web.UI.UserControl
         if (Session["UserTestId"] != null)
         {
             //FillObjectiveQuestionInstructions();
-            testId = int.Parse(Session["UserTestId"].ToString());
+            //testId = int.Parse(Session["UserTestId"].ToString());
+            testId = int.Parse(Session["curtestid"].ToString());
             if (Session["UserID"] != null)
                 userid = int.Parse(Session["UserID"].ToString());
 

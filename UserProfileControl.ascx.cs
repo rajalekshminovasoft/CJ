@@ -141,23 +141,44 @@ public partial class UserProfileControl : System.Web.UI.UserControl
 
                 string usercode = Session["UserCode"].ToString();
                 string curcontrol = "TestIntroductionControl.ascx";// "UserTrainingControl.ascx";// "UserTrainingIntroduction.ascx";//"UserTrainingControl.ascx";
-
+                int Evalstatid = 0;
                 if (Session["evalResult"] == null)
                 {
-                    int Evalstatid = 0;
+                    //int Evalstatid = 0;
                     if (Session["EvalStatId"] != null)
                         Evalstatid = int.Parse(Session["EvalStatId"].ToString());
-                    dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 0, 0, usercode, userid);
+                    var evaluationdetails = from EvalDet in dataclass.EvaluationStatus
+                                            where EvalDet.UserId == userid && EvalDet.Testid == Session["UserTestId"]
+                                            select EvalDet;
+                    if (evaluationdetails.Count() == 0)
+                    {
+                        if (Session["UserTestId"] != null || Session["UserTestId"] != "")
+                        {
+                            dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 0, 0, usercode, userid, int.Parse(Session["UserTestId"].ToString()));
+                        }
+                    }
 
+                    var evaluationdetails1 = from EvalDet in dataclass.EvaluationStatus
+                                            where EvalDet.UserId == userid && EvalDet.Testid == Session["UserTestId1"]
+                                            select EvalDet;
+                    if (evaluationdetails1.Count() == 0)
+                    {
+                        if (Session["UserTestId1"] != null || Session["UserTestId1"] != "")
+                        {
+                            dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 0, 0, usercode, userid, int.Parse(Session["UserTestId1"].ToString()));
+                        }
+                    }
+                   
+                    
                     if (Evalstatid == 0)
                     {
-                         var EvaluationDetails = from EvalDet in dataclass.EvaluationStatus
+                         var EvaluationDetails2 = from EvalDet in dataclass.EvaluationStatus
                                                     where EvalDet.UserId == userid
                                                     select EvalDet;
-                         if (EvaluationDetails.Count() > 0)
+                         if (EvaluationDetails2.Count() > 0)
                          {
-                             if (EvaluationDetails.First().EvalStatusId != null)
-                                 Session["EvalStatId"] = EvaluationDetails.First().EvalStatusId.ToString();
+                             if (EvaluationDetails2.First().EvalStatusId != null)
+                                 Session["EvalStatId"] = EvaluationDetails2.First().EvalStatusId.ToString();
                          }
                     }
                 }
@@ -179,12 +200,14 @@ public partial class UserProfileControl : System.Web.UI.UserControl
 
     private void CheckExistence(int userid)
     {
-        var ProfileDetails1 = from ProfileDetails in dataclass.UserProfiles
+        var ProfileDetails1 = from ProfileDetails in dataclass.UserProfile1s
                               where ProfileDetails.UserId == userid
                               select ProfileDetails;
         if (ProfileDetails1.Count() > 0)
         //if (ProfileDetails1.First().FirstName != null)
         {
+            Session["UserTestId"] = ProfileDetails1.First().Testid.ToString();
+            Session["UserTestId1"] = ProfileDetails1.First().Testid2.ToString();
             if (ProfileDetails1.First().FirstName != null)
                 txtFsName.Text = ProfileDetails1.First().FirstName.ToString();
             if (ProfileDetails1.First().LastName != null)

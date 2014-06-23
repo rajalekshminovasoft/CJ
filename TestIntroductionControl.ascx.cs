@@ -39,6 +39,7 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
         int testid = 0;
         if (Session["UserTestId"] != null)
         {
+            Session["curtestid"] = Session["UserTestId"];
             testid = int.Parse(Session["UserTestId"].ToString());
             var Details = from det in dataclassses.TestLists
                           where det.TestId == testid
@@ -60,29 +61,30 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
          //////   ShowNextControl();
         }
         //******************************
-        if (Session["UserTestId1"] != null)
-        {
-            testid = int.Parse(Session["UserTestId"].ToString());
-            var Details = from det in dataclassses.TestLists
-                          where det.TestId == testid
-                          select det;
-            if (Details.Count() > 0)
-            {
-                string trainingdetails = "<div>";
-                if (Details.First().Instructions != null && Details.First().Instructions != "")
-                    trainingdetails += Details.First().Instructions.ToString();
+        //if (Session["UserTestId1"] != null)
+        //{
+        //Session["curtestid"] = Session["UserTestId1"];
+        //    testid = int.Parse(Session["UserTestId1"].ToString());
+        //    var Details = from det in dataclassses.TestLists
+        //                  where det.TestId == testid
+        //                  select det;
+        //    if (Details.Count() > 0)
+        //    {
+        //        string trainingdetails = "<div>";
+        //        if (Details.First().Instructions != null && Details.First().Instructions != "")
+        //            trainingdetails += Details.First().Instructions.ToString();
 
-                if (Details.First().Description != null && Details.First().Description != "")
-                    trainingdetails += "<br/>" + Details.First().Description.ToString();
-                if (trainingdetails != "<div>")
-                {
-                    container.InnerHtml = trainingdetails;
-                    return;
-                }
-            }
-            ShowNextControl();
-        }
-        //**********************
+        //        if (Details.First().Description != null && Details.First().Description != "")
+        //            trainingdetails += "<br/>" + Details.First().Description.ToString();
+        //        if (trainingdetails != "<div>")
+        //        {
+        //            container.InnerHtml = trainingdetails;
+        //            return;
+        //        }
+        //    }
+        //    ShowNextControl();
+        //}
+        ////**********************
     }
 
     private void ShowPreviousControl()
@@ -108,7 +110,7 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
         {
             Evalstatid = int.Parse(Session["EvalStatId"].ToString());
         }
-        dataclassses.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid);
+        dataclassses.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid, int.Parse(Session["curtestid"].ToString()));
 
 
 
