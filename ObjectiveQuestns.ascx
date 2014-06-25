@@ -671,7 +671,12 @@
                     Text="Submit and Go to Next Page" onclientclick="ResetScroll()" />
                         </td>
                         <td>
-                            &nbsp;</td>
+                          <asp:Button ID="btn_yes" runat="server" 
+                    Text="Complete" onclientclick="ResetScroll()" Height="20px" OnClick="btn_yes_Click" Visible="false"  />  
+
+                          <asp:Button ID="btn_confirm" runat="server" 
+                    Text="Confirm" onclientclick="ResetScroll()" Height="20px" OnClick="btn_confirm_Click" Visible="false"   /> 
+                        </td>
                     </tr>
                 </table>
             </td>
@@ -703,7 +708,7 @@
                             <tr>
                                 <td>
                                     <div align="center">
-                                        <asp:Button ID="btnYes" runat="server" onclick="btnYes_Click" Text="Yes" 
+                                        <asp:Button ID="btnYes" runat="server" onclick="btnYes_Click" Text="Yes" Visible="true" 
                                             Width="75px" />
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Button ID="btnNoExit" runat="server" onclick="btnNoExit_Click" 
                                             Text="No" Width="75px" />

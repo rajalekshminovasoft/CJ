@@ -37,10 +37,10 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
         Panel1.Visible = true;
         container.InnerHtml = "";
         int testid = 0;
-        if (Session["UserTestId"] != null)
+        if (Session["curtestid"] != null)
         {
-            Session["curtestid"] = Session["UserTestId"];
-            testid = int.Parse(Session["UserTestId"].ToString());
+            //Session["curtestid"] = Session["UserTestId"];
+            testid = int.Parse(Session["curtestid"].ToString());
             var Details = from det in dataclassses.TestLists
                           where det.TestId == testid
                           select det;
@@ -105,11 +105,17 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
             userid = int.Parse(Session["UserID"].ToString());
         string curcontrol = "ThankYou.ascx";
         int Evalstatid = 0;
-
-        if (Session["EvalStatId"] != null)
-        {
-            Evalstatid = int.Parse(Session["EvalStatId"].ToString());
-        }
+         var EvaluationDetails = from EvalDet in dataclassses.EvaluationStatus1s
+                                 where EvalDet.UserId == userid && EvalDet.Testid == int.Parse(Session["curtestid"].ToString()) 
+                                            select EvalDet;
+         if (EvaluationDetails.Count() > 0)
+         {
+             Evalstatid = int.Parse(EvaluationDetails.First().EvalStatusId.ToString());
+         }
+        //if (Session["EvalStatId"] != null)
+        //{
+        //    Evalstatid = int.Parse(Session["EvalStatId"].ToString());
+        //}
         dataclassses.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid, int.Parse(Session["curtestid"].ToString()));
 
 

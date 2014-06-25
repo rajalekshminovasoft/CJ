@@ -39,6 +39,9 @@ public partial class ObjectiveQuestns : System.Web.UI.UserControl
     int testId = 0; int testsectionid = 0;
     protected void Page_Load(object sender, EventArgs e)
     {
+        //pnlMessage_confirm.Visible = true;
+        //pnlMessage_confirm.Enabled = true;
+        //pnlpopup.Enabled = true;
         /// bip 10052010
         if (Session["timeExpired"] != null)
             if (Session["timeExpired"].ToString() == "True")
@@ -82,6 +85,9 @@ public partial class ObjectiveQuestns : System.Web.UI.UserControl
             var GetTestTimeDuration = from testtimedet in dataclass.TimerDetails
                                       where testtimedet.TestId == testId && testtimedet.TestSectionId == 0 && testtimedet.TestVariableId == 0
                                       select testtimedet;
+            //var GetTestTimeDuration = from testtimedet in dataclass.TimerDetails
+            //                          where testtimedet.TestId == testId 
+            //                          select testtimedet;
             if (GetTestTimeDuration.Count() > 0)
             {
                 if (GetTestTimeDuration.First().TimeHours != null)
@@ -994,8 +1000,9 @@ public partial class ObjectiveQuestns : System.Web.UI.UserControl
             if (testVariableId == 0)
             {
                 Timer1.Enabled = false;
-
-                pnlMessage.Visible = true;
+                btn_yes.Visible = true;
+                //pnlMessage.Visible = true;
+               
                 btnSubmit.Visible = false; btnPrevious.Visible = false; return;
             }
 
@@ -1769,6 +1776,7 @@ public partial class ObjectiveQuestns : System.Web.UI.UserControl
         Session["evaldirection"] = "Next";
         //string subctrl = getNextControl();
         Session["SubCtrl"] = "FillBalnksQues.ascx";//subctrl; //
+
         Response.Redirect("FJAHome.aspx"); return;
     }
     /*
@@ -3345,5 +3353,55 @@ public partial class ObjectiveQuestns : System.Web.UI.UserControl
     {
         DeleteTempValuesFromDB();
         Response.Redirect("FJAHome.aspx"); //bipson 18082010// Response.Redirect("CareerJudge.htm");;
+    }
+    protected void btn_yes_Click(object sender, EventArgs e)
+    {
+        btnSubmit.Visible = false; btnPrevious.Visible = false;
+        btn_confirm.Visible = true;
+    }
+    protected void btn_confirm_Click(object sender, EventArgs e)
+    {
+        //// 230110 bip        
+        DeleteTempValuesFromDB();//dataclass.Procedure_DeleteUserTest_TempValues(userid, 0, 0);
+        ////
+        pnlMessage.Visible = false; pnlMessage_confirm.Visible = false;
+        ClearDbValues();
+
+        // bip 07052010
+        ClearAllPageCountValues(0);
+        Session["CurrentTestSectionId"] = null;
+        Session["dsTestVariableIds"] = null;
+        Session["VariableIdIndexNo"] = null;
+        Session["FirstVariableIdForTimer"] = null;
+        Session["CurrentTestFirstVariableId"] = null;
+        Session["CurrentTestSecondVariableId"] = null;
+        Session["TestFirstVariableName"] = null;
+        Session["TestSecondVariableName"] = null;
+        Session["evaldirection"] = "Next";
+        //
+        Session["VariableIdIndexNo_timer"] = null;// bip 12052010
+
+        SetNextSectionDetails();
+        btnSubmit.Visible = true; btnPrevious.Visible = true;
+        Timer1.Enabled = true;
+        // check curtestid==testid1 ----------------redirect to test 2
+        if (Session["curtestid"] == Session["UserTestId"])
+        {
+            if (Session["UserTestId1"] != null || Session["UserTestId1"] != "")
+            {
+                Session["curtestid"] = Session["UserTestId1"];
+                //control to redirect
+                string curcontrol = "TestIntroductionControl.ascx";
+                Session["SubCtrl"] = curcontrol;
+                Response.Redirect("FJAHome.aspx");
+            }
+        }
+        //check cuetestid==testid2------------------go to thanks page
+        if (Session["curtestid"] == Session["UserTestId1"])
+        {
+            string curcontrol = "ThankYou.ascx";
+            Session["SubCtrl"] = curcontrol;
+            Response.Redirect("FJAHome.aspx");
+        }
     }
 }

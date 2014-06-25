@@ -170,17 +170,18 @@ public partial class UserProfileControl : System.Web.UI.UserControl
                     }
                    
                     
-                    if (Evalstatid == 0)
-                    {
-                         var EvaluationDetails2 = from EvalDet in dataclass.EvaluationStatus
-                                                    where EvalDet.UserId == userid
-                                                    select EvalDet;
-                         if (EvaluationDetails2.Count() > 0)
-                         {
-                             if (EvaluationDetails2.First().EvalStatusId != null)
-                                 Session["EvalStatId"] = EvaluationDetails2.First().EvalStatusId.ToString();
-                         }
-                    }
+                    //if (Evalstatid == 0)
+                    //{
+                    //     var EvaluationDetails2 = from EvalDet in dataclass.EvaluationStatus
+                    //                                where EvalDet.UserId == userid
+                    //                                select EvalDet;
+                    //     if (EvaluationDetails2.Count() > 0)
+                    //     {
+                    //         //int stataid = (EvaluationDetails2.First().EvalStatusId);
+                    //         //if (EvaluationDetails2.First().EvalStatusId != null)
+                    //         Session["EvalStatId"] = EvaluationDetails2.First().EvalStatusId ;
+                    //     }
+                    //}
                 }
                 ////
                 Session["NewIndustry"] = null; Session["NewOrg"] = null; Session["GrpExists"] = null;
@@ -207,6 +208,7 @@ public partial class UserProfileControl : System.Web.UI.UserControl
         //if (ProfileDetails1.First().FirstName != null)
         {
             Session["UserTestId"] = ProfileDetails1.First().Testid.ToString();
+            Session["curtestid"] = ProfileDetails1.First().Testid.ToString();
             Session["UserTestId1"] = ProfileDetails1.First().Testid2.ToString();
             if (ProfileDetails1.First().FirstName != null)
                 txtFsName.Text = ProfileDetails1.First().FirstName.ToString();

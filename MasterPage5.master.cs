@@ -636,7 +636,10 @@ public partial class MasterPage5 : System.Web.UI.MasterPage
     protected void btnLogin_Click(object sender, EventArgs e)
     {
         
-        if (txtUsername.Text != "" && txtPassword.Text != "")
+        
+        
+        
+if (txtUsername.Text != "" && txtPassword.Text != "")
         {
             Session.Clear();
             Session["dirLogin"] = "Yes";

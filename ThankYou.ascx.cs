@@ -59,8 +59,26 @@ public partial class ThankYou : System.Web.UI.UserControl
         Response.Redirect("FJAHome.aspx");
         */
 
-        ReDirectToCareerJudge();////bip 15062010
-
+        //ReDirectToCareerJudge();////bip 15062010
+        if (Session["curtestid"].ToString() == Session["UserTestId"].ToString())
+        {
+            if (Session["UserTestId1"] != null || Session["UserTestId1"] != "")
+            {
+                Session["curtestid"] = Session["UserTestId1"];
+                Session["TestStartTime"] = null;
+                //control to redirect
+                string curcontrol = "TestIntroductionControl.ascx";
+                Session["SubCtrl"] = curcontrol;
+                Response.Redirect("FJAHome.aspx");
+            }
+        }
+        //check cuetestid==testid2------------------go to thanks page
+        if (Session["curtestid"] == Session["UserTestId1"])
+        {
+            string curcontrol = "ThankYou.ascx";
+            Session["SubCtrl"] = curcontrol;
+            Response.Redirect("FJAHome.aspx");
+        }
     }
     private void ReDirectToCareerJudge()
     {
