@@ -23,7 +23,7 @@
 <div>
     <asp:Label ID="lblmsg" runat="server" ForeColor="#CC0000" ></asp:Label>
 </div>
-                <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="2"  NavigationStyle-VerticalAlign="Top" NavigationStyle-HorizontalAlign="NotSet" HeaderStyle-VerticalAlign="Top" OnNextButtonClick="Wizard1_NextButtonClick" DisplaySideBar="True" >
+                <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1"  NavigationStyle-VerticalAlign="Top" NavigationStyle-HorizontalAlign="NotSet" HeaderStyle-VerticalAlign="Top" OnNextButtonClick="Wizard1_NextButtonClick" DisplaySideBar="true" >
                     <HeaderStyle VerticalAlign="Top" />
             <NavigationButtonStyle ForeColor="#660033" />
                     <NavigationStyle VerticalAlign="Top" />

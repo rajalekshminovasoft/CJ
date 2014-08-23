@@ -1294,11 +1294,11 @@
                             &nbsp;</td>
                         <td>
                 <asp:Button ID="btnPrevious" runat="server" onclick="ptnPrevious_Click" 
-                    Text="Go to Previous Page" Width="175px" onclientclick="ResetScroll()" />
+                    Text="Go to Previous Page" Width="175px"  />
                         </td>
                         <td>
                 <asp:Button ID="btnSubmit" runat="server" onclick="btnSubmit_Click" 
-                    Text="Submit and Go to Next Page" onclientclick="ResetScroll()" />
+                    Text="Submit and Go to Next Page"  />
                         </td>
                         <td>
                             &nbsp;</td>

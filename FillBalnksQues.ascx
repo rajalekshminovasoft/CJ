@@ -285,10 +285,10 @@
         <tr>
             <td colspan="2" style="vertical-align: middle; text-align: center">
                 <asp:Button ID="ptnPrevious" runat="server" onclick="ptnPrevious_Click" 
-                    onclientclick="ResetScroll()" Text="Go to Previous Page" Width="175px" />
+                     Text="Go to Previous Page" Width="175px" />
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <asp:Button ID="btnSubmit" runat="server" onclick="btnSubmit_Click" 
-                    onclientclick="ResetScroll()" Text="Submit and Go To Next Page" />
+                     Text="Submit and Go To Next Page" />
             </td>
         </tr>
         <tr>

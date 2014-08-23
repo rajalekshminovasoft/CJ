@@ -140,10 +140,13 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
             if (grpid > 0)
             {
                 ///bip 10042011
-                var userlist = from userdet in dataClasses.UserProfile1s
-                               where userdet.FirstLoginDate.HasValue == true && userdet.OrganizationID == OrganizationID && ((userdet.Testid == testid) || (userdet.Testid2 == testid)) && userdet.GrpUserID == grpid &&
-                               (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
-                               select userdet;// bip 07052010
+                ////var userlist = from userdet in dataClasses.UserProfiles
+                ////               where userdet.FirstLoginDate.HasValue == true && userdet.OrganizationID == OrganizationID && ((userdet.Testid == testid) || (userdet.Testid2 == testid)) && userdet.GrpUserID == grpid &&
+                ////               (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
+                ////               select userdet;// bip 07052010
+                var userlist = from userdet in dataClasses.View_UserTestLists 
+                               where  userdet.UserTestId == testid && userdet.UserType =="User" 
+                               select userdet;
                 //
                 // LinqUserList.Where = "OrganizationId=" + orgid + " && TestId=" + testid;
                 // ddlUserList.DataSource = LinqUserList;
@@ -156,10 +159,13 @@ public partial class ReportSel_SuperAdmin : System.Web.UI.UserControl
             else
             {
                 
-                var userlist = from userdet in dataClasses.UserProfile1s
-                               where userdet.FirstLoginDate.HasValue == true && userdet.OrganizationID == OrganizationID && ((userdet.Testid == testid) || (userdet.Testid2 == testid)) &&
-                               (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
-                               select userdet;// bip 07052010
+                //var userlist = from userdet in dataClasses.UserProfiles
+                //               where userdet.FirstLoginDate.HasValue == true && userdet.OrganizationID == OrganizationID && ((userdet.Testid == testid) || (userdet.Testid2 == testid)) &&
+                //               (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
+                //               select userdet;// bip 07052010
+                var userlist = from userdet in dataClasses.View_UserTestLists
+                               where userdet.UserTestId == testid && userdet.UserType == "User"
+                               select userdet;
                 //
                 // LinqUserList.Where = "OrganizationId=" + orgid + " && TestId=" + testid;
                 // ddlUserList.DataSource = LinqUserList;

@@ -136,7 +136,7 @@ public partial class MasterPage5 : System.Web.UI.MasterPage
         if (dirlog == "No")
             Session.Clear();
 
-        var LoginDetails1 = from LoginDetails in dataclass.UserProfile1s
+        var LoginDetails1 = from LoginDetails in dataclass.UserProfiles
                             where LoginDetails.UserId == userid && LoginDetails.Status == 1
                             select LoginDetails;
         if (LoginDetails1.Count() > 0)
@@ -326,7 +326,7 @@ public partial class MasterPage5 : System.Web.UI.MasterPage
                                                 }
                                                 else
                                                 {
-                                                    Session["UserTestId"] = Session["UserTestId1"].ToString();
+                                                    Session["curtestid"] = Session["UserTestId1"].ToString();
                                                     curcontrol = "TestIntroductionControl.ascx";
                                                     Session["SubCtrl"] = curcontrol;
                                                     Response.Redirect("FJAHome.aspx");
@@ -646,7 +646,7 @@ if (txtUsername.Text != "" && txtPassword.Text != "")
             
             int userid_new = 0;
 
-            var LoginDetails1 = from LoginDetails in dataclass.UserProfile1s
+            var LoginDetails1 = from LoginDetails in dataclass.UserProfiles
                                 where LoginDetails.UserName == txtUsername.Text && LoginDetails.Password == txtPassword.Text && LoginDetails.Status == 1
                                 select LoginDetails;
             //var LoginDetails1 = from LoginDetails in dataclass.UserProfiles

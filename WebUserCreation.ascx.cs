@@ -12,6 +12,7 @@ public partial class WebUserCreation : System.Web.UI.UserControl
 {
     DBManagementClass clsClass = new DBManagementClass();
     AssesmentDataClassesDataContext dataclasses = new AssesmentDataClassesDataContext();
+    string Username = "";
     protected void Page_Load(object sender, EventArgs e)
     {
         //listnew = new ListItem("--select--", "0");
@@ -169,45 +170,48 @@ public partial class WebUserCreation : System.Web.UI.UserControl
             if (LoginDetails1.Count() > 0)
             {
                 userid_new = int.Parse(LoginDetails1.First().UserId.ToString());
-                CheckUserDetails(userid_new, "Yes");
+                Session["UserID"] = userid_new;
+                //CheckUserDetails(userid_new, "Yes");
+                Session["SubCtrl"] = "TestListControl.ascx";
+                Response.Redirect("FJAHome.aspx");
             }
             else lblmsg.Text = "Invalid username/password";
         }
         else lblmsg.Text = "Enter username/password";
     }
-    private void CheckUserDetails(int userid, string dirlog)
-    {
-        if (dirlog == "No")
-            Session.Clear();
+    //private void CheckUserDetails(int userid, string dirlog)
+    //{
+    //    if (dirlog == "No")
+    //        Session.Clear();
 
-        var LoginDetails1 = from LoginDetails in dataclasses.UserProfiles
-                            where LoginDetails.UserId == userid && LoginDetails.Status == 1
-                            select LoginDetails;
-        if (LoginDetails1.Count() > 0)
-        {
-            if (LoginDetails1.First().UserId != null)
-            {
-                Session["UserID"] = LoginDetails1.First().UserId.ToString();
-                userid = int.Parse(Session["UserID"].ToString());
-            }
-            if (LoginDetails1.First().ReportAccess != null)
-                Session["CurUserReportAccess"] = LoginDetails1.First().ReportAccess.ToString();
-            int testid = 0;
-            if (LoginDetails1.First().TestId != null && LoginDetails1.First().TestId != 0)
-            {
-                Session["UserTestId"] = int.Parse(LoginDetails1.First().TestId.ToString());
-                testid = int.Parse(LoginDetails1.First().TestId.ToString());
-            }
-            else
-            {
-                lblmsg.Text = "No Test assigned for you. Please Contact to your admin ";
-                return;
-            }
+    //    var LoginDetails1 = from LoginDetails in dataclasses.UserProfiles
+    //                        where LoginDetails.UserId == userid && LoginDetails.Status == 1
+    //                        select LoginDetails;
+    //    if (LoginDetails1.Count() > 0)
+    //    {
+    //        if (LoginDetails1.First().UserId != null)
+    //        {
+    //            Session["UserID"] = LoginDetails1.First().UserId.ToString();
+    //            userid = int.Parse(Session["UserID"].ToString());
+    //        }
+    //        if (LoginDetails1.First().ReportAccess != null)
+    //            Session["CurUserReportAccess"] = LoginDetails1.First().ReportAccess.ToString();
+    //        int testid = 0;
+    //        if (LoginDetails1.First().TestId != null && LoginDetails1.First().TestId != 0)
+    //        {
+    //            Session["UserTestId"] = int.Parse(LoginDetails1.First().TestId.ToString());
+    //            testid = int.Parse(LoginDetails1.First().TestId.ToString());
+    //        }
+    //        else
+    //        {
+    //            lblmsg.Text = "No Test assigned for you. Please Contact to your admin ";
+    //            return;
+    //        }
 
             
-        }
+    //    }
 
-    }
+    //}
     protected void ddlrecruiter_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (ddlrecruiter.SelectedItem.Text == "Yes")
@@ -258,9 +262,40 @@ public partial class WebUserCreation : System.Web.UI.UserControl
                 if (txtAge.Text != null)
                     age = int.Parse(txtAge.Text);
                 string tests = "";
-                if (Session["TestIDList"]!=null )
+                CreateUsernamePwd();
+                if (Session["TestIDList"] != null)
                 {
+                    dataclasses.AddUser(Username,Username, "User",int.Parse(ddlOrg.SelectedValue),
+                        int.Parse(ddlUserGroup.SelectedValue),dtFrom,dtTo,1,0,txtEmailId.Text,0,1,txtfirstname.Text,txtMidName.Text,txtLstName.Text,ddlGender.SelectedValue,age,
+                        industryid,int.Parse(ddlJobCatgy.SelectedValue), txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue),
+                        int.Parse(ddlTotExpMonths.SelectedValue), int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue),
+                        ddlQualification.SelectedItem.Text, txtProffQual.Text, txtPhoneNumber.Text, txtrecrutr.Text);
+                    int uid = 0;
+                    var TakeUserid = from userdetails in dataclasses.UserProfiles
+                                           where (userdetails.UserName == Username && userdetails.Password == Username)
+                                           select userdetails;
+                    if (TakeUserid.Count() > 0)
+                    {
+                        uid = TakeUserid.First().UserId;
+                        Session["UserID"] = uid;
+                    }
                     tests = Convert.ToString(Session["TestIDList"]);
+                    tests = tests.Substring(1, tests.Length - 1);
+                    if (String.IsNullOrEmpty(tests))
+                    { }
+                    else
+                    {
+                        foreach (var s in tests.Split(','))
+                        {
+                            int num;
+                            if (int.TryParse(s, out num))
+                                dataclasses.AddUserTestList(0,num,uid,"", "NOTTAKEN", DateTime.Now, 0, DateTime.Now, DateTime.Now.AddDays(1),0);
+                        }
+                    }
+                }
+                else
+                {
+                    lblmsg.Text = "Select  test and proceed";
                 }
                 //dataclasses.AddUser(txtUserName.Text, txtPassword.Text, "User", int.Parse(ddlOrg.SelectedValue),
                 //    int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, 1, 0, txtEmailId.Text, int.Parse(Session["TestID"].ToString()),
@@ -281,6 +316,22 @@ public partial class WebUserCreation : System.Web.UI.UserControl
             }
         }
     }
+    private string CreateUsernamePwd()
+    {
+
+        var lastUserID = from userdetails in dataclasses.UserProfiles
+                         orderby userdetails.UserId descending
+                         select userdetails;
+        if (lastUserID.Count() > 0)
+        {
+            Username = txtFsName.Text.Trim().Substring(0, 4).ToUpper() + "00" + (lastUserID.First().UserId + 1);
+        }
+        else
+        {
+            Username = txtFsName.Text.Trim().Substring(0, 4).ToUpper() + "00" + 1;
+        }
+        return Username;
+    }
     private bool CheckAge()
     {
         try
@@ -294,69 +345,7 @@ public partial class WebUserCreation : System.Web.UI.UserControl
     }
     protected void btn_payment_Click(object sender, EventArgs e)
     {
-        try
-        {
-            string PaymentOption = "";
-            string creditCardType = "";
-            string creditCardNumber = "";
-            DateTime expDate;
-            string cvv2="";
-            string firstName="";
-            string lastName = "";
-            string street = "";
-            string city = "";
-            string state = "";
-            string zip = "";
-            string countryCode = "";
-            string currencyCode = "";
-            string orderDescription = "";
-            string paymentType = "";
-            string paymentAmount = "0";
-            PaymentOption = ddlpaymenttype.SelectedItem.Text;
-            if (PaymentOption == "Visa" || PaymentOption == "MasterCard" || PaymentOption == "Amex" || PaymentOption == "Discover")
-            {
-                NVPAPICaller test = new NVPAPICaller();
-
-                creditCardType =ddlpaymenttype.SelectedItem.Text; // "<<Visa/MasterCard/Amex/Discover>>"; // Set this to one of the acceptable values (Visa/MasterCard/Amex/Discover) match it to what was selected on your Billing page
-                creditCardNumber = txtcreditcardnumber.Text; // "<<CC number>>"; //  Set this to the string entered as the credit card number on the Billing page
-                expDate =Convert.ToDateTime(txtexpdate.Text); // "<<Expiry Date>>"; //  Set this to the credit card expiry date entered on the Billing page
-                cvv2 = txtcvv2.Text;// "<<cvv2>>"; //  Set this to the CVV2 string entered on the Billing page 
-                firstName = txtfirstname.Text;//  "<<firstName>>"; //  Set this to the customer's first name that was entered on the Billing page 
-                lastName =txtlastname.Text; // "<<lastName>>"; //  Set this to the customer's last name that was entered on the Billing page 
-                street =txtstreet.Text; // "<<street>>"; //  Set this to the customer's street address that was entered on the Billing page 
-                city =txtcity.Text;// "<<city>>"; //  Set this to the customer's city that was entered on the Billing page 
-                state = txtstate.Text;// "<<state>>"; //  Set this to the customer's state that was entered on the Billing page 
-                zip = txtzip.Text;// "<<zip>>"; //  Set this to the zip code of the customer's address that was entered on the Billing page 
-                countryCode = txtcountry.Text;// "<<PayPal Country Code>>"; //  Set this to the PayPal code for the Country of the customer's address that was entered on the Billing page 
-                currencyCode = txtcurrency.Text;// "<<PayPal Currency Code>>"; //  Set this to the PayPal code for the Currency used by the customer
-                orderDescription = txtdescripion.Text;// "<<OrderDescription>>"; //  Set this to the textual description of this order 
-                string strexpdate = expDate.ToString();
-
-                paymentType = "Sale";
-                string retMsg = "";
-                string finalPaymentAmount = "";
-                //NVPCodec decoder;
-                NVPCodec decoder = new NVPCodec() ;
-                //finalPaymentAmount = Session["payment_amt"].ToString();
-                finalPaymentAmount = "10";
-                bool ret = test.DirectPayment(paymentType, paymentAmount, creditCardType, creditCardNumber, strexpdate, cvv2, firstName, lastName, street, city, state, zip, countryCode, currencyCode, orderDescription,ref decoder, ref retMsg);
-                //bool ret = test.DirectPayment(paymentType, paymentAmount, creditCardType, creditCardNumber, sexpdate, cvv2, firstName, lastName, street, city, state, zip, countryCode, currencyCode, orderDescription, ref retMsg);
-                if (ret)
-                {
-                    // success
-                    retMsg = "Success";
-                    Response.Redirect("APIError.aspx?" + retMsg);
-                }
-                else
-                {
-                    Response.Redirect("APIError.aspx?" + retMsg);
-                }
-            }
-
-        }
-        catch (Exception ex)
-            {
-            }
+        
     }
     protected void btntaketest_Click(object sender, EventArgs e)
     {
@@ -366,8 +355,9 @@ public partial class WebUserCreation : System.Web.UI.UserControl
             //{
 
             //}
-            Session["UserTestId"] = Session["UserTestId"];
-            Session["SubCtrl"] = "UserTrainingControl.ascx";
+           // Session["UserTestId"] = Session["UserTestId"];
+            Session["UserID"] = Session["UserID"];
+            Session["SubCtrl"] = "TestListControl.ascx";
             Response.Redirect("FJAHome.aspx");
         }
         catch (Exception ex)

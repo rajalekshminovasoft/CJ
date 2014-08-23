@@ -301,7 +301,7 @@ public partial class EvaluationReport : System.Web.UI.UserControl
                 {
                     Evalstatid = int.Parse(Session["EvalStatId"].ToString());
                 }
-                dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid,int.Parse(Session["curtestid"].ToString()));
+                dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid, int.Parse(Session["curtestid"].ToString()));
             }
             else
             {

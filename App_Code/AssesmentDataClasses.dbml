@@ -45,7 +45,7 @@
       <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Testid" Type="System.String" CanBeNull="false" />
+      <Column Name="Testid" Type="System.Int32" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="Industry" Member="Industries">
@@ -657,47 +657,6 @@
       <Column Name="ModifiedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.UserProfile" Member="UserProfiles">
-    <Type Name="UserProfile">
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="UserType" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="FirstName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="MiddleName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="LastName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Gender" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="EmailId" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="OrganizationID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="CompanyID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="JobCategoryID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="GrpUserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Designation" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="TotWorkExpYrs" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="TotWorkExpMonths" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="PresJobExpYrs" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="PresJobExpMonths" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="EducQualifications" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="ProfCertifications" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="ModifiedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="LoginFromDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="LoginToDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="ReportAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="PhoneNum" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="FirstLoginDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="LogoutDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="TestId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="AdminAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="TestId1" Type="System.Int32" CanBeNull="true" />
-      <Column Name="Recruiter" Type="System.String" CanBeNull="false" />
-      <Column Name="Testid2" Type="System.String" CanBeNull="false" />
-    </Type>
-  </Table>
   <Table Name="dbo.View_UserDetails" Member="View_UserDetails">
     <Type Name="View_UserDetail">
       <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
@@ -1131,8 +1090,55 @@
       <Column Name="Remark" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.UserProfile" Member="UserProfile1s">
-    <Type Name="UserProfile1">
+  <Table Name="dbo.EvaluationStatus" Member="EvaluationStatus1s">
+    <Type Name="EvaluationStatus1">
+      <Column Name="EvalStatusId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EvalControl" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EvalCompletionStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EvalExitStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Testid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserTestList" Member="UserTestLists">
+    <Type Name="UserTestList">
+      <Column Name="TestId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserTestId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PaymentStatus" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TestStatus" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PaymentDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReportAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TestLoginDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TestLogoutDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TestPrice" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.View_UserTest" Member="View_UserTests">
+    <Type Name="View_UserTest">
+      <Column Name="TestId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserTestId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PaymentStatus" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TestStatus" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PaymentDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReportAccess" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TestLoginDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TestLogoutDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TestPrice" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TestName" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="EmailId" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PhoneNum" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="OrganizationID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserProfile" Member="UserProfiles">
+    <Type Name="UserProfile">
       <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="Password" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
@@ -1172,17 +1178,14 @@
       <Column Name="Testid2" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.EvaluationStatus" Member="EvaluationStatus1s">
-    <Type Name="EvaluationStatus1">
-      <Column Name="EvalStatusId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="EvalControl" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="EvalCompletionStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="EvalExitStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="UserCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="ModifiedOn" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Testid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+  <Table Name="dbo.View_UserTestList" Member="View_UserTestLists">
+    <Type Name="View_UserTestList">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="UserType" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="UserTestId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TestStatus" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PaymentStatus" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Function Name="AddDesignation">
@@ -1392,15 +1395,6 @@
   </Function>
   <Function Name="ProcedureAddTestPassmarks">
     <Parameter Name="Passmark" Parameter="passmark" Type="System.Decimal" DbType="Decimal" />
-    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
-    <Return Type="System.Int32" />
-  </Function>
-  <Function Name="ProcedureEvaluationStatus">
-    <Parameter Name="EvalStatusId" Parameter="evalStatusId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="EvalControl" Parameter="evalControl" Type="System.String" DbType="NVarChar(50)" />
-    <Parameter Name="EvalCompletionStatus" Parameter="evalCompletionStatus" Type="System.Int32" DbType="Int" />
-    <Parameter Name="EvalExitStatus" Parameter="evalExitStatus" Type="System.Int32" DbType="Int" />
-    <Parameter Name="UserCode" Parameter="userCode" Type="System.String" DbType="NVarChar(50)" />
     <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
@@ -1933,6 +1927,60 @@
     <Parameter Name="Option5FileName" Parameter="option5FileName" Type="System.String" DbType="VarChar(200)" />
     <Parameter Name="QuestionFileNameSub1" Parameter="questionFileNameSub1" Type="System.String" DbType="VarChar(200)" />
     <Parameter Name="QuestionCode" Parameter="questionCode" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddUserTestList" Method="AddUserTestList">
+    <Parameter Name="TestId" Parameter="testId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserTestId" Parameter="userTestId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PaymentStatus" Parameter="paymentStatus" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="TestStatus" Parameter="testStatus" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PaymentDate" Parameter="paymentDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ReportAccess" Parameter="reportAccess" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TestLoginDate" Parameter="testLoginDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="TestLogoutDate" Parameter="testLogoutDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="TestPrice" Parameter="testPrice" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddUser" Method="AddUser">
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="UserType" Parameter="userType" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="OrganizationName" Parameter="organizationName" Type="System.Int32" DbType="Int" />
+    <Parameter Name="GrpUser" Parameter="grpUser" Type="System.Int32" DbType="Int" />
+    <Parameter Name="LoginFromDate" Parameter="loginFromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="LoginToDate" Parameter="loginToDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Status" Parameter="status" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CreatedBy" Parameter="createdBy" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EmailId" Parameter="emailId" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="TestId" Parameter="testId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="AdminAccess" Parameter="adminAccess" Type="System.Int32" DbType="Int" />
+    <Parameter Name="FirstName" Parameter="firstName" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="MiddleName" Parameter="middleName" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="LastName" Parameter="lastName" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="Gender" Parameter="gender" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="Age" Parameter="age" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CompanyName" Parameter="companyName" Type="System.Int32" DbType="Int" />
+    <Parameter Name="JobCategory" Parameter="jobCategory" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Designation" Parameter="designation" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="TotWorkExpYrs" Parameter="totWorkExpYrs" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TotWorkExpMonths" Parameter="totWorkExpMonths" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PresJobExpYrs" Parameter="presJobExpYrs" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PresJobExpMonths" Parameter="presJobExpMonths" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EducQualifications" Parameter="educQualifications" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="ProfCertifications" Parameter="profCertifications" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="PhoneNum" Parameter="phoneNum" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="Recruiter" Parameter="recruiter" Type="System.String" DbType="NVarChar(250)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ProcedureEvaluationStatus" Method="ProcedureEvaluationStatus">
+    <Parameter Name="EvalStatusId" Parameter="evalStatusId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EvalControl" Parameter="evalControl" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="EvalCompletionStatus" Parameter="evalCompletionStatus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EvalExitStatus" Parameter="evalExitStatus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserCode" Parameter="userCode" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Testid" Parameter="testid" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

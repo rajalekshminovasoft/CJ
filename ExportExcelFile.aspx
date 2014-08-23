@@ -45,7 +45,7 @@ function SetExcelFile(sDATE,sControl)
             &nbsp;</td></tr><tr><td>
             &nbsp;</td></tr><tr><td>
                 <div align="center">
-        <asp:Button ID="Button1" runat="server" OnClientClick="ShowSelProcess1();" 
+        <asp:Button ID="Button1" runat="server"  
             onclick="Button1_Click" Text="Add" Width="75px" />
                 </div>
     </td></tr></table>

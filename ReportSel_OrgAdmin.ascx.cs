@@ -125,33 +125,33 @@ public partial class ReportSel_OrgAdmin : System.Web.UI.UserControl
         ListItem litem = new ListItem("-- Select --", "0");
         ddlUserList.Items.Add(litem);
 
-        if (orgid > 0 && testid > 0 && groupid > 0)// bipson 7-3-2011
-        {
-            var userdetails = from userdet in dataClasses.UserProfiles
-                              where userdet.OrganizationID == orgid && userdet.TestId == testid && userdet.GrpUserID == groupid && userdet.FirstLoginDate.HasValue == true &&
-                              (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
-                              select userdet;
-            //LinqUserList.Where = "OrganizationId=" + orgid + " && TestId=" + testid;
-            //ddlUserList.DataSource = LinqUserList;
-            ddlUserList.DataSource = userdetails;
-            ddlUserList.DataTextField = "UserName";
-            ddlUserList.DataValueField = "UserId";
-            ddlUserList.DataBind();
-        }
+        //if (orgid > 0 && testid > 0 && groupid > 0)// bipson 7-3-2011
+        //{
+        //    var userdetails = from userdet in dataClasses.UserProfiles
+        //                      where userdet.OrganizationID == orgid && userdet.TestId == testid && userdet.GrpUserID == groupid && userdet.FirstLoginDate.HasValue == true &&
+        //                      (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
+        //                      select userdet;
+        //    //LinqUserList.Where = "OrganizationId=" + orgid + " && TestId=" + testid;
+        //    //ddlUserList.DataSource = LinqUserList;
+        //    ddlUserList.DataSource = userdetails;
+        //    ddlUserList.DataTextField = "UserName";
+        //    ddlUserList.DataValueField = "UserId";
+        //    ddlUserList.DataBind();
+        //}
 
-        else if (orgid > 0 && testid > 0)
-        {
-            var userdetails = from userdet in dataClasses.UserProfiles
-                              where userdet.OrganizationID == orgid && userdet.TestId == testid && userdet.FirstLoginDate.HasValue == true &&
-                              (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
-                              select userdet;
-            //LinqUserList.Where = "OrganizationId=" + orgid + " && TestId=" + testid;
-            //ddlUserList.DataSource = LinqUserList;
-            ddlUserList.DataSource = userdetails;
-            ddlUserList.DataTextField = "UserName";
-            ddlUserList.DataValueField = "UserId";
-            ddlUserList.DataBind();
-        }
+        //else if (orgid > 0 && testid > 0)
+        //{
+        //    var userdetails = from userdet in dataClasses.UserProfiles
+        //                      where userdet.OrganizationID == orgid && userdet.TestId == testid && userdet.FirstLoginDate.HasValue == true &&
+        //                      (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
+        //                      select userdet;
+        //    //LinqUserList.Where = "OrganizationId=" + orgid + " && TestId=" + testid;
+        //    //ddlUserList.DataSource = LinqUserList;
+        //    ddlUserList.DataSource = userdetails;
+        //    ddlUserList.DataTextField = "UserName";
+        //    ddlUserList.DataValueField = "UserId";
+        //    ddlUserList.DataBind();
+        //}
     }
     protected void btnShow_Click(object sender, EventArgs e)
     {

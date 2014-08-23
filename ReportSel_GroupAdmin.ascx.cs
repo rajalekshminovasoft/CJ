@@ -135,21 +135,21 @@ public partial class ReportSel_GroupAdmin : System.Web.UI.UserControl
 
         if (testid > 0)
         {
-            if (orgid > 0 && grpid > 0)
-            {
-                var userdetails = from userdet in dataClasses.UserProfiles
-                                  where userdet.OrganizationID == orgid && userdet.GrpUserID == grpid && userdet.TestId == testid && 
-                                  userdet.FirstLoginDate.HasValue == true &&
-                                  (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
-                                  select userdet;
+            //if (orgid > 0 && grpid > 0)
+            //{
+            //    var userdetails = from userdet in dataClasses.UserProfiles
+            //                      where userdet.OrganizationID == orgid && userdet.GrpUserID == grpid && userdet.TestId == testid && 
+            //                      userdet.FirstLoginDate.HasValue == true &&
+            //                      (userdet.UserType != "SuperAdmin" && userdet.UserType != "OrgAdmin" && userdet.UserType != "GrpAdmin" && userdet.UserType != "SpecialAdmin")
+            //                      select userdet;
 
-               // LinqUserList.Where = "OrganizationId=" + orgid + " && GrpUserId=" + grpid + " && Testid=" + testid;
-                //ddlUserList.DataSource = LinqUserList;
-                ddlUserList.DataSource = userdetails;
-                ddlUserList.DataTextField = "UserName";
-                ddlUserList.DataValueField = "UserId";
-                ddlUserList.DataBind();
-            }
+            //   // LinqUserList.Where = "OrganizationId=" + orgid + " && GrpUserId=" + grpid + " && Testid=" + testid;
+            //    //ddlUserList.DataSource = LinqUserList;
+            //    ddlUserList.DataSource = userdetails;
+            //    ddlUserList.DataTextField = "UserName";
+            //    ddlUserList.DataValueField = "UserId";
+            //    ddlUserList.DataBind();
+            //}
 
         }
         //else

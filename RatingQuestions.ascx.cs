@@ -16,7 +16,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
     string usercode = "";
     int userid = 0;
     DBManagementClass clsclass = new DBManagementClass();
-    AssesmentDataClassesDataContext dataclass = new AssesmentDataClassesDataContext();    
+    AssesmentDataClassesDataContext dataclass = new AssesmentDataClassesDataContext();
     DataSet ds;
     int qusid1 = 0;
     int qusid2 = 0;
@@ -37,7 +37,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         {
             Load();
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             if (Session["questionColl"] == null)
             {
@@ -47,7 +47,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
                     Response.Redirect("FJAHome.aspx");
                 }
             }
-           // Load();  
+            // Load();  
         }//lblmessage.Text = ex.Message; }
     }
     private void Load()
@@ -112,7 +112,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         if (InstructionDetails.Count() > 0)
         {
             if (InstructionDetails.First().Title != null)
-                divtitle.InnerHtml = InstructionDetails.First().Title.ToString();           
+                divtitle.InnerHtml = InstructionDetails.First().Title.ToString();
         }
     }
     private void FillCommonInstructions()
@@ -133,115 +133,115 @@ public partial class RatingQuestions : System.Web.UI.UserControl
     {
         //try
         //{
-            //// bip 07122009        
+        //// bip 07122009        
 
-            string firstVariableName = ""; string secondVariableName = "";
-            if (Session["TestFirstVariableName"] != null)
-                firstVariableName = Session["TestFirstVariableName"].ToString();
-            if (Session["TestSecondVariableName"] != null)
-                secondVariableName = Session["TestSecondVariableName"].ToString();
+        string firstVariableName = ""; string secondVariableName = "";
+        if (Session["TestFirstVariableName"] != null)
+            firstVariableName = Session["TestFirstVariableName"].ToString();
+        if (Session["TestSecondVariableName"] != null)
+            secondVariableName = Session["TestSecondVariableName"].ToString();
 
-            //
+        //
 
-            DataSet dsQuesCount;
-            string querystring = "";
-            DataTable dtQuestionList = new DataTable();
-            //QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5
-            dtQuestionList.Columns.Add("QuestionID");
-            dtQuestionList.Columns.Add("Question");
-            dtQuestionList.Columns.Add("Answer");
-            dtQuestionList.Columns.Add("Option1");
-            dtQuestionList.Columns.Add("Option2");
-            dtQuestionList.Columns.Add("Option3");
-            dtQuestionList.Columns.Add("Option4");
-            dtQuestionList.Columns.Add("Option5");
-            dtQuestionList.Columns.Add("Option6");
-            dtQuestionList.Columns.Add("Option7");
-            dtQuestionList.Columns.Add("Option8");
-            dtQuestionList.Columns.Add("Option9");
-            dtQuestionList.Columns.Add("Option10");
-            dtQuestionList.Columns.Add("ScoringStyle");
-            DataRow drQurstionList;
+        DataSet dsQuesCount;
+        string querystring = "";
+        DataTable dtQuestionList = new DataTable();
+        //QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5
+        dtQuestionList.Columns.Add("QuestionID");
+        dtQuestionList.Columns.Add("Question");
+        dtQuestionList.Columns.Add("Answer");
+        dtQuestionList.Columns.Add("Option1");
+        dtQuestionList.Columns.Add("Option2");
+        dtQuestionList.Columns.Add("Option3");
+        dtQuestionList.Columns.Add("Option4");
+        dtQuestionList.Columns.Add("Option5");
+        dtQuestionList.Columns.Add("Option6");
+        dtQuestionList.Columns.Add("Option7");
+        dtQuestionList.Columns.Add("Option8");
+        dtQuestionList.Columns.Add("Option9");
+        dtQuestionList.Columns.Add("Option10");
+        dtQuestionList.Columns.Add("ScoringStyle");
+        DataRow drQurstionList;
 
-            // bip 08122009;
+        // bip 08122009;
 
-            querystring = "select distinct RatingQuestionCount,SectionId from QuestionCount where RatingQuestionCount>0 and TestId=" + testId + " and TestSectionId=" + testsectionid;// + " and SectionNameSub1='" + secondVariableName + "'";
+        querystring = "select distinct RatingQuestionCount,SectionId from QuestionCount where RatingQuestionCount>0 and TestId=" + testId + " and TestSectionId=" + testsectionid;// + " and SectionNameSub1='" + secondVariableName + "'";
 
-            //lblmessage.Text = querystring;//bipson 11092010
+        //lblmessage.Text = querystring;//bipson 11092010
 
-            DataSet dsQuestioncount = new DataSet();
-            dsQuestioncount = clsclass.GetValuesFromDB(querystring);
-            if (dsQuestioncount != null)
-                if (dsQuestioncount.Tables.Count > 0)
-                    if (dsQuestioncount.Tables[0].Rows.Count > 0)
+        DataSet dsQuestioncount = new DataSet();
+        dsQuestioncount = clsclass.GetValuesFromDB(querystring);
+        if (dsQuestioncount != null)
+            if (dsQuestioncount.Tables.Count > 0)
+                if (dsQuestioncount.Tables[0].Rows.Count > 0)
+                {
+
+                    for (int c = 0; c < dsQuestioncount.Tables[0].Rows.Count; c++)//                   
                     {
+                        int ratingtypeQuescount = int.Parse(dsQuestioncount.Tables[0].Rows[c]["RatingQuestionCount"].ToString());
+                        int sectionid = int.Parse(dsQuestioncount.Tables[0].Rows[c]["SectionId"].ToString());
 
-                        for (int c = 0; c < dsQuestioncount.Tables[0].Rows.Count; c++)//                   
+                        if (ratingtypeQuescount > 0)
                         {
-                            int ratingtypeQuescount = int.Parse(dsQuestioncount.Tables[0].Rows[c]["RatingQuestionCount"].ToString());
-                            int sectionid = int.Parse(dsQuestioncount.Tables[0].Rows[c]["SectionId"].ToString());
+                            querystring = "SELECT TOP (" + ratingtypeQuescount + ") QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8,Option9,Option10,ScoringStyle  FROM View_TestBaseQuestionList where Category = 'RatingType' AND TestBaseQuestionStatus=1 AND TestSectionId=" + testsectionid + " AND SectionId=" + sectionid + " AND TestId=" + testId + " ORDER BY RAND((100*QuestionID)*DATEPART(millisecond, GETDATE())) ";
 
-                            if (ratingtypeQuescount > 0)
-                            {
-                                querystring = "SELECT TOP (" + ratingtypeQuescount + ") QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8,Option9,Option10,ScoringStyle  FROM View_TestBaseQuestionList where Category = 'RatingType' AND TestBaseQuestionStatus=1 AND TestSectionId=" + testsectionid + " AND SectionId=" + sectionid + " AND TestId=" + testId + " ORDER BY RAND((100*QuestionID)*DATEPART(millisecond, GETDATE())) ";
-
-                                dsQuesCount = new DataSet();
-                                dsQuesCount = clsclass.GetValuesFromDB(querystring);
-                                if (dsQuesCount != null)
-                                    if (dsQuesCount.Tables[0].Rows.Count > 0)
+                            dsQuesCount = new DataSet();
+                            dsQuesCount = clsclass.GetValuesFromDB(querystring);
+                            if (dsQuesCount != null)
+                                if (dsQuesCount.Tables[0].Rows.Count > 0)
+                                {
+                                    for (int i = 0; i < dsQuesCount.Tables[0].Rows.Count; i++)
                                     {
-                                        for (int i = 0; i < dsQuesCount.Tables[0].Rows.Count; i++)
-                                        {
-                                            dataclass.Procedure_TestBaseQuestionList_Temp(int.Parse(dsQuesCount.Tables[0].Rows[i]["QuestionID"].ToString()), dsQuesCount.Tables[0].Rows[i]["Question"].ToString(), dsQuesCount.Tables[0].Rows[i]["Answer"].ToString(),
-                                            dsQuesCount.Tables[0].Rows[i]["Option1"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option2"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option3"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option4"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option5"].ToString(),
-                                            dsQuesCount.Tables[0].Rows[i]["Option6"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option7"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option8"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option9"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option10"].ToString(), userid, dsQuesCount.Tables[0].Rows[i]["ScoringStyle"].ToString());
-                                        }
+                                        dataclass.Procedure_TestBaseQuestionList_Temp(int.Parse(dsQuesCount.Tables[0].Rows[i]["QuestionID"].ToString()), dsQuesCount.Tables[0].Rows[i]["Question"].ToString(), dsQuesCount.Tables[0].Rows[i]["Answer"].ToString(),
+                                        dsQuesCount.Tables[0].Rows[i]["Option1"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option2"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option3"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option4"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option5"].ToString(),
+                                        dsQuesCount.Tables[0].Rows[i]["Option6"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option7"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option8"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option9"].ToString(), dsQuesCount.Tables[0].Rows[i]["Option10"].ToString(), userid, dsQuesCount.Tables[0].Rows[i]["ScoringStyle"].ToString());
                                     }
+                                }
+                        }
+                    }
+                    // lblmessage.Text += " totcountref..= " + totcount.ToString(); // bip 17-12-2009
+                    // }
+                    querystring = "SELECT  QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8,Option9,Option10,ScoringStyle  FROM TestBaseQuestionList_Temp where userid=" + userid + " ORDER BY RAND((100*QuestionID)*DATEPART(millisecond, GETDATE())) ";
+                    //lblmessage.Text = querystring; //return null;//bipson 01092010
+                    dsQuesCount = new DataSet();
+                    dsQuesCount = clsclass.GetValuesFromDB(querystring);
+                    if (dsQuesCount != null)
+                        if (dsQuesCount.Tables[0].Rows.Count > 0)
+                        {
+                            // lblmessage.Text += " secondcount= " + dsQuesCount.Tables[0].Rows.Count.ToString(); // bip 17-12-2009
+                            for (int i = 0; i < dsQuesCount.Tables[0].Rows.Count; i++)
+                            {
+                                drQurstionList = dtQuestionList.NewRow();
+                                drQurstionList["QuestionID"] = dsQuesCount.Tables[0].Rows[i]["QuestionID"];
+                                drQurstionList["Question"] = dsQuesCount.Tables[0].Rows[i]["Question"];
+                                drQurstionList["Answer"] = dsQuesCount.Tables[0].Rows[i]["Answer"];
+                                drQurstionList["Option1"] = dsQuesCount.Tables[0].Rows[i]["Option1"];
+                                drQurstionList["Option2"] = dsQuesCount.Tables[0].Rows[i]["Option2"];
+                                drQurstionList["Option3"] = dsQuesCount.Tables[0].Rows[i]["Option3"];
+                                drQurstionList["Option4"] = dsQuesCount.Tables[0].Rows[i]["Option4"];
+                                drQurstionList["Option5"] = dsQuesCount.Tables[0].Rows[i]["Option5"];
+                                drQurstionList["Option6"] = dsQuesCount.Tables[0].Rows[i]["Option6"];
+                                drQurstionList["Option7"] = dsQuesCount.Tables[0].Rows[i]["Option7"];
+                                drQurstionList["Option8"] = dsQuesCount.Tables[0].Rows[i]["Option8"];
+                                drQurstionList["Option9"] = dsQuesCount.Tables[0].Rows[i]["Option9"];
+                                drQurstionList["Option10"] = dsQuesCount.Tables[0].Rows[i]["Option10"];
+                                drQurstionList["ScoringStyle"] = dsQuesCount.Tables[0].Rows[i]["ScoringStyle"];
+
+                                dtQuestionList.Rows.Add(drQurstionList);
                             }
                         }
-                        // lblmessage.Text += " totcountref..= " + totcount.ToString(); // bip 17-12-2009
-                        // }
-                        querystring = "SELECT  QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8,Option9,Option10,ScoringStyle  FROM TestBaseQuestionList_Temp where userid=" + userid + " ORDER BY RAND((100*QuestionID)*DATEPART(millisecond, GETDATE())) ";
-                        //lblmessage.Text = querystring; //return null;//bipson 01092010
-                        dsQuesCount = new DataSet();
-                        dsQuesCount = clsclass.GetValuesFromDB(querystring);
-                        if (dsQuesCount != null)
-                            if (dsQuesCount.Tables[0].Rows.Count > 0)
-                            {
-                                // lblmessage.Text += " secondcount= " + dsQuesCount.Tables[0].Rows.Count.ToString(); // bip 17-12-2009
-                                for (int i = 0; i < dsQuesCount.Tables[0].Rows.Count; i++)
-                                {
-                                    drQurstionList = dtQuestionList.NewRow();
-                                    drQurstionList["QuestionID"] = dsQuesCount.Tables[0].Rows[i]["QuestionID"];
-                                    drQurstionList["Question"] = dsQuesCount.Tables[0].Rows[i]["Question"];
-                                    drQurstionList["Answer"] = dsQuesCount.Tables[0].Rows[i]["Answer"];
-                                    drQurstionList["Option1"] = dsQuesCount.Tables[0].Rows[i]["Option1"];
-                                    drQurstionList["Option2"] = dsQuesCount.Tables[0].Rows[i]["Option2"];
-                                    drQurstionList["Option3"] = dsQuesCount.Tables[0].Rows[i]["Option3"];
-                                    drQurstionList["Option4"] = dsQuesCount.Tables[0].Rows[i]["Option4"];
-                                    drQurstionList["Option5"] = dsQuesCount.Tables[0].Rows[i]["Option5"];
-                                    drQurstionList["Option6"] = dsQuesCount.Tables[0].Rows[i]["Option6"];
-                                    drQurstionList["Option7"] = dsQuesCount.Tables[0].Rows[i]["Option7"];
-                                    drQurstionList["Option8"] = dsQuesCount.Tables[0].Rows[i]["Option8"];
-                                    drQurstionList["Option9"] = dsQuesCount.Tables[0].Rows[i]["Option9"];
-                                    drQurstionList["Option10"] = dsQuesCount.Tables[0].Rows[i]["Option10"];
-                                    drQurstionList["ScoringStyle"] = dsQuesCount.Tables[0].Rows[i]["ScoringStyle"];
+                }
+        DataSet dsQuestionList = new DataSet();
+        if (dtQuestionList.Rows.Count > 0)
+        {
+            dsQuestionList.Tables.Add(dtQuestionList); Session["questionColl_Rating"] = dsQuestionList;
+            Session["totalQuesCount_Rating"] = dsQuestionList.Tables[0].Rows.Count.ToString();
+            dataclass.Procedure_DeleteTestBaseQuestionList_Temp(userid);
+        }
+        else { Session["questionColl_Rating"] = null; dsQuestionList = null; }
 
-                                    dtQuestionList.Rows.Add(drQurstionList);
-                                }
-                            }
-                    }
-            DataSet dsQuestionList = new DataSet();
-            if (dtQuestionList.Rows.Count > 0)
-            {
-                dsQuestionList.Tables.Add(dtQuestionList); Session["questionColl_Rating"] = dsQuestionList;
-                Session["totalQuesCount_Rating"] = dsQuestionList.Tables[0].Rows.Count.ToString();
-                dataclass.Procedure_DeleteTestBaseQuestionList_Temp(userid);
-            }
-            else { Session["questionColl_Rating"] = null; dsQuestionList = null; }
-
-            return dsQuestionList;
-       // }
+        return dsQuestionList;
+        // }
         //catch (Exception ex) { return null; }// GetQuestionList(testsectionid);
     }
 
@@ -284,7 +284,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         int questionid = 0; string questiontype = "RatingType";
 
         string querystringquesTemp = "select distinct QuestionId from UserTestQuestions_Temp where UserID=" + userid + " and TestId=" + testId + " and TestSectionId=" + testsectionid + "  and QuestionType='" + questiontype + "'";//and FirstVariableId=" + testFirstVariableId + "
-        
+
         DataSet dsquestionIdColl = clsclass.GetValuesFromDB(querystringquesTemp);
         if (dsquestionIdColl != null)
             if (dsquestionIdColl.Tables.Count > 0)
@@ -297,7 +297,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
                             questionids += " or ";
                         questionids += " QuestionId=" + dsquestionIdColl.Tables[0].Rows[index]["QuestionId"].ToString();
                     }
-                    
+
                     querystringquesTemp = "SELECT QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5,Option6,Option7,Option8,Option9,Option10,ScoringStyle  FROM View_TestBaseQuestionList where " + questionids;
                     dsTempData = clsclass.GetValuesFromDB(querystringquesTemp);
                     Session["questionColl_Rating"] = dsTempData;
@@ -311,7 +311,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
                         if (GetPageIndex.First().PageIndex != null)
                         {
                             pagecount = int.Parse(GetPageIndex.First().PageIndex.ToString());
-                            Session["pagecountRating"] = pagecount;                            
+                            Session["pagecountRating"] = pagecount;
                         }
                     }
                 }
@@ -323,1506 +323,1506 @@ public partial class RatingQuestions : System.Web.UI.UserControl
     {
         //try
         //{
-            pnlMessage.Visible = false;
+        pnlMessage.Visible = false;
 
-            ClearControls();
-            string querystring = "";
-            //int totalQues = 0;
-            int QuestionID = 0;
-            
-            if (Session["pagecountRating"] != null)
-                pagecount = int.Parse(Session["pagecountRating"].ToString());            
+        ClearControls();
+        string querystring = "";
+        //int totalQues = 0;
+        int QuestionID = 0;
 
-            string connString = ConfigurationManager.ConnectionStrings["talentscoutConnectionString"].ConnectionString;
-            
-            bool secExists = false;
-            ds = new DataSet();//int testsectionid = 0;
+        if (Session["pagecountRating"] != null)
+            pagecount = int.Parse(Session["pagecountRating"].ToString());
+
+        string connString = ConfigurationManager.ConnectionStrings["talentscoutConnectionString"].ConnectionString;
+
+        bool secExists = false;
+        ds = new DataSet();//int testsectionid = 0;
+        if (Session["CurrentTestSectionId"] != null)
+            testsectionid = int.Parse(Session["CurrentTestSectionId"].ToString());
+
+        if (Session["CurRatingTestSecionId"] != null)
+            if (Session["CurRatingTestSecionId"].ToString() == testsectionid.ToString())
+                secExists = true;
+
+        Session["CurRatingTestSecionId"] = testsectionid;
+        if (secExists == true)
+        {
+            if (Session["curRatingQuesCompleted"] != null)
+                if (Session["curRatingQuesCompleted"].ToString() == "True")
+                {
+                    string evaldirection = "Next";
+                    if (Session["evaldirection"] != null)
+                        evaldirection = Session["evaldirection"].ToString();
+                    if (evaldirection == "Next")
+                    {
+                        GoToNextPage(); return;//14-05-2013                         
+                    }
+                    else GoToPreviousPage(); return;// GoToNextPage(); return;
+                }
+        }
+        else Session["curRatingQuesCompleted"] = null;
+        if (Session["questionColl_Rating"] != null)
+        { ds = (DataSet)Session["questionColl_Rating"]; }
+        else
+        {
+            //bip 081009
+            // int testsectionid = 0;
             if (Session["CurrentTestSectionId"] != null)
+            {
                 testsectionid = int.Parse(Session["CurrentTestSectionId"].ToString());
 
-            if (Session["CurRatingTestSecionId"] != null)
-                if (Session["CurRatingTestSecionId"].ToString() == testsectionid.ToString())
-                    secExists = true;
 
-            Session["CurRatingTestSecionId"] = testsectionid;
-            if (secExists == true)
-            {               
-                if (Session["curRatingQuesCompleted"] != null)
-                    if (Session["curRatingQuesCompleted"].ToString() == "True")
-                    {
-                        string evaldirection = "Next";
-                        if (Session["evaldirection"] != null)
-                            evaldirection = Session["evaldirection"].ToString();
-                        if (evaldirection == "Next")
-                        {
-                            GoToNextPage(); return;//14-05-2013                         
-                        }
-                        else GoToPreviousPage();return;// GoToNextPage(); return;
-                    }
-            }
-            else Session["curRatingQuesCompleted"] = null;
-            if (Session["questionColl_Rating"] != null)
-            { ds = (DataSet)Session["questionColl_Rating"];} 
-            else
-            {
-                //bip 081009
-                // int testsectionid = 0;
-                if (Session["CurrentTestSectionId"] != null)
+                //  //// 220110 ... bip
+
+                int questionid = 0; string questiontype = "PhotoType";
+
+                ds = GetTempData();
+                bool newentry = false;
+                if (ds == null)
                 {
-                    testsectionid = int.Parse(Session["CurrentTestSectionId"].ToString());
+                    newentry = true;
+                    ds = GetQuestionList(testsectionid);
+                }
+                else if (ds.Tables.Count <= 0)
+                { newentry = true; ds = GetQuestionList(testsectionid); }
 
 
-                    //  //// 220110 ... bip
-                   
-                    int questionid = 0; string questiontype = "PhotoType";
+                if (ds == null)
+                {
 
-                    ds = GetTempData();
-                    bool newentry = false;
-                    if (ds == null)
+                    //lblmessage.Text += "dsNULL=true";
+
+                    string evaldirection = "Next";
+                    if (Session["evaldirection"] != null)
+                        evaldirection = Session["evaldirection"].ToString();
+                    if (evaldirection == "Next")
                     {
-                        newentry = true;
-                        ds = GetQuestionList(testsectionid);
+                        GoToNextPage();
                     }
-                    else if (ds.Tables.Count <= 0)
-                    { newentry = true; ds = GetQuestionList(testsectionid); }
+                    else GoToPreviousPage();
+                    return;
 
-                    
-                    if (ds == null)
-                    {
-
-                        //lblmessage.Text += "dsNULL=true";
-
-                        string evaldirection = "Next";
-                        if (Session["evaldirection"] != null)
-                            evaldirection = Session["evaldirection"].ToString();
-                        if (evaldirection == "Next")
-                        {                           
-                                GoToNextPage();                           
-                        }
-                        else GoToPreviousPage();
-                        return;
-                        
-                    }
-                    else // store the questiondetails in a temp table.
-                    {
-                        if (newentry == true)
-                            if (ds.Tables.Count > 0)
-                                if (ds.Tables[0].Rows.Count > 0)
+                }
+                else // store the questiondetails in a temp table.
+                {
+                    if (newentry == true)
+                        if (ds.Tables.Count > 0)
+                            if (ds.Tables[0].Rows.Count > 0)
+                            {
+                                for (int q = 0; q < ds.Tables[0].Rows.Count; q++)
                                 {
-                                    for (int q = 0; q < ds.Tables[0].Rows.Count; q++)
-                                    {
-                                        questionid = int.Parse(ds.Tables[0].Rows[q]["QuestionID"].ToString());
-                                        dataclass.Procedure_UserTestQuestions_Temp(userid, testId, testsectionid, 0, 0, questionid, questiontype);
-                                    }
+                                    questionid = int.Parse(ds.Tables[0].Rows[q]["QuestionID"].ToString());
+                                    dataclass.Procedure_UserTestQuestions_Temp(userid, testId, testsectionid, 0, 0, questionid, questiontype);
                                 }
-                    }
+                            }
                 }
             }
-            int slno = 0;
-            slno = pagecount * quesperPage + 1;
-            if (slno < 0)
-                slno = 1;
+        }
+        int slno = 0;
+        slno = pagecount * quesperPage + 1;
+        if (slno < 0)
+            slno = 1;
 
-            int pagecnt = 0;
-            int curntquescnt = 0;
-            int slnos = 0;
-            ////lblmessage.Text += "test111= " + testsectionid;
+        int pagecnt = 0;
+        int curntquescnt = 0;
+        int slnos = 0;
+        ////lblmessage.Text += "test111= " + testsectionid;
 
-           // return;//bipson 11092010
+        // return;//bipson 11092010
 
-            if (ds.Tables[0].Rows.Count > 0)
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+
+            FillTestSectionInstructions();
+
+            Session["totalQuesAvailable_Rating"] = ds.Tables[0].Rows.Count.ToString();
+            int j = 0;
+            for (int i = slno - 1; i < ds.Tables[0].Rows.Count; i++)
             {
+                if (j >= quesperPage) break;
+                Session["CurrentControlCtrl"] = "RatingQuestions.ascx";// bip 08012010
+                Session["ValueExists"] = "True";
 
-                FillTestSectionInstructions();
-
-                Session["totalQuesAvailable_Rating"] = ds.Tables[0].Rows.Count.ToString();
-                int j = 0;
-                for (int i = slno - 1; i < ds.Tables[0].Rows.Count; i++)
+                string Answer = "";
+                int optindex = 0;// bip 05-06-2011 starting value is changed to 0 instead of 1
+                switch (j)
                 {
-                    if (j >= quesperPage) break;
-                    Session["CurrentControlCtrl"] = "RatingQuestions.ascx";// bip 08012010
-                    Session["ValueExists"] = "True";
-
-                    string Answer = "";
-                    int optindex = 0;// bip 05-06-2011 starting value is changed to 0 instead of 1
-                    switch (j)
-                    {
-                        case 0:
-                            // slnos = CheckSlNo();
-                            lblNo1.Text = slno.ToString() + ".  "; lblNo1.Visible = true; 
-                            lblNo1.Focus();// 29122009 bip
-                            //lblQues1.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues1.InnerHtml= ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID1.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType1.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques1 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString()  && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;//Ques.UserCode == usercode &&
-                            if (Ques1.Count() > 0)
-                                if (Ques1.First().Answer != null)
-                                    Answer = Ques1.First().Answer.ToString();
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                                rbQues1Answer1.Visible = true; //bipson 12082010 lblA1.Visible = true;
-                                rbQues1Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                                if (optindex.ToString() == Answer)
-                                    rbQues1Answer1.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 2)  lblB1.Text = GetAnswerOptionOrder(optindex); lblB1.Visible = true;
-                                rbQues1Answer2.Visible = true; 
-                                rbQues1Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues1Answer2.Checked = true;
-                                optindex++; 
-
-                            }
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 3) lblC1.Text = GetAnswerOptionOrder(optindex);lblC1.Visible = true;
-                                rbQues1Answer3.Visible = true; 
-                               rbQues1Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues1Answer3.Checked = true;
-                                optindex++; 
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 4) lblD1.Text = GetAnswerOptionOrder(optindex);lblD1.Visible = true;
-                                rbQues1Answer4.Visible = true; 
-                                rbQues1Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues1Answer4.Checked = true;
-                                optindex++; 
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 5)lblE1.Text = GetAnswerOptionOrder(optindex);lblE1.Visible = true;
-                                    
-                                rbQues1Answer5.Visible = true; 
-                                rbQues1Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues1Answer5.Checked = true;
-                                optindex++; 
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                               // if (optindex != 6)lblF1.Text = GetAnswerOptionOrder(optindex);lblF1.Visible = true;
-                                    
-                                rbQues1Answer6.Visible = true; 
-                                rbQues1Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues1Answer6.Checked = true;
-                                optindex++; 
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 7)lblG1.Text = GetAnswerOptionOrder(optindex);lblG1.Visible = true;
-                                    
-                                rbQues1Answer7.Visible = true; 
-                                rbQues1Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues1Answer7.Checked = true;
-                                optindex++; 
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 8)lblH1.Text = GetAnswerOptionOrder(optindex);lblH1.Visible = true;
-                                    
-                                rbQues1Answer8.Visible = true; 
-                                rbQues1Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues1Answer8.Checked = true;
-                                optindex++; 
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 9)lblI1.Text = GetAnswerOptionOrder(optindex);lblI1.Visible = true;
-                                    
-                                rbQues1Answer9.Visible = true; 
-                               rbQues1Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues1Answer9.Checked = true;
-                                optindex++; 
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions1.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 10)lblJ1.Text = GetAnswerOptionOrder(optindex);lblJ1.Visible = true;
-                                    
-                                rbQues1Answer10.Visible = true; 
-                                rbQues1Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues1Answer10.Checked = true;
-                            }
-                            //
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion1.Visible = true;
-                            break;
-
-                        case 1:
-                            //optindex = 1;
-                            lblNo2.Text = (slno + 1).ToString() + ".  "; lblNo2.Visible = true;
-                            //lblQues2.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues2.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID2.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType2.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques2 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques2.Count() > 0)
-                                if (Ques2.First().Answer != null)
-                                    Answer = Ques2.First().Answer.ToString();
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                rbQues2Answer1.Visible = true; //bipson 12082010 lblA2.Visible = true;
-                               rbQues2Answer1.Text= ds.Tables[0].Rows[i]["Option1"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues2Answer1.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 2)lblB2.Text = GetAnswerOptionOrder(optindex);lblB2.Visible = true;
-                                    
-                                rbQues2Answer2.Visible = true; 
-                               rbQues2Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues2Answer2.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 3)lblC2.Text = GetAnswerOptionOrder(optindex);lblC2.Visible = true;
-                                    
-                                rbQues2Answer3.Visible = true; 
-                                rbQues2Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues2Answer3.Checked = true;
-                                optindex++;
-                            }
-
-                            //radioQues2.Items.Add(ds.Tables[0].Rows[i]["Option3"].ToString());
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 4)lblD2.Text = GetAnswerOptionOrder(optindex);lblD2.Visible = true;
-                                    
-                                rbQues2Answer4.Visible = true; 
-                                rbQues2Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues2Answer4.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 5)lblE2.Text = GetAnswerOptionOrder(optindex);lblE2.Visible = true;
-                                    
-                                rbQues2Answer5.Visible = true; 
-                                rbQues2Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues2Answer5.Checked = true;
-                                optindex++;
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 6)lblF2.Text = GetAnswerOptionOrder(optindex);lblF2.Visible = true;
-                                    
-                                rbQues2Answer6.Visible = true; 
-                                rbQues2Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues2Answer6.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 7)lblG2.Text = GetAnswerOptionOrder(optindex);lblG2.Visible = true;
-                                    
-                                rbQues2Answer7.Visible = true; 
-                                rbQues2Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                              //  if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues2Answer7.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 8)lblH2.Text = GetAnswerOptionOrder(optindex);lblH2.Visible = true;
-                                    
-                                rbQues2Answer8.Visible = true; 
-                               rbQues2Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues2Answer8.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 9)lblI2.Text = GetAnswerOptionOrder(optindex);lblI2.Visible = true;
-                                    
-                                rbQues2Answer9.Visible = true; 
-                               rbQues2Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues2Answer9.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions2.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 10)lblJ2.Text = GetAnswerOptionOrder(optindex);lblJ2.Visible = true;
-                                    
-                                rbQues2Answer10.Visible = true; 
-                                rbQues2Answer10.Text= ds.Tables[0].Rows[i]["Option10"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues2Answer10.Checked = true;
-                            }
-                            //
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion2.Visible = true;
-                            break;
-
-                        case 2:
-                            //optindex = 1;
-                            lblNo3.Text = (slno + 2).ToString() + ".  "; lblNo3.Visible = true;
-                            //lblQues3.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues3.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID3.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType3.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques3 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques3.Count() > 0)
-                                if (Ques3.First().Answer != null)
-                                    Answer = Ques3.First().Answer.ToString();
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                rbQues3Answer1.Visible = true; //bipson 12082010 lblA3.Visible = true;
-                                rbQues3Answer1.Text= ds.Tables[0].Rows[i]["Option1"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues3Answer1.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 2)lblB3.Text = GetAnswerOptionOrder(optindex);lblB3.Visible = true;
-                                    
-                                rbQues3Answer2.Visible = true; 
-                                rbQues3Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues3Answer2.Checked = true;
-                                optindex++;
-                            }
-
-                            //radioQues3.Items.Add(ds.Tables[0].Rows[i]["Option2"].ToString());
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 3)lblC3.Text = GetAnswerOptionOrder(optindex);lblC3.Visible = true;
-                                    
-                                rbQues3Answer3.Visible = true; 
-                                rbQues3Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues3Answer3.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 4)lblD3.Text = GetAnswerOptionOrder(optindex);lblD3.Visible = true;
-                                    
-                                rbQues3Answer4.Visible = true; 
-                                rbQues3Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues3Answer4.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 5)lblE3.Text = GetAnswerOptionOrder(optindex);lblE3.Visible = true;
-                                    
-                                rbQues3Answer5.Visible = true; 
-                                rbQues3Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues3Answer5.Checked = true;
-                                optindex++;
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 6)lblF3.Text = GetAnswerOptionOrder(optindex);lblF3.Visible = true;
-                                    
-                                rbQues3Answer6.Visible = true; 
-                                rbQues3Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues3Answer6.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 7)lblG3.Text = GetAnswerOptionOrder(optindex);lblG3.Visible = true;
-                                    
-                                rbQues3Answer7.Visible = true; 
-                                rbQues3Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues3Answer7.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 8)lblH3.Text = GetAnswerOptionOrder(optindex);lblH3.Visible = true;
-                                    
-                                rbQues3Answer8.Visible = true; 
-                                rbQues3Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues3Answer8.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 9)lblI3.Text = GetAnswerOptionOrder(optindex);lblI3.Visible = true;
-                                    
-                                rbQues3Answer9.Visible = true; 
-                                 rbQues3Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                                 if (optindex.ToString() == Answer) rbQues3Answer9.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions3.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 10)lblJ3.Text = GetAnswerOptionOrder(optindex);lblJ3.Visible = true;
-                                    
-                                rbQues3Answer10.Visible = true; 
-                                rbQues3Answer10.Text= ds.Tables[0].Rows[i]["Option10"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues3Answer10.Checked = true;
-                            }
-                            //
-
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion3.Visible = true;
-                            break;
-
-                        case 3:
-                            //optindex = 1;
-                            lblNo4.Text = (slno + 3).ToString() + ".  "; lblNo4.Visible = true;
-                            //lblQues4.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues4.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID4.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType4.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques4 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques4.Count() > 0)
-                                if (Ques4.First().Answer != null)
-                                    Answer = Ques4.First().Answer.ToString();
-
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                rbQues4Answer1.Visible = true; //bipson 12082010 lblA4.Visible = true;
-                                rbQues4Answer1.Text= ds.Tables[0].Rows[i]["Option1"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues4Answer1.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            //radioQues4.Items.Add(ds.Tables[0].Rows[i]["Option1"].ToString());
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 2)lblB4.Text = GetAnswerOptionOrder(optindex);lblB4.Visible = true;
-                                    
-                                rbQues4Answer2.Visible = true; 
-                                rbQues4Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues4Answer2.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 3)lblC4.Text = GetAnswerOptionOrder(optindex);lblC4.Visible = true;
-                                    
-                                rbQues4Answer3.Visible = true; 
-                                rbQues4Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues4Answer3.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 4)lblD4.Text = GetAnswerOptionOrder(optindex);lblD4.Visible = true;
-                                    
-                                rbQues4Answer4.Visible = true; 
-                                rbQues4Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues4Answer4.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 5)lblE4.Text = GetAnswerOptionOrder(optindex);lblE4.Visible = true;
-                                    
-                                rbQues4Answer5.Visible = true; 
-                                rbQues4Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues4Answer5.Checked = true;
-                                optindex++;
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 6)lblF4.Text = GetAnswerOptionOrder(optindex);lblF4.Visible = true;
-                                    
-                                rbQues4Answer6.Visible = true; 
-                               rbQues4Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues4Answer6.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 7)lblG4.Text = GetAnswerOptionOrder(optindex);lblG4.Visible = true;
-                                    
-                                rbQues4Answer7.Visible = true; 
-                               rbQues4Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues4Answer7.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 8)lblH4.Text = GetAnswerOptionOrder(optindex);lblH4.Visible = true;
-                                    
-                                rbQues4Answer8.Visible = true; 
-                                rbQues4Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues4Answer8.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 9)lblI4.Text = GetAnswerOptionOrder(optindex);lblI4.Visible = true;
-                                    
-                                rbQues4Answer9.Visible = true; 
-                                rbQues4Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues4Answer9.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions4.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 10)lblJ4.Text = GetAnswerOptionOrder(optindex);lblJ4.Visible = true;
-                                    
-                                rbQues4Answer10.Visible = true; 
-                                rbQues4Answer10.Text= ds.Tables[0].Rows[i]["Option10"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues4Answer10.Checked = true;
-                            }
-                            //
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion4.Visible = true;
-                            break;
-
-                        case 4:
-                            //optindex = 1;
-                            lblNo5.Text = (slno + 4).ToString() + ".  "; lblNo5.Visible = true;
-                            //lblQues5.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues5.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID5.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType5.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques5 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques5.Count() > 0)
-                                if (Ques5.First().Answer != null)
-                                    Answer = Ques5.First().Answer.ToString();
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                rbQues5Answer1.Visible = true; //bipson 12082010 lblA5.Visible = true;
-                                rbQues5Answer1.Text= ds.Tables[0].Rows[i]["Option1"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer1.Checked = true;
-                                optindex++;
-                            }
-
-                            //radioQues5.Items.Add(ds.Tables[0].Rows[i]["Option1"].ToString());
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 2)lblB5.Text = GetAnswerOptionOrder(optindex);lblB5.Visible = true;
-                                    
-                                rbQues5Answer2.Visible = true; 
-                                rbQues5Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer2.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 3)lblC5.Text = GetAnswerOptionOrder(optindex);lblC5.Visible = true;
-                                    
-                                rbQues5Answer3.Visible = true; 
-                                rbQues5Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer3.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 4)lblD5.Text = GetAnswerOptionOrder(optindex);lblD5.Visible = true;
-                                    
-                                rbQues5Answer4.Visible = true; 
-                                rbQues5Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer4.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 5)lblE5.Text = GetAnswerOptionOrder(optindex);lblE5.Visible = true;
-                                    
-                                rbQues5Answer5.Visible = true; 
-                                rbQues5Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer5.Checked = true;
-                                optindex++;
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 6)lblF5.Text = GetAnswerOptionOrder(optindex);lblF5.Visible = true;
-                                    
-                                rbQues5Answer6.Visible = true; 
-                                rbQues5Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer6.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 7) lblG5.Text = GetAnswerOptionOrder(optindex);lblG5.Visible = true;
-                                   
-                                rbQues5Answer7.Visible = true; 
-                                rbQues5Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer7.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 8)lblH5.Text = GetAnswerOptionOrder(optindex);lblH5.Visible = true;
-                                    
-                                rbQues5Answer8.Visible = true; 
-                                rbQues5Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer8.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 9)lblI5.Text = GetAnswerOptionOrder(optindex); lblJ5.Visible = true;
-                                    
-                                rbQues5Answer9.Visible = true;
-                                rbQues5Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer9.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions5.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 10)lblJ5.Text = GetAnswerOptionOrder(optindex);lblJ5.Visible = true;
-                                    
-                                rbQues5Answer10.Visible = true; 
-                                rbQues5Answer10.Text= ds.Tables[0].Rows[i]["Option10"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues5Answer10.Checked = true;                               
-                            }
-                            //
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion5.Visible = true;
-                            break;
-                        ///////////////
-
-
-                        case 5:
-                            //optindex = 1;
-                            // slnos = CheckSlNo();
-                            lblNo6.Text = (slno + 5).ToString() + ".  "; lblNo6.Visible = true;
-                            //lblQues6.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues6.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID6.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType6.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques6 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques6.Count() > 0)
-                                if (Ques6.First().Answer != null)
-                                    Answer = Ques6.First().Answer.ToString();
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                rbQues6Answer1.Visible = true; //bipson 12082010 lblA6.Visible = true;
-                                rbQues6Answer1.Text= ds.Tables[0].Rows[i]["Option1"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues6Answer1.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 2)lblB6.Text = GetAnswerOptionOrder(optindex); lblB6.Visible = true;
-                                    
-                                rbQues6Answer2.Visible = true;
-                                rbQues6Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues6Answer2.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 3)lblC6.Text = GetAnswerOptionOrder(optindex);lblC6.Visible = true;
-                                    
-                                rbQues6Answer3.Visible = true; 
-                                rbQues6Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues6Answer3.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 4) lblD6.Text = GetAnswerOptionOrder(optindex);lblD6.Visible = true;
-                                   
-                                rbQues6Answer4.Visible = true; 
-                                rbQues6Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues6Answer4.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 5)lblE6.Text = GetAnswerOptionOrder(optindex);lblE6.Visible = true;
-                                    
-                                rbQues6Answer5.Visible = true; 
-                               rbQues6Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues6Answer5.Checked = true;
-                                optindex++;
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 6)lblF6.Text = GetAnswerOptionOrder(optindex);lblF6.Visible = true;
-                                    
-                                rbQues6Answer6.Visible = true; 
-                               rbQues6Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues6Answer6.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 7)lblG6.Text = GetAnswerOptionOrder(optindex);lblG6.Visible = true;
-                                    
-                                rbQues6Answer7.Visible = true; 
-                                rbQues6Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues6Answer7.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 8)lblH6.Text = GetAnswerOptionOrder(optindex); lblH6.Visible = true;
-                                    
-                                rbQues6Answer8.Visible = true;
-                                rbQues6Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues6Answer8.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 9)lblI6.Text = GetAnswerOptionOrder(optindex);lblI6.Visible = true;
-                                    
-                                rbQues6Answer9.Visible = true; 
-                                rbQues6Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues6Answer9.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions6.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 10)lblJ6.Text = GetAnswerOptionOrder(optindex);lblJ6.Visible = true;
-                                    
-                                rbQues6Answer10.Visible = true; 
-                                rbQues6Answer10.Text= ds.Tables[0].Rows[i]["Option10"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues6Answer10.Checked = true;
-                            }
-                            //
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion6.Visible = true;
-                            break;
-
-                        case 6:
-                            //optindex = 1;
-                            lblNo7.Text = (slno + 6).ToString() + ".  "; lblNo7.Visible = true;
-                           // lblQues7.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues7.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID7.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType7.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques7 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques7.Count() > 0)
-                                if (Ques7.First().Answer != null)
-                                    Answer = Ques7.First().Answer.ToString();
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                rbQues7Answer1.Visible = true; //bipson 12082010 lblA7.Visible = true;
-                                rbQues7Answer1.Text= ds.Tables[0].Rows[i]["Option1"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer1.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 2)lblB7.Text = GetAnswerOptionOrder(optindex);lblB7.Visible = true;
-                                    
-                                rbQues7Answer2.Visible = true; 
-                                rbQues7Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer2.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 3)lblC7.Text = GetAnswerOptionOrder(optindex); lblC7.Visible = true;
-                                    
-                                rbQues7Answer3.Visible = true;
-                                rbQues7Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer3.Checked = true;
-                                optindex++;
-                            }
-
-                            //radioQues7.Items.Add(ds.Tables[0].Rows[i]["Option3"].ToString());
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 4)lblD7.Text = GetAnswerOptionOrder(optindex);lblD7.Visible = true;
-                                    
-                                rbQues7Answer4.Visible = true; 
-                                rbQues7Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer4.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 5)lblE7.Text = GetAnswerOptionOrder(optindex);lblE7.Visible = true;
-                                    
-                                rbQues7Answer5.Visible = true; 
-                                rbQues7Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer5.Checked = true;
-                                optindex++;
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 6)lblF7.Text = GetAnswerOptionOrder(optindex); lblF7.Visible = true;
-                                    
-                                rbQues7Answer6.Visible = true;
-                                rbQues7Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer6.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 7)lblG7.Text = GetAnswerOptionOrder(optindex);lblG7.Visible = true;
-                                    
-                                rbQues7Answer7.Visible = true; 
-                                rbQues7Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer7.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 8)lblH7.Text = GetAnswerOptionOrder(optindex);lblH7.Visible = true;
-                                    
-                                rbQues7Answer8.Visible = true; 
-                                rbQues7Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer8.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 9) lblI7.Text = GetAnswerOptionOrder(optindex);lblI7.Visible = true;
-                                   
-                                rbQues7Answer9.Visible = true; 
-                                rbQues7Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer9.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions7.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 10) lblJ7.Text = GetAnswerOptionOrder(optindex); lblJ7.Visible = true;
-                                   
-                                rbQues7Answer10.Visible = true;
-                                rbQues7Answer10.Text= ds.Tables[0].Rows[i]["Option10"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues7Answer10.Checked = true;                               
-                            }
-                            //
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion7.Visible = true;
-                            break;
-
-                        case 7:
-                            //optindex = 1;
-                            lblNo8.Text = (slno + 7).ToString() + ".  "; lblNo8.Visible = true;
-                            //lblQues8.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues8.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID8.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType8.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques8 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques8.Count() > 0)
-                                if (Ques8.First().Answer != null)
-                                    Answer = Ques8.First().Answer.ToString();
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                rbQues8Answer1.Visible = true; //bipson 12082010 lblA8.Visible = true;
-                                rbQues8Answer1.Text= ds.Tables[0].Rows[i]["Option1"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues8Answer1.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 2)lblB8.Text = GetAnswerOptionOrder(optindex); lblB8.Visible = true;
-                                    
-                                rbQues8Answer2.Visible = true;
-                                rbQues8Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues8Answer2.Checked = true;
-                                optindex++;
-                            }
-
-                            //radioQues8.Items.Add(ds.Tables[0].Rows[i]["Option2"].ToString());
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 3)lblC8.Text = GetAnswerOptionOrder(optindex);lblC8.Visible = true;
-                                    
-                                rbQues8Answer3.Visible = true; 
-                                rbQues8Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues8Answer3.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 4)lblD8.Text = GetAnswerOptionOrder(optindex);lblD8.Visible = true;
-                                    
-                                rbQues8Answer4.Visible = true; 
-                                rbQues8Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues8Answer4.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 5)lblE8.Text = GetAnswerOptionOrder(optindex);lblE8.Visible = true;
-                                    
-                                rbQues8Answer5.Visible = true; 
-                               rbQues8Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues8Answer5.Checked = true;
-                                optindex++;
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 6)lblF8.Text = GetAnswerOptionOrder(optindex); lblF8.Visible = true;
-                                    
-                                rbQues8Answer6.Visible = true;
-                                rbQues8Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues8Answer6.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 7)lblG8.Text = GetAnswerOptionOrder(optindex); lblG8.Visible = true;
-                                    
-                                rbQues8Answer7.Visible = true;
-                                rbQues8Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues8Answer7.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 8)lblH8.Text = GetAnswerOptionOrder(optindex); lblH8.Visible = true;
-                                    
-                                rbQues8Answer8.Visible = true;
-                                rbQues8Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues8Answer8.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 9) lblI8.Text = GetAnswerOptionOrder(optindex); lblI8.Visible = true;
-                                   
-                                rbQues8Answer9.Visible = true;
-                                rbQues8Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues8Answer9.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions8.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 10) lblJ8.Text = GetAnswerOptionOrder(optindex); lblJ8.Visible = true;
-                                   
-                                rbQues8Answer10.Visible = true;
-                                rbQues8Answer10.Text= ds.Tables[0].Rows[i]["Option10"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues8Answer10.Checked = true;
-                            }
-                            //
-
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion8.Visible = true;
-                            break;
-
-                        case 8:
-                            //optindex = 1;
-                            lblNo9.Text = (slno + 8).ToString() + ".  "; lblNo9.Visible = true;
-                            //lblQues9.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues9.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID9.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType9.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques9 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques9.Count() > 0)
-                                if (Ques9.First().Answer != null)
-                                    Answer = Ques9.First().Answer.ToString();
-
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                rbQues9Answer1.Visible = true; //bipson 12082010 lblA9.Visible = true;
-                                rbQues9Answer1.Text= ds.Tables[0].Rows[i]["Option1"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer1.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            //radioQues9.Items.Add(ds.Tables[0].Rows[i]["Option1"].ToString());
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 2)lblB9.Text = GetAnswerOptionOrder(optindex); lblB9.Visible = true;
-                                    
-                                rbQues9Answer2.Visible = true;
-                                rbQues9Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer2.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 3)lblC9.Text = GetAnswerOptionOrder(optindex); lblC9.Visible = true;
-                                    
-                                rbQues9Answer3.Visible = true;
-                                rbQues9Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer3.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 4) lblD9.Text = GetAnswerOptionOrder(optindex); lblD9.Visible = true;
-                                   
-                                rbQues9Answer4.Visible = true;
-                                rbQues9Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer4.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 5) lblE9.Text = GetAnswerOptionOrder(optindex); lblE9.Visible = true;
-                                   
-                                rbQues9Answer5.Visible = true;
-                                rbQues9Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer5.Checked = true;
-                                optindex++;
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 6) lblF9.Text = GetAnswerOptionOrder(optindex);lblF9.Visible = true;
-                                   
-                                rbQues9Answer6.Visible = true; 
-                                rbQues9Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer6.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 7) lblG9.Text = GetAnswerOptionOrder(optindex); lblG9.Visible = true;
-                                   
-                                rbQues9Answer7.Visible = true;
-                                rbQues9Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer7.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 8) lblH9.Text = GetAnswerOptionOrder(optindex); lblH9.Visible = true;
-                                   
-                                rbQues9Answer8.Visible = true;
-                                rbQues9Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer8.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 9) lblI9.Text = GetAnswerOptionOrder(optindex); lblI9.Visible = true;
-                                   
-                                rbQues9Answer9.Visible = true;
-                                rbQues9Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer9.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions9.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 10)lblJ9.Text = GetAnswerOptionOrder(optindex); lblJ9.Visible = true;
-                                    
-                                rbQues9Answer10.Visible = true;
-                                rbQues9Answer10.Text= ds.Tables[0].Rows[i]["Option10"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues9Answer10.Checked = true;
-                            }
-                            //
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion9.Visible = true;
-                            break;
-
-                        case 9:
-                            //optindex = 1;
-                            lblNo10.Text = (slno + 9).ToString() + ".  "; lblNo10.Visible = true;
-                            //lblQues10.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues10.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID10.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            lblRatingType10.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
-
-                            var Ques10 = from Ques in dataclass.EvaluationResults
-                                         where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                         Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                         select Ques;
-                            if (Ques10.Count() > 0)
-                                if (Ques10.First().Answer != null)
-                                    Answer = Ques10.First().Answer.ToString();
-                            if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                rbQues10Answer1.Visible = true;//bipson 12082010  lblA10.Visible = true; 
-                                rbQues10Answer1.Text= ds.Tables[0].Rows[i]["Option1"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues10Answer1.Checked = true;
-                                optindex++;
-                            }
-
-                            //radioQues10.Items.Add(ds.Tables[0].Rows[i]["Option1"].ToString());
-                            if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 2) lblB10.Text = GetAnswerOptionOrder(optindex); lblB10.Visible = true;
-                                   
-                                rbQues10Answer2.Visible = true;
-                                rbQues10Answer2.Text= ds.Tables[0].Rows[i]["Option2"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues10Answer2.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 3) lblC10.Text = GetAnswerOptionOrder(optindex); lblC10.Visible = true;
-                                   
-                                rbQues10Answer3.Visible = true;
-                                rbQues10Answer3.Text= ds.Tables[0].Rows[i]["Option3"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues10Answer3.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 4) lblD10.Text = GetAnswerOptionOrder(optindex); lblD10.Visible = true;
-                                   
-                                rbQues10Answer4.Visible = true;
-                                rbQues10Answer4.Text= ds.Tables[0].Rows[i]["Option4"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues10Answer4.Checked = true;
-                                optindex++;
-                            }
-
-                            if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 5)lblE10.Text = GetAnswerOptionOrder(optindex);lblE10.Visible = true;
-                                    
-                                rbQues10Answer5.Visible = true; 
-                                rbQues10Answer5.Text= ds.Tables[0].Rows[i]["Option5"].ToString();
-                                //if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues10Answer5.Checked = true;
-                                optindex++;
-                            }
-
-                            //
-                            if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 6) lblF10.Text = GetAnswerOptionOrder(optindex); lblF10.Visible = true;
-                                   
-                                rbQues10Answer6.Visible = true;
-                                rbQues10Answer6.Text= ds.Tables[0].Rows[i]["Option6"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues10Answer6.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 7) lblG10.Text = GetAnswerOptionOrder(optindex); lblG10.Visible = true;
-                                   
-                                rbQues10Answer7.Visible = true;
-                                rbQues10Answer7.Text= ds.Tables[0].Rows[i]["Option7"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues10Answer7.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 8) lblH10.Text = GetAnswerOptionOrder(optindex); lblH10.Visible = true;
-                                   
-                                rbQues10Answer8.Visible = true;
-                                rbQues10Answer8.Text= ds.Tables[0].Rows[i]["Option8"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues10Answer8.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                //bipson 12082010  if (optindex != 9) lblI10.Text = GetAnswerOptionOrder(optindex); lblI10.Visible = true;
-                                   
-                                rbQues10Answer9.Visible = true;
-                               rbQues10Answer9.Text= ds.Tables[0].Rows[i]["Option9"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
-                               if (optindex.ToString() == Answer) rbQues10Answer9.Checked = true;
-                                optindex++;
-                            }
-                            if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
-                            {
-                                lblTotalOptions10.Text = optindex.ToString();
-                                //bipson 12082010 if (optindex != 10) lblJ10.Text = GetAnswerOptionOrder(optindex); lblJ10.Visible = true;
-                                   
-                                rbQues10Answer10.Visible = true;
-                                rbQues10Answer10.Text= ds.Tables[0].Rows[i]["Option10"].ToString();
-                               // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
-                                if (optindex.ToString() == Answer) rbQues10Answer10.Checked = true;
-                            }
-                            //
-
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion10.Visible = true;
-                            break;
-                    }
+                    case 0:
+                        // slnos = CheckSlNo();
+                        lblNo1.Text = slno.ToString() + ".  "; lblNo1.Visible = true;
+                        lblNo1.Focus();// 29122009 bip
+                        //lblQues1.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues1.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID1.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType1.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques1 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;//Ques.UserCode == usercode &&
+                        if (Ques1.Count() > 0)
+                            if (Ques1.First().Answer != null)
+                                Answer = Ques1.First().Answer.ToString();
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            rbQues1Answer1.Visible = true; //bipson 12082010 lblA1.Visible = true;
+                            rbQues1Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer)
+                                rbQues1Answer1.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 2)  lblB1.Text = GetAnswerOptionOrder(optindex); lblB1.Visible = true;
+                            rbQues1Answer2.Visible = true;
+                            rbQues1Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues1Answer2.Checked = true;
+                            optindex++;
+
+                        }
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 3) lblC1.Text = GetAnswerOptionOrder(optindex);lblC1.Visible = true;
+                            rbQues1Answer3.Visible = true;
+                            rbQues1Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues1Answer3.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 4) lblD1.Text = GetAnswerOptionOrder(optindex);lblD1.Visible = true;
+                            rbQues1Answer4.Visible = true;
+                            rbQues1Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues1Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 5)lblE1.Text = GetAnswerOptionOrder(optindex);lblE1.Visible = true;
+
+                            rbQues1Answer5.Visible = true;
+                            rbQues1Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues1Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            // if (optindex != 6)lblF1.Text = GetAnswerOptionOrder(optindex);lblF1.Visible = true;
+
+                            rbQues1Answer6.Visible = true;
+                            rbQues1Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues1Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 7)lblG1.Text = GetAnswerOptionOrder(optindex);lblG1.Visible = true;
+
+                            rbQues1Answer7.Visible = true;
+                            rbQues1Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues1Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 8)lblH1.Text = GetAnswerOptionOrder(optindex);lblH1.Visible = true;
+
+                            rbQues1Answer8.Visible = true;
+                            rbQues1Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues1Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 9)lblI1.Text = GetAnswerOptionOrder(optindex);lblI1.Visible = true;
+
+                            rbQues1Answer9.Visible = true;
+                            rbQues1Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues1Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions1.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 10)lblJ1.Text = GetAnswerOptionOrder(optindex);lblJ1.Visible = true;
+
+                            rbQues1Answer10.Visible = true;
+                            rbQues1Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues1Answer10.Checked = true;
+                        }
+                        //
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion1.Visible = true;
+                        break;
+
+                    case 1:
+                        //optindex = 1;
+                        lblNo2.Text = (slno + 1).ToString() + ".  "; lblNo2.Visible = true;
+                        //lblQues2.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues2.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID2.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType2.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques2 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques2.Count() > 0)
+                            if (Ques2.First().Answer != null)
+                                Answer = Ques2.First().Answer.ToString();
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            rbQues2Answer1.Visible = true; //bipson 12082010 lblA2.Visible = true;
+                            rbQues2Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer1.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 2)lblB2.Text = GetAnswerOptionOrder(optindex);lblB2.Visible = true;
+
+                            rbQues2Answer2.Visible = true;
+                            rbQues2Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer2.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 3)lblC2.Text = GetAnswerOptionOrder(optindex);lblC2.Visible = true;
+
+                            rbQues2Answer3.Visible = true;
+                            rbQues2Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer3.Checked = true;
+                            optindex++;
+                        }
+
+                        //radioQues2.Items.Add(ds.Tables[0].Rows[i]["Option3"].ToString());
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 4)lblD2.Text = GetAnswerOptionOrder(optindex);lblD2.Visible = true;
+
+                            rbQues2Answer4.Visible = true;
+                            rbQues2Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 5)lblE2.Text = GetAnswerOptionOrder(optindex);lblE2.Visible = true;
+
+                            rbQues2Answer5.Visible = true;
+                            rbQues2Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 6)lblF2.Text = GetAnswerOptionOrder(optindex);lblF2.Visible = true;
+
+                            rbQues2Answer6.Visible = true;
+                            rbQues2Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 7)lblG2.Text = GetAnswerOptionOrder(optindex);lblG2.Visible = true;
+
+                            rbQues2Answer7.Visible = true;
+                            rbQues2Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            //  if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 8)lblH2.Text = GetAnswerOptionOrder(optindex);lblH2.Visible = true;
+
+                            rbQues2Answer8.Visible = true;
+                            rbQues2Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 9)lblI2.Text = GetAnswerOptionOrder(optindex);lblI2.Visible = true;
+
+                            rbQues2Answer9.Visible = true;
+                            rbQues2Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions2.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 10)lblJ2.Text = GetAnswerOptionOrder(optindex);lblJ2.Visible = true;
+
+                            rbQues2Answer10.Visible = true;
+                            rbQues2Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues2Answer10.Checked = true;
+                        }
+                        //
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion2.Visible = true;
+                        break;
+
+                    case 2:
+                        //optindex = 1;
+                        lblNo3.Text = (slno + 2).ToString() + ".  "; lblNo3.Visible = true;
+                        //lblQues3.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues3.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID3.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType3.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques3 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques3.Count() > 0)
+                            if (Ques3.First().Answer != null)
+                                Answer = Ques3.First().Answer.ToString();
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            rbQues3Answer1.Visible = true; //bipson 12082010 lblA3.Visible = true;
+                            rbQues3Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer1.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 2)lblB3.Text = GetAnswerOptionOrder(optindex);lblB3.Visible = true;
+
+                            rbQues3Answer2.Visible = true;
+                            rbQues3Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer2.Checked = true;
+                            optindex++;
+                        }
+
+                        //radioQues3.Items.Add(ds.Tables[0].Rows[i]["Option2"].ToString());
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 3)lblC3.Text = GetAnswerOptionOrder(optindex);lblC3.Visible = true;
+
+                            rbQues3Answer3.Visible = true;
+                            rbQues3Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer3.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 4)lblD3.Text = GetAnswerOptionOrder(optindex);lblD3.Visible = true;
+
+                            rbQues3Answer4.Visible = true;
+                            rbQues3Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 5)lblE3.Text = GetAnswerOptionOrder(optindex);lblE3.Visible = true;
+
+                            rbQues3Answer5.Visible = true;
+                            rbQues3Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 6)lblF3.Text = GetAnswerOptionOrder(optindex);lblF3.Visible = true;
+
+                            rbQues3Answer6.Visible = true;
+                            rbQues3Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 7)lblG3.Text = GetAnswerOptionOrder(optindex);lblG3.Visible = true;
+
+                            rbQues3Answer7.Visible = true;
+                            rbQues3Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 8)lblH3.Text = GetAnswerOptionOrder(optindex);lblH3.Visible = true;
+
+                            rbQues3Answer8.Visible = true;
+                            rbQues3Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 9)lblI3.Text = GetAnswerOptionOrder(optindex);lblI3.Visible = true;
+
+                            rbQues3Answer9.Visible = true;
+                            rbQues3Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions3.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 10)lblJ3.Text = GetAnswerOptionOrder(optindex);lblJ3.Visible = true;
+
+                            rbQues3Answer10.Visible = true;
+                            rbQues3Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues3Answer10.Checked = true;
+                        }
+                        //
+
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion3.Visible = true;
+                        break;
+
+                    case 3:
+                        //optindex = 1;
+                        lblNo4.Text = (slno + 3).ToString() + ".  "; lblNo4.Visible = true;
+                        //lblQues4.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues4.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID4.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType4.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques4 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques4.Count() > 0)
+                            if (Ques4.First().Answer != null)
+                                Answer = Ques4.First().Answer.ToString();
+
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            rbQues4Answer1.Visible = true; //bipson 12082010 lblA4.Visible = true;
+                            rbQues4Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer1.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        //radioQues4.Items.Add(ds.Tables[0].Rows[i]["Option1"].ToString());
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 2)lblB4.Text = GetAnswerOptionOrder(optindex);lblB4.Visible = true;
+
+                            rbQues4Answer2.Visible = true;
+                            rbQues4Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer2.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 3)lblC4.Text = GetAnswerOptionOrder(optindex);lblC4.Visible = true;
+
+                            rbQues4Answer3.Visible = true;
+                            rbQues4Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer3.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 4)lblD4.Text = GetAnswerOptionOrder(optindex);lblD4.Visible = true;
+
+                            rbQues4Answer4.Visible = true;
+                            rbQues4Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 5)lblE4.Text = GetAnswerOptionOrder(optindex);lblE4.Visible = true;
+
+                            rbQues4Answer5.Visible = true;
+                            rbQues4Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 6)lblF4.Text = GetAnswerOptionOrder(optindex);lblF4.Visible = true;
+
+                            rbQues4Answer6.Visible = true;
+                            rbQues4Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 7)lblG4.Text = GetAnswerOptionOrder(optindex);lblG4.Visible = true;
+
+                            rbQues4Answer7.Visible = true;
+                            rbQues4Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 8)lblH4.Text = GetAnswerOptionOrder(optindex);lblH4.Visible = true;
+
+                            rbQues4Answer8.Visible = true;
+                            rbQues4Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 9)lblI4.Text = GetAnswerOptionOrder(optindex);lblI4.Visible = true;
+
+                            rbQues4Answer9.Visible = true;
+                            rbQues4Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions4.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 10)lblJ4.Text = GetAnswerOptionOrder(optindex);lblJ4.Visible = true;
+
+                            rbQues4Answer10.Visible = true;
+                            rbQues4Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues4Answer10.Checked = true;
+                        }
+                        //
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion4.Visible = true;
+                        break;
+
+                    case 4:
+                        //optindex = 1;
+                        lblNo5.Text = (slno + 4).ToString() + ".  "; lblNo5.Visible = true;
+                        //lblQues5.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues5.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID5.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType5.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques5 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques5.Count() > 0)
+                            if (Ques5.First().Answer != null)
+                                Answer = Ques5.First().Answer.ToString();
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            rbQues5Answer1.Visible = true; //bipson 12082010 lblA5.Visible = true;
+                            rbQues5Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer1.Checked = true;
+                            optindex++;
+                        }
+
+                        //radioQues5.Items.Add(ds.Tables[0].Rows[i]["Option1"].ToString());
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 2)lblB5.Text = GetAnswerOptionOrder(optindex);lblB5.Visible = true;
+
+                            rbQues5Answer2.Visible = true;
+                            rbQues5Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer2.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 3)lblC5.Text = GetAnswerOptionOrder(optindex);lblC5.Visible = true;
+
+                            rbQues5Answer3.Visible = true;
+                            rbQues5Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer3.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 4)lblD5.Text = GetAnswerOptionOrder(optindex);lblD5.Visible = true;
+
+                            rbQues5Answer4.Visible = true;
+                            rbQues5Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 5)lblE5.Text = GetAnswerOptionOrder(optindex);lblE5.Visible = true;
+
+                            rbQues5Answer5.Visible = true;
+                            rbQues5Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 6)lblF5.Text = GetAnswerOptionOrder(optindex);lblF5.Visible = true;
+
+                            rbQues5Answer6.Visible = true;
+                            rbQues5Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 7) lblG5.Text = GetAnswerOptionOrder(optindex);lblG5.Visible = true;
+
+                            rbQues5Answer7.Visible = true;
+                            rbQues5Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 8)lblH5.Text = GetAnswerOptionOrder(optindex);lblH5.Visible = true;
+
+                            rbQues5Answer8.Visible = true;
+                            rbQues5Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 9)lblI5.Text = GetAnswerOptionOrder(optindex); lblJ5.Visible = true;
+
+                            rbQues5Answer9.Visible = true;
+                            rbQues5Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions5.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 10)lblJ5.Text = GetAnswerOptionOrder(optindex);lblJ5.Visible = true;
+
+                            rbQues5Answer10.Visible = true;
+                            rbQues5Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues5Answer10.Checked = true;
+                        }
+                        //
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion5.Visible = true;
+                        break;
+                    ///////////////
+
+
+                    case 5:
+                        //optindex = 1;
+                        // slnos = CheckSlNo();
+                        lblNo6.Text = (slno + 5).ToString() + ".  "; lblNo6.Visible = true;
+                        //lblQues6.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues6.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID6.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType6.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques6 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques6.Count() > 0)
+                            if (Ques6.First().Answer != null)
+                                Answer = Ques6.First().Answer.ToString();
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            rbQues6Answer1.Visible = true; //bipson 12082010 lblA6.Visible = true;
+                            rbQues6Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer1.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 2)lblB6.Text = GetAnswerOptionOrder(optindex); lblB6.Visible = true;
+
+                            rbQues6Answer2.Visible = true;
+                            rbQues6Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer2.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 3)lblC6.Text = GetAnswerOptionOrder(optindex);lblC6.Visible = true;
+
+                            rbQues6Answer3.Visible = true;
+                            rbQues6Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer3.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 4) lblD6.Text = GetAnswerOptionOrder(optindex);lblD6.Visible = true;
+
+                            rbQues6Answer4.Visible = true;
+                            rbQues6Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 5)lblE6.Text = GetAnswerOptionOrder(optindex);lblE6.Visible = true;
+
+                            rbQues6Answer5.Visible = true;
+                            rbQues6Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 6)lblF6.Text = GetAnswerOptionOrder(optindex);lblF6.Visible = true;
+
+                            rbQues6Answer6.Visible = true;
+                            rbQues6Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 7)lblG6.Text = GetAnswerOptionOrder(optindex);lblG6.Visible = true;
+
+                            rbQues6Answer7.Visible = true;
+                            rbQues6Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 8)lblH6.Text = GetAnswerOptionOrder(optindex); lblH6.Visible = true;
+
+                            rbQues6Answer8.Visible = true;
+                            rbQues6Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 9)lblI6.Text = GetAnswerOptionOrder(optindex);lblI6.Visible = true;
+
+                            rbQues6Answer9.Visible = true;
+                            rbQues6Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions6.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 10)lblJ6.Text = GetAnswerOptionOrder(optindex);lblJ6.Visible = true;
+
+                            rbQues6Answer10.Visible = true;
+                            rbQues6Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues6Answer10.Checked = true;
+                        }
+                        //
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion6.Visible = true;
+                        break;
+
+                    case 6:
+                        //optindex = 1;
+                        lblNo7.Text = (slno + 6).ToString() + ".  "; lblNo7.Visible = true;
+                        // lblQues7.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues7.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID7.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType7.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques7 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques7.Count() > 0)
+                            if (Ques7.First().Answer != null)
+                                Answer = Ques7.First().Answer.ToString();
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            rbQues7Answer1.Visible = true; //bipson 12082010 lblA7.Visible = true;
+                            rbQues7Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer1.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 2)lblB7.Text = GetAnswerOptionOrder(optindex);lblB7.Visible = true;
+
+                            rbQues7Answer2.Visible = true;
+                            rbQues7Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer2.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 3)lblC7.Text = GetAnswerOptionOrder(optindex); lblC7.Visible = true;
+
+                            rbQues7Answer3.Visible = true;
+                            rbQues7Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer3.Checked = true;
+                            optindex++;
+                        }
+
+                        //radioQues7.Items.Add(ds.Tables[0].Rows[i]["Option3"].ToString());
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 4)lblD7.Text = GetAnswerOptionOrder(optindex);lblD7.Visible = true;
+
+                            rbQues7Answer4.Visible = true;
+                            rbQues7Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 5)lblE7.Text = GetAnswerOptionOrder(optindex);lblE7.Visible = true;
+
+                            rbQues7Answer5.Visible = true;
+                            rbQues7Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 6)lblF7.Text = GetAnswerOptionOrder(optindex); lblF7.Visible = true;
+
+                            rbQues7Answer6.Visible = true;
+                            rbQues7Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 7)lblG7.Text = GetAnswerOptionOrder(optindex);lblG7.Visible = true;
+
+                            rbQues7Answer7.Visible = true;
+                            rbQues7Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 8)lblH7.Text = GetAnswerOptionOrder(optindex);lblH7.Visible = true;
+
+                            rbQues7Answer8.Visible = true;
+                            rbQues7Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 9) lblI7.Text = GetAnswerOptionOrder(optindex);lblI7.Visible = true;
+
+                            rbQues7Answer9.Visible = true;
+                            rbQues7Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions7.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 10) lblJ7.Text = GetAnswerOptionOrder(optindex); lblJ7.Visible = true;
+
+                            rbQues7Answer10.Visible = true;
+                            rbQues7Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues7Answer10.Checked = true;
+                        }
+                        //
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion7.Visible = true;
+                        break;
+
+                    case 7:
+                        //optindex = 1;
+                        lblNo8.Text = (slno + 7).ToString() + ".  "; lblNo8.Visible = true;
+                        //lblQues8.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues8.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID8.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType8.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques8 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques8.Count() > 0)
+                            if (Ques8.First().Answer != null)
+                                Answer = Ques8.First().Answer.ToString();
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            rbQues8Answer1.Visible = true; //bipson 12082010 lblA8.Visible = true;
+                            rbQues8Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer1.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 2)lblB8.Text = GetAnswerOptionOrder(optindex); lblB8.Visible = true;
+
+                            rbQues8Answer2.Visible = true;
+                            rbQues8Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer2.Checked = true;
+                            optindex++;
+                        }
+
+                        //radioQues8.Items.Add(ds.Tables[0].Rows[i]["Option2"].ToString());
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 3)lblC8.Text = GetAnswerOptionOrder(optindex);lblC8.Visible = true;
+
+                            rbQues8Answer3.Visible = true;
+                            rbQues8Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer3.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 4)lblD8.Text = GetAnswerOptionOrder(optindex);lblD8.Visible = true;
+
+                            rbQues8Answer4.Visible = true;
+                            rbQues8Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 5)lblE8.Text = GetAnswerOptionOrder(optindex);lblE8.Visible = true;
+
+                            rbQues8Answer5.Visible = true;
+                            rbQues8Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 6)lblF8.Text = GetAnswerOptionOrder(optindex); lblF8.Visible = true;
+
+                            rbQues8Answer6.Visible = true;
+                            rbQues8Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 7)lblG8.Text = GetAnswerOptionOrder(optindex); lblG8.Visible = true;
+
+                            rbQues8Answer7.Visible = true;
+                            rbQues8Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 8)lblH8.Text = GetAnswerOptionOrder(optindex); lblH8.Visible = true;
+
+                            rbQues8Answer8.Visible = true;
+                            rbQues8Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 9) lblI8.Text = GetAnswerOptionOrder(optindex); lblI8.Visible = true;
+
+                            rbQues8Answer9.Visible = true;
+                            rbQues8Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions8.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 10) lblJ8.Text = GetAnswerOptionOrder(optindex); lblJ8.Visible = true;
+
+                            rbQues8Answer10.Visible = true;
+                            rbQues8Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues8Answer10.Checked = true;
+                        }
+                        //
+
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion8.Visible = true;
+                        break;
+
+                    case 8:
+                        //optindex = 1;
+                        lblNo9.Text = (slno + 8).ToString() + ".  "; lblNo9.Visible = true;
+                        //lblQues9.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues9.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID9.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType9.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques9 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques9.Count() > 0)
+                            if (Ques9.First().Answer != null)
+                                Answer = Ques9.First().Answer.ToString();
+
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            rbQues9Answer1.Visible = true; //bipson 12082010 lblA9.Visible = true;
+                            rbQues9Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer1.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        //radioQues9.Items.Add(ds.Tables[0].Rows[i]["Option1"].ToString());
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 2)lblB9.Text = GetAnswerOptionOrder(optindex); lblB9.Visible = true;
+
+                            rbQues9Answer2.Visible = true;
+                            rbQues9Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer2.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 3)lblC9.Text = GetAnswerOptionOrder(optindex); lblC9.Visible = true;
+
+                            rbQues9Answer3.Visible = true;
+                            rbQues9Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer3.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 4) lblD9.Text = GetAnswerOptionOrder(optindex); lblD9.Visible = true;
+
+                            rbQues9Answer4.Visible = true;
+                            rbQues9Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 5) lblE9.Text = GetAnswerOptionOrder(optindex); lblE9.Visible = true;
+
+                            rbQues9Answer5.Visible = true;
+                            rbQues9Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 6) lblF9.Text = GetAnswerOptionOrder(optindex);lblF9.Visible = true;
+
+                            rbQues9Answer6.Visible = true;
+                            rbQues9Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 7) lblG9.Text = GetAnswerOptionOrder(optindex); lblG9.Visible = true;
+
+                            rbQues9Answer7.Visible = true;
+                            rbQues9Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 8) lblH9.Text = GetAnswerOptionOrder(optindex); lblH9.Visible = true;
+
+                            rbQues9Answer8.Visible = true;
+                            rbQues9Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 9) lblI9.Text = GetAnswerOptionOrder(optindex); lblI9.Visible = true;
+
+                            rbQues9Answer9.Visible = true;
+                            rbQues9Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions9.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 10)lblJ9.Text = GetAnswerOptionOrder(optindex); lblJ9.Visible = true;
+
+                            rbQues9Answer10.Visible = true;
+                            rbQues9Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues9Answer10.Checked = true;
+                        }
+                        //
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion9.Visible = true;
+                        break;
+
+                    case 9:
+                        //optindex = 1;
+                        lblNo10.Text = (slno + 9).ToString() + ".  "; lblNo10.Visible = true;
+                        //lblQues10.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues10.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID10.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        lblRatingType10.Text = ds.Tables[0].Rows[i]["ScoringStyle"].ToString();
+
+                        var Ques10 = from Ques in dataclass.EvaluationResults
+                                     where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                     Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                     select Ques;
+                        if (Ques10.Count() > 0)
+                            if (Ques10.First().Answer != null)
+                                Answer = Ques10.First().Answer.ToString();
+                        if (ds.Tables[0].Rows[i]["Option1"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            rbQues10Answer1.Visible = true;//bipson 12082010  lblA10.Visible = true; 
+                            rbQues10Answer1.Text = ds.Tables[0].Rows[i]["Option1"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option1"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer1.Checked = true;
+                            optindex++;
+                        }
+
+                        //radioQues10.Items.Add(ds.Tables[0].Rows[i]["Option1"].ToString());
+                        if (ds.Tables[0].Rows[i]["Option2"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 2) lblB10.Text = GetAnswerOptionOrder(optindex); lblB10.Visible = true;
+
+                            rbQues10Answer2.Visible = true;
+                            rbQues10Answer2.Text = ds.Tables[0].Rows[i]["Option2"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option2"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer2.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option3"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 3) lblC10.Text = GetAnswerOptionOrder(optindex); lblC10.Visible = true;
+
+                            rbQues10Answer3.Visible = true;
+                            rbQues10Answer3.Text = ds.Tables[0].Rows[i]["Option3"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option3"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer3.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option4"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 4) lblD10.Text = GetAnswerOptionOrder(optindex); lblD10.Visible = true;
+
+                            rbQues10Answer4.Visible = true;
+                            rbQues10Answer4.Text = ds.Tables[0].Rows[i]["Option4"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option4"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer4.Checked = true;
+                            optindex++;
+                        }
+
+                        if (ds.Tables[0].Rows[i]["Option5"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 5)lblE10.Text = GetAnswerOptionOrder(optindex);lblE10.Visible = true;
+
+                            rbQues10Answer5.Visible = true;
+                            rbQues10Answer5.Text = ds.Tables[0].Rows[i]["Option5"].ToString();
+                            //if (ds.Tables[0].Rows[i]["Option5"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer5.Checked = true;
+                            optindex++;
+                        }
+
+                        //
+                        if (ds.Tables[0].Rows[i]["Option6"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 6) lblF10.Text = GetAnswerOptionOrder(optindex); lblF10.Visible = true;
+
+                            rbQues10Answer6.Visible = true;
+                            rbQues10Answer6.Text = ds.Tables[0].Rows[i]["Option6"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option6"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer6.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option7"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 7) lblG10.Text = GetAnswerOptionOrder(optindex); lblG10.Visible = true;
+
+                            rbQues10Answer7.Visible = true;
+                            rbQues10Answer7.Text = ds.Tables[0].Rows[i]["Option7"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option7"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer7.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option8"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 8) lblH10.Text = GetAnswerOptionOrder(optindex); lblH10.Visible = true;
+
+                            rbQues10Answer8.Visible = true;
+                            rbQues10Answer8.Text = ds.Tables[0].Rows[i]["Option8"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option8"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer8.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option9"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            //bipson 12082010  if (optindex != 9) lblI10.Text = GetAnswerOptionOrder(optindex); lblI10.Visible = true;
+
+                            rbQues10Answer9.Visible = true;
+                            rbQues10Answer9.Text = ds.Tables[0].Rows[i]["Option9"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option9"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer9.Checked = true;
+                            optindex++;
+                        }
+                        if (ds.Tables[0].Rows[i]["Option10"].ToString() != "")
+                        {
+                            lblTotalOptions10.Text = optindex.ToString();
+                            //bipson 12082010 if (optindex != 10) lblJ10.Text = GetAnswerOptionOrder(optindex); lblJ10.Visible = true;
+
+                            rbQues10Answer10.Visible = true;
+                            rbQues10Answer10.Text = ds.Tables[0].Rows[i]["Option10"].ToString();
+                            // if (ds.Tables[0].Rows[i]["Option10"].ToString() == Answer)
+                            if (optindex.ToString() == Answer) rbQues10Answer10.Checked = true;
+                        }
+                        //
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion10.Visible = true;
+                        break;
                 }
             }
-            else
-            {
-                GoToNextPage();
-            }
-            Session["curntques"] = curntquescnt;
+        }
+        else
+        {
+            GoToNextPage();
+        }
+        Session["curntques"] = curntquescnt;
         //}
         //catch (Exception ex)
         //{
         //    FillQuestion();//bipson 14082010 to avoid arithmetic error...
-            
+
         //    //lblmessage.Text += ex.Message;
         //    //conn.Close();
         //}
@@ -1837,11 +1837,11 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         Session["AudioPrevious"] = null; Session["AudioCurrentpage"] = null;
         Session["VideoPrevious"] = null; Session["VideoCurrentpage"] = null;
         Session["MemWordPrevious"] = null; Session["MemWordCurrentpage"] = null;        //
-        
-        Session["questionColl"] = null;        
-        Session["totalQuesCount"] = null; Session["totalQuesAvailable"] = null;        
 
-        ClearSessionValues();      
+        Session["questionColl"] = null;
+        Session["totalQuesCount"] = null; Session["totalQuesAvailable"] = null;
+
+        ClearSessionValues();
 
         int variableIdPageNo = 0;
         if (Session["VariableIdIndexNo"] != null)
@@ -1857,11 +1857,11 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         //    int sectionIdIndexNo = int.Parse(Session["sectionIdIndexNo"].ToString());
         //    Session["sectionIdIndexNo"] = (sectionIdIndexNo + 1).ToString();
         //}
- 
+
         Session["evaldirection"] = "Next";
-        
+        Session["xx"] = "xx";
         Session["SubCtrl"] = "ObjectiveQuestns.ascx";
-        Response.Redirect("FJAHome.aspx"); 
+        Response.Redirect("FJAHome.aspx");
 
     }
 
@@ -1876,21 +1876,21 @@ public partial class RatingQuestions : System.Web.UI.UserControl
 
             if (rbQues1Answer2.Text.Trim() != "") { optioncount++; if (rbQues1Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues1Answer3.Text.Trim() != "") { optioncount++; if (rbQues1Answer3.Checked == true) answer = optioncount; }
+            if (rbQues1Answer3.Text.Trim() != "") { optioncount++; if (rbQues1Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues1Answer4.Text.Trim() != "") { optioncount++; if (rbQues1Answer4.Checked == true) answer = optioncount; }
+            if (rbQues1Answer4.Text.Trim() != "") { optioncount++; if (rbQues1Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues1Answer5.Text.Trim() != "") { optioncount++; if (rbQues1Answer5.Checked == true) answer = optioncount; }
+            if (rbQues1Answer5.Text.Trim() != "") { optioncount++; if (rbQues1Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues1Answer6.Text.Trim() != "") { optioncount++; if (rbQues1Answer6.Checked == true) answer = optioncount; }
+            if (rbQues1Answer6.Text.Trim() != "") { optioncount++; if (rbQues1Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues1Answer7.Text.Trim() != "") { optioncount++; if (rbQues1Answer7.Checked == true) answer = optioncount; }
+            if (rbQues1Answer7.Text.Trim() != "") { optioncount++; if (rbQues1Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues1Answer8.Text.Trim() != "") { optioncount++; if (rbQues1Answer8.Checked == true) answer = optioncount; }
+            if (rbQues1Answer8.Text.Trim() != "") { optioncount++; if (rbQues1Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues1Answer9.Text.Trim() != "") { optioncount++; if (rbQues1Answer9.Checked == true) answer = optioncount; }
+            if (rbQues1Answer9.Text.Trim() != "") { optioncount++; if (rbQues1Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues1Answer10.Text.Trim() != "") { optioncount++; if (rbQues1Answer10.Checked == true) answer = optioncount; }
+            if (rbQues1Answer10.Text.Trim() != "") { optioncount++; if (rbQues1Answer10.Checked == true) answer = optioncount; }
             if (answer >= 0)
             {
                 if (lblRatingType1.Text == "Reverse")
@@ -1901,263 +1901,263 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         }
         else if (index == 2)
         {
-            if (rbQues2Answer1.Text.Trim() != "") { if (rbQues2Answer1.Checked == true) answer = optioncount;  }
+            if (rbQues2Answer1.Text.Trim() != "") { if (rbQues2Answer1.Checked == true) answer = optioncount; }
 
-             if (rbQues2Answer2.Text.Trim() != "") { optioncount++; if (rbQues2Answer2.Checked == true) answer = optioncount;  }
+            if (rbQues2Answer2.Text.Trim() != "") { optioncount++; if (rbQues2Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues2Answer3.Text.Trim() != "") { optioncount++; if (rbQues2Answer3.Checked == true) answer = optioncount;  }
+            if (rbQues2Answer3.Text.Trim() != "") { optioncount++; if (rbQues2Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues2Answer4.Text.Trim() != "") { optioncount++; if (rbQues2Answer4.Checked == true) answer = optioncount;  }
+            if (rbQues2Answer4.Text.Trim() != "") { optioncount++; if (rbQues2Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues2Answer5.Text.Trim() != "") { optioncount++; if (rbQues2Answer5.Checked == true) answer = optioncount;  }
+            if (rbQues2Answer5.Text.Trim() != "") { optioncount++; if (rbQues2Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues2Answer6.Text.Trim() != "") { optioncount++; if (rbQues2Answer6.Checked == true) answer = optioncount;  }
+            if (rbQues2Answer6.Text.Trim() != "") { optioncount++; if (rbQues2Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues2Answer7.Text.Trim() != "") { optioncount++; if (rbQues2Answer7.Checked == true) answer = optioncount;  }
+            if (rbQues2Answer7.Text.Trim() != "") { optioncount++; if (rbQues2Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues2Answer8.Text.Trim() != "") { optioncount++; if (rbQues2Answer8.Checked == true) answer = optioncount;  }
+            if (rbQues2Answer8.Text.Trim() != "") { optioncount++; if (rbQues2Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues2Answer9.Text.Trim() != "") { optioncount++; if (rbQues2Answer9.Checked == true) answer = optioncount;  }
+            if (rbQues2Answer9.Text.Trim() != "") { optioncount++; if (rbQues2Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues2Answer10.Text.Trim() != "") { optioncount++; if (rbQues2Answer10.Checked == true) answer = optioncount; }
+            if (rbQues2Answer10.Text.Trim() != "") { optioncount++; if (rbQues2Answer10.Checked == true) answer = optioncount; }
             if (answer >= 0)
             {
                 if (lblRatingType2.Text == "Reverse")
                 {
-                    answer = (optioncount - answer) ;// +1;
+                    answer = (optioncount - answer);// +1;
                 }
             }
         }
         else if (index == 3)
         {
-            if (rbQues3Answer1.Text.Trim() != "") { if (rbQues3Answer1.Checked == true) answer = optioncount;  }
+            if (rbQues3Answer1.Text.Trim() != "") { if (rbQues3Answer1.Checked == true) answer = optioncount; }
 
-             if (rbQues3Answer2.Text.Trim() != "") { optioncount++; if (rbQues3Answer2.Checked == true) answer = optioncount;  }
+            if (rbQues3Answer2.Text.Trim() != "") { optioncount++; if (rbQues3Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues3Answer3.Text.Trim() != "") { optioncount++; if (rbQues3Answer3.Checked == true) answer = optioncount;  }
+            if (rbQues3Answer3.Text.Trim() != "") { optioncount++; if (rbQues3Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues3Answer4.Text.Trim() != "") { optioncount++; if (rbQues3Answer4.Checked == true) answer = optioncount;  }
+            if (rbQues3Answer4.Text.Trim() != "") { optioncount++; if (rbQues3Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues3Answer5.Text.Trim() != "") { optioncount++; if (rbQues3Answer5.Checked == true) answer = optioncount;  }
+            if (rbQues3Answer5.Text.Trim() != "") { optioncount++; if (rbQues3Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues3Answer6.Text.Trim() != "") { optioncount++; if (rbQues3Answer6.Checked == true) answer = optioncount;  }
+            if (rbQues3Answer6.Text.Trim() != "") { optioncount++; if (rbQues3Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues3Answer7.Text.Trim() != "") { optioncount++; if (rbQues3Answer7.Checked == true) answer = optioncount;  }
+            if (rbQues3Answer7.Text.Trim() != "") { optioncount++; if (rbQues3Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues3Answer8.Text.Trim() != "") { optioncount++; if (rbQues3Answer8.Checked == true) answer = optioncount;  }
+            if (rbQues3Answer8.Text.Trim() != "") { optioncount++; if (rbQues3Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues3Answer9.Text.Trim() != "") { optioncount++; if (rbQues3Answer9.Checked == true) answer = optioncount;  }
+            if (rbQues3Answer9.Text.Trim() != "") { optioncount++; if (rbQues3Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues3Answer10.Text.Trim() != "") { optioncount++; if (rbQues3Answer10.Checked == true) answer = optioncount; }
+            if (rbQues3Answer10.Text.Trim() != "") { optioncount++; if (rbQues3Answer10.Checked == true) answer = optioncount; }
             if (answer >= 0)
             {
                 if (lblRatingType3.Text == "Reverse")
                 {
-                    answer = (optioncount - answer) ;// +1;
+                    answer = (optioncount - answer);// +1;
                 }
             }
         }
         else if (index == 4)
         {
-            if (rbQues4Answer1.Text.Trim() != "") { if (rbQues4Answer1.Checked == true) answer = optioncount;  }
+            if (rbQues4Answer1.Text.Trim() != "") { if (rbQues4Answer1.Checked == true) answer = optioncount; }
 
-             if (rbQues4Answer2.Text.Trim() != "") { optioncount++; if (rbQues4Answer2.Checked == true) answer = optioncount;  }
+            if (rbQues4Answer2.Text.Trim() != "") { optioncount++; if (rbQues4Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues4Answer3.Text.Trim() != "") { optioncount++; if (rbQues4Answer3.Checked == true) answer = optioncount;  }
+            if (rbQues4Answer3.Text.Trim() != "") { optioncount++; if (rbQues4Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues4Answer4.Text.Trim() != "") { optioncount++; if (rbQues4Answer4.Checked == true) answer = optioncount;  }
+            if (rbQues4Answer4.Text.Trim() != "") { optioncount++; if (rbQues4Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues4Answer5.Text.Trim() != "") { optioncount++; if (rbQues4Answer5.Checked == true) answer = optioncount;  }
+            if (rbQues4Answer5.Text.Trim() != "") { optioncount++; if (rbQues4Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues4Answer6.Text.Trim() != "") { optioncount++; if (rbQues4Answer6.Checked == true) answer = optioncount;  }
+            if (rbQues4Answer6.Text.Trim() != "") { optioncount++; if (rbQues4Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues4Answer7.Text.Trim() != "") { optioncount++; if (rbQues4Answer7.Checked == true) answer = optioncount;  }
+            if (rbQues4Answer7.Text.Trim() != "") { optioncount++; if (rbQues4Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues4Answer8.Text.Trim() != "") { optioncount++; if (rbQues4Answer8.Checked == true) answer = optioncount;  }
+            if (rbQues4Answer8.Text.Trim() != "") { optioncount++; if (rbQues4Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues4Answer9.Text.Trim() != "") { optioncount++; if (rbQues4Answer9.Checked == true) answer = optioncount;  }
+            if (rbQues4Answer9.Text.Trim() != "") { optioncount++; if (rbQues4Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues4Answer10.Text.Trim() != "") { optioncount++; if (rbQues4Answer10.Checked == true) answer = optioncount; }
+            if (rbQues4Answer10.Text.Trim() != "") { optioncount++; if (rbQues4Answer10.Checked == true) answer = optioncount; }
             if (answer >= 0)
             {
                 if (lblRatingType4.Text == "Reverse")
                 {
-                    answer = (optioncount - answer) ;// +1;
+                    answer = (optioncount - answer);// +1;
                 }
             }
         }
         else if (index == 5)
         {
-            if (rbQues5Answer1.Text.Trim() != "") { if (rbQues5Answer1.Checked == true) answer = optioncount;  }
+            if (rbQues5Answer1.Text.Trim() != "") { if (rbQues5Answer1.Checked == true) answer = optioncount; }
 
-             if (rbQues5Answer2.Text.Trim() != "") { optioncount++; if (rbQues5Answer2.Checked == true) answer = optioncount;  }
+            if (rbQues5Answer2.Text.Trim() != "") { optioncount++; if (rbQues5Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues5Answer3.Text.Trim() != "") { optioncount++; if (rbQues5Answer3.Checked == true) answer = optioncount;  }
+            if (rbQues5Answer3.Text.Trim() != "") { optioncount++; if (rbQues5Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues5Answer4.Text.Trim() != "") { optioncount++; if (rbQues5Answer4.Checked == true) answer = optioncount;  }
+            if (rbQues5Answer4.Text.Trim() != "") { optioncount++; if (rbQues5Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues5Answer5.Text.Trim() != "") { optioncount++; if (rbQues5Answer5.Checked == true) answer = optioncount;  }
+            if (rbQues5Answer5.Text.Trim() != "") { optioncount++; if (rbQues5Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues5Answer6.Text.Trim() != "") { optioncount++; if (rbQues5Answer6.Checked == true) answer = optioncount;  }
+            if (rbQues5Answer6.Text.Trim() != "") { optioncount++; if (rbQues5Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues5Answer7.Text.Trim() != "") { optioncount++; if (rbQues5Answer7.Checked == true) answer = optioncount;  }
+            if (rbQues5Answer7.Text.Trim() != "") { optioncount++; if (rbQues5Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues5Answer8.Text.Trim() != "") { optioncount++; if (rbQues5Answer8.Checked == true) answer = optioncount;  }
+            if (rbQues5Answer8.Text.Trim() != "") { optioncount++; if (rbQues5Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues5Answer9.Text.Trim() != "") { optioncount++; if (rbQues5Answer9.Checked == true) answer = optioncount;  }
+            if (rbQues5Answer9.Text.Trim() != "") { optioncount++; if (rbQues5Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues5Answer10.Text.Trim() != "") { optioncount++; if (rbQues5Answer10.Checked == true) answer = optioncount; }
+            if (rbQues5Answer10.Text.Trim() != "") { optioncount++; if (rbQues5Answer10.Checked == true) answer = optioncount; }
             if (answer >= 0)
             {
                 if (lblRatingType5.Text == "Reverse")
                 {
-                    answer = (optioncount - answer) ;// +1;
+                    answer = (optioncount - answer);// +1;
                 }
             }
         }
         else if (index == 6)
         {
-            if (rbQues6Answer1.Text.Trim() != "") { if (rbQues6Answer1.Checked == true) answer = optioncount;  }
+            if (rbQues6Answer1.Text.Trim() != "") { if (rbQues6Answer1.Checked == true) answer = optioncount; }
 
-             if (rbQues6Answer2.Text.Trim() != "") { optioncount++; if (rbQues6Answer2.Checked == true) answer = optioncount;  }
+            if (rbQues6Answer2.Text.Trim() != "") { optioncount++; if (rbQues6Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues6Answer3.Text.Trim() != "") { optioncount++; if (rbQues6Answer3.Checked == true) answer = optioncount;  }
+            if (rbQues6Answer3.Text.Trim() != "") { optioncount++; if (rbQues6Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues6Answer4.Text.Trim() != "") { optioncount++; if (rbQues6Answer4.Checked == true) answer = optioncount;  }
+            if (rbQues6Answer4.Text.Trim() != "") { optioncount++; if (rbQues6Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues6Answer5.Text.Trim() != "") { optioncount++; if (rbQues6Answer5.Checked == true) answer = optioncount;  }
+            if (rbQues6Answer5.Text.Trim() != "") { optioncount++; if (rbQues6Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues6Answer6.Text.Trim() != "") { optioncount++; if (rbQues6Answer6.Checked == true) answer = optioncount;  }
+            if (rbQues6Answer6.Text.Trim() != "") { optioncount++; if (rbQues6Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues6Answer7.Text.Trim() != "") { optioncount++; if (rbQues6Answer7.Checked == true) answer = optioncount;  }
+            if (rbQues6Answer7.Text.Trim() != "") { optioncount++; if (rbQues6Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues6Answer8.Text.Trim() != "") { optioncount++; if (rbQues6Answer8.Checked == true) answer = optioncount;  }
+            if (rbQues6Answer8.Text.Trim() != "") { optioncount++; if (rbQues6Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues6Answer9.Text.Trim() != "") { optioncount++; if (rbQues6Answer9.Checked == true) answer = optioncount;  }
+            if (rbQues6Answer9.Text.Trim() != "") { optioncount++; if (rbQues6Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues6Answer10.Text.Trim() != "") { optioncount++; if (rbQues6Answer10.Checked == true) answer = optioncount; }
+            if (rbQues6Answer10.Text.Trim() != "") { optioncount++; if (rbQues6Answer10.Checked == true) answer = optioncount; }
             if (answer >= 0)
             {
                 if (lblRatingType6.Text == "Reverse")
                 {
-                    answer = (optioncount - answer) ;// +1;
+                    answer = (optioncount - answer);// +1;
                 }
             }
         }
         else if (index == 7)
         {
-            if (rbQues7Answer1.Text.Trim() != "") { if (rbQues7Answer1.Checked == true) answer = optioncount;  }
+            if (rbQues7Answer1.Text.Trim() != "") { if (rbQues7Answer1.Checked == true) answer = optioncount; }
 
-             if (rbQues7Answer2.Text.Trim() != "") { optioncount++; if (rbQues7Answer2.Checked == true) answer = optioncount;  }
+            if (rbQues7Answer2.Text.Trim() != "") { optioncount++; if (rbQues7Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues7Answer3.Text.Trim() != "") { optioncount++; if (rbQues7Answer3.Checked == true) answer = optioncount;  }
+            if (rbQues7Answer3.Text.Trim() != "") { optioncount++; if (rbQues7Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues7Answer4.Text.Trim() != "") { optioncount++; if (rbQues7Answer4.Checked == true) answer = optioncount;  }
+            if (rbQues7Answer4.Text.Trim() != "") { optioncount++; if (rbQues7Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues7Answer5.Text.Trim() != "") { optioncount++; if (rbQues7Answer5.Checked == true) answer = optioncount;  }
+            if (rbQues7Answer5.Text.Trim() != "") { optioncount++; if (rbQues7Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues7Answer6.Text.Trim() != "") { optioncount++; if (rbQues7Answer6.Checked == true) answer = optioncount;  }
+            if (rbQues7Answer6.Text.Trim() != "") { optioncount++; if (rbQues7Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues7Answer7.Text.Trim() != "") { optioncount++; if (rbQues7Answer7.Checked == true) answer = optioncount;  }
+            if (rbQues7Answer7.Text.Trim() != "") { optioncount++; if (rbQues7Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues7Answer8.Text.Trim() != "") { optioncount++; if (rbQues7Answer8.Checked == true) answer = optioncount;  }
+            if (rbQues7Answer8.Text.Trim() != "") { optioncount++; if (rbQues7Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues7Answer9.Text.Trim() != "") { optioncount++; if (rbQues7Answer9.Checked == true) answer = optioncount;  }
+            if (rbQues7Answer9.Text.Trim() != "") { optioncount++; if (rbQues7Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues7Answer10.Text.Trim() != "") { optioncount++; if (rbQues7Answer10.Checked == true) answer = optioncount; }
+            if (rbQues7Answer10.Text.Trim() != "") { optioncount++; if (rbQues7Answer10.Checked == true) answer = optioncount; }
             if (answer >= 0)
             {
                 if (lblRatingType7.Text == "Reverse")
                 {
-                    answer = (optioncount - answer) ;// +1;
+                    answer = (optioncount - answer);// +1;
                 }
             }
         }
         else if (index == 8)
         {
-            if (rbQues8Answer1.Text.Trim() != "") { if (rbQues8Answer1.Checked == true) answer = optioncount;  }
+            if (rbQues8Answer1.Text.Trim() != "") { if (rbQues8Answer1.Checked == true) answer = optioncount; }
 
-             if (rbQues8Answer2.Text.Trim() != "") { optioncount++; if (rbQues8Answer2.Checked == true) answer = optioncount;  }
+            if (rbQues8Answer2.Text.Trim() != "") { optioncount++; if (rbQues8Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues8Answer3.Text.Trim() != "") { optioncount++; if (rbQues8Answer3.Checked == true) answer = optioncount;  }
+            if (rbQues8Answer3.Text.Trim() != "") { optioncount++; if (rbQues8Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues8Answer4.Text.Trim() != "") { optioncount++; if (rbQues8Answer4.Checked == true) answer = optioncount;  }
+            if (rbQues8Answer4.Text.Trim() != "") { optioncount++; if (rbQues8Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues8Answer5.Text.Trim() != "") { optioncount++; if (rbQues8Answer5.Checked == true) answer = optioncount;  }
+            if (rbQues8Answer5.Text.Trim() != "") { optioncount++; if (rbQues8Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues8Answer6.Text.Trim() != "") { optioncount++; if (rbQues8Answer6.Checked == true) answer = optioncount;  }
+            if (rbQues8Answer6.Text.Trim() != "") { optioncount++; if (rbQues8Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues8Answer7.Text.Trim() != "") { optioncount++; if (rbQues8Answer7.Checked == true) answer = optioncount;  }
+            if (rbQues8Answer7.Text.Trim() != "") { optioncount++; if (rbQues8Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues8Answer8.Text.Trim() != "") { optioncount++; if (rbQues8Answer8.Checked == true) answer = optioncount;  }
+            if (rbQues8Answer8.Text.Trim() != "") { optioncount++; if (rbQues8Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues8Answer9.Text.Trim() != "") { optioncount++; if (rbQues8Answer9.Checked == true) answer = optioncount;  }
+            if (rbQues8Answer9.Text.Trim() != "") { optioncount++; if (rbQues8Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues8Answer10.Text.Trim() != "") { optioncount++; if (rbQues8Answer10.Checked == true) answer = optioncount; }
+            if (rbQues8Answer10.Text.Trim() != "") { optioncount++; if (rbQues8Answer10.Checked == true) answer = optioncount; }
 
             if (answer >= 0)
             {
                 if (lblRatingType8.Text == "Reverse")
                 {
-                    answer = (optioncount - answer) ;// +1;
+                    answer = (optioncount - answer);// +1;
                 }
             }
         }
         else if (index == 9)
         {
-            if (rbQues9Answer1.Text.Trim() != "") { if (rbQues9Answer1.Checked == true) answer = optioncount;  }
+            if (rbQues9Answer1.Text.Trim() != "") { if (rbQues9Answer1.Checked == true) answer = optioncount; }
 
-             if (rbQues9Answer2.Text.Trim() != "") { optioncount++; if (rbQues9Answer2.Checked == true) answer = optioncount;  }
+            if (rbQues9Answer2.Text.Trim() != "") { optioncount++; if (rbQues9Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues9Answer3.Text.Trim() != "") { optioncount++; if (rbQues9Answer3.Checked == true) answer = optioncount;  }
+            if (rbQues9Answer3.Text.Trim() != "") { optioncount++; if (rbQues9Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues9Answer4.Text.Trim() != "") { optioncount++; if (rbQues9Answer4.Checked == true) answer = optioncount;  }
+            if (rbQues9Answer4.Text.Trim() != "") { optioncount++; if (rbQues9Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues9Answer5.Text.Trim() != "") { optioncount++; if (rbQues9Answer5.Checked == true) answer = optioncount;  }
+            if (rbQues9Answer5.Text.Trim() != "") { optioncount++; if (rbQues9Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues9Answer6.Text.Trim() != "") { optioncount++; if (rbQues9Answer6.Checked == true) answer = optioncount;  }
+            if (rbQues9Answer6.Text.Trim() != "") { optioncount++; if (rbQues9Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues9Answer7.Text.Trim() != "") { optioncount++; if (rbQues9Answer7.Checked == true) answer = optioncount;  }
+            if (rbQues9Answer7.Text.Trim() != "") { optioncount++; if (rbQues9Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues9Answer8.Text.Trim() != "") { optioncount++; if (rbQues9Answer8.Checked == true) answer = optioncount;  }
+            if (rbQues9Answer8.Text.Trim() != "") { optioncount++; if (rbQues9Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues9Answer9.Text.Trim() != "") { optioncount++; if (rbQues9Answer9.Checked == true) answer = optioncount;  }
+            if (rbQues9Answer9.Text.Trim() != "") { optioncount++; if (rbQues9Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues9Answer10.Text.Trim() != "") { optioncount++; if (rbQues9Answer10.Checked == true) answer = optioncount; }
+            if (rbQues9Answer10.Text.Trim() != "") { optioncount++; if (rbQues9Answer10.Checked == true) answer = optioncount; }
             if (answer >= 0)
             {
                 if (lblRatingType9.Text == "Reverse")
                 {
-                    answer = (optioncount - answer) ;// +1;
+                    answer = (optioncount - answer);// +1;
                 }
             }
         }
         else if (index == 10)
         {
-            if (rbQues10Answer1.Text.Trim() != "") { if (rbQues10Answer1.Checked == true) answer = optioncount;  }
+            if (rbQues10Answer1.Text.Trim() != "") { if (rbQues10Answer1.Checked == true) answer = optioncount; }
 
-             if (rbQues10Answer2.Text.Trim() != "") { optioncount++; if (rbQues10Answer2.Checked == true) answer = optioncount;  }
+            if (rbQues10Answer2.Text.Trim() != "") { optioncount++; if (rbQues10Answer2.Checked == true) answer = optioncount; }
 
-             if (rbQues10Answer3.Text.Trim() != "") { optioncount++; if (rbQues10Answer3.Checked == true) answer = optioncount;  }
+            if (rbQues10Answer3.Text.Trim() != "") { optioncount++; if (rbQues10Answer3.Checked == true) answer = optioncount; }
 
-             if (rbQues10Answer4.Text.Trim() != "") { optioncount++; if (rbQues10Answer4.Checked == true) answer = optioncount;  }
+            if (rbQues10Answer4.Text.Trim() != "") { optioncount++; if (rbQues10Answer4.Checked == true) answer = optioncount; }
 
-             if (rbQues10Answer5.Text.Trim() != "") { optioncount++; if (rbQues10Answer5.Checked == true) answer = optioncount;  }
+            if (rbQues10Answer5.Text.Trim() != "") { optioncount++; if (rbQues10Answer5.Checked == true) answer = optioncount; }
 
-             if (rbQues10Answer6.Text.Trim() != "") { optioncount++; if (rbQues10Answer6.Checked == true) answer = optioncount;  }
+            if (rbQues10Answer6.Text.Trim() != "") { optioncount++; if (rbQues10Answer6.Checked == true) answer = optioncount; }
 
-             if (rbQues10Answer7.Text.Trim() != "") { optioncount++; if (rbQues10Answer7.Checked == true) answer = optioncount;  }
+            if (rbQues10Answer7.Text.Trim() != "") { optioncount++; if (rbQues10Answer7.Checked == true) answer = optioncount; }
 
-             if (rbQues10Answer8.Text.Trim() != "") { optioncount++; if (rbQues10Answer8.Checked == true) answer = optioncount;  }
+            if (rbQues10Answer8.Text.Trim() != "") { optioncount++; if (rbQues10Answer8.Checked == true) answer = optioncount; }
 
-             if (rbQues10Answer9.Text.Trim() != "") { optioncount++; if (rbQues10Answer9.Checked == true) answer = optioncount;  }
+            if (rbQues10Answer9.Text.Trim() != "") { optioncount++; if (rbQues10Answer9.Checked == true) answer = optioncount; }
 
-             if (rbQues10Answer10.Text.Trim() != "") { optioncount++; if (rbQues10Answer10.Checked == true) answer = optioncount; }
+            if (rbQues10Answer10.Text.Trim() != "") { optioncount++; if (rbQues10Answer10.Checked == true) answer = optioncount; }
             if (answer >= 0)
             {
                 if (lblRatingType10.Text == "Reverse")
                 {
-                    answer = (optioncount - answer) ;// +1;
+                    answer = (optioncount - answer);// +1;
                 }
             }
         }
@@ -2174,7 +2174,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         string answerResult = "-";
         int answer = 0;
         if (lblQuesID1.Text.Trim() != "")
-        {           
+        {
             answer = GetRatingtypeAnswer(1);
             // code to insert "-" sign if user leave any answers // bip 05062011
             if (answer < 0)
@@ -2187,7 +2187,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         answer = 0;// "";
 
         if (lblQuesID2.Text.Trim() != "")
-        {            
+        {
             answer = GetRatingtypeAnswer(2);
             if (answer < 0)
                 answerResult = "-";
@@ -2198,7 +2198,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
 
         answer = 0;// "";
         if (lblQuesID3.Text.Trim() != "")
-        {            
+        {
             answer = GetRatingtypeAnswer(3);
             if (answer < 0)
                 answerResult = "-";
@@ -2246,7 +2246,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         answer = 0;// "";
 
         if (lblQuesID7.Text.Trim() != "")
-        {           
+        {
             answer = GetRatingtypeAnswer(7);
             if (answer < 0)
                 answerResult = "-";
@@ -2257,7 +2257,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         answer = 0;// "";
 
         if (lblQuesID8.Text.Trim() != "")
-        {           
+        {
             answer = GetRatingtypeAnswer(8);
             if (answer < 0)
                 answerResult = "-";
@@ -2268,7 +2268,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
 
         answer = 0;// "";
         if (lblQuesID9.Text.Trim() != "")
-        {           
+        {
             answer = GetRatingtypeAnswer(9);
             if (answer < 0)
                 answerResult = "-";
@@ -2279,7 +2279,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
 
         answer = 0;// "";
         if (lblQuesID10.Text.Trim() != "")
-        {           
+        {
             answer = GetRatingtypeAnswer(10);
             if (answer < 0)
                 answerResult = "-";
@@ -2291,7 +2291,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
 
     private void ClearSessionValues()
     {
-       // Session["pagecountRating"] = null;
+        // Session["pagecountRating"] = null;
     }
 
     private void ClearControls()
@@ -2371,22 +2371,22 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         lblQuesID6.Text = ""; lblQuesID7.Text = ""; lblQuesID8.Text = ""; lblQuesID9.Text = ""; lblQuesID10.Text = "";
 
         // bip 17122009
-        lblQuesID1.Visible=false; lblQuesID2.Visible=false; lblQuesID3.Visible=false; lblQuesID4.Visible=false; lblQuesID5.Visible=false;
-        lblQuesID6.Visible=false; lblQuesID7.Visible=false; lblQuesID8.Visible=false; lblQuesID9.Visible=false; lblQuesID10.Visible=false;
+        lblQuesID1.Visible = false; lblQuesID2.Visible = false; lblQuesID3.Visible = false; lblQuesID4.Visible = false; lblQuesID5.Visible = false;
+        lblQuesID6.Visible = false; lblQuesID7.Visible = false; lblQuesID8.Visible = false; lblQuesID9.Visible = false; lblQuesID10.Visible = false;
 
         lblNo1.Text = ""; lblNo2.Text = ""; lblNo3.Text = ""; lblNo4.Text = ""; lblNo5.Text = "";
         lblNo6.Text = ""; lblNo7.Text = ""; lblNo8.Text = ""; lblNo9.Text = ""; lblNo10.Text = "";
 
         // bip 17122009
-        lblNo1.Visible=false; lblNo2.Visible=false; lblNo3.Visible=false; lblNo4.Visible=false; lblNo5.Visible=false;
-        lblNo6.Visible=false; lblNo7.Visible=false; lblNo8.Visible=false; lblNo9.Visible=false; lblNo10.Visible=false;
+        lblNo1.Visible = false; lblNo2.Visible = false; lblNo3.Visible = false; lblNo4.Visible = false; lblNo5.Visible = false;
+        lblNo6.Visible = false; lblNo7.Visible = false; lblNo8.Visible = false; lblNo9.Visible = false; lblNo10.Visible = false;
 
         lblQues1.Text = ""; lblQues2.Text = ""; lblQues3.Text = ""; lblQues4.Text = ""; lblQues5.Text = "";
         lblQues6.Text = ""; lblQues7.Text = ""; lblQues8.Text = ""; lblQues9.Text = ""; lblQues10.Text = "";
 
         // bip 17122009
-        lblQues1.Visible=false; lblQues2.Visible=false; lblQues3.Visible=false; lblQues4.Visible=false; lblQues5.Visible=false;
-        lblQues6.Visible=false; lblQues7.Visible=false; lblQues8.Visible=false; lblQues9.Visible=false; lblQues10.Visible=false;
+        lblQues1.Visible = false; lblQues2.Visible = false; lblQues3.Visible = false; lblQues4.Visible = false; lblQues5.Visible = false;
+        lblQues6.Visible = false; lblQues7.Visible = false; lblQues8.Visible = false; lblQues9.Visible = false; lblQues10.Visible = false;
 
         tcellQues1.InnerHtml = ""; tcellQues2.InnerHtml = ""; tcellQues3.InnerHtml = ""; tcellQues4.InnerHtml = ""; tcellQues5.InnerHtml = "";
         tcellQues6.InnerHtml = ""; tcellQues7.InnerHtml = ""; tcellQues8.InnerHtml = ""; tcellQues9.InnerHtml = ""; tcellQues10.InnerHtml = "";
@@ -2430,7 +2430,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
-    {        
+    {
         Boolean timeExpired = CheckTime();
         if (timeExpired == false)//bip 10052010
         {
@@ -2470,8 +2470,8 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         if (curindex < curcount)
         {
             pagecount++;
-            Session["pagecountRating"] = pagecount;SetCurrentPageCount();// 230110 bip
-            FillQuestion(); 
+            Session["pagecountRating"] = pagecount; SetCurrentPageCount();// 230110 bip
+            FillQuestion();
         }
         else
         {
@@ -2501,7 +2501,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
             }
         }
 
-      //  return answercompleted;
+        //  return answercompleted;
         if (lblQuesID2.Text.Trim() != "")
         {
             answer = GetRatingtypeAnswer(2);//.ToString();
@@ -2512,7 +2512,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
             }
         }
 
-       // return answercompleted;
+        // return answercompleted;
         if (lblQuesID3.Text.Trim() != "")
         {
             answer = GetRatingtypeAnswer(3);//.ToString();
@@ -2523,7 +2523,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
             }
         }
 
-       // return answercompleted;
+        // return answercompleted;
         if (lblQuesID4.Text.Trim() != "")
         {
             answer = GetRatingtypeAnswer(4);//.ToString();
@@ -2534,7 +2534,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
             }
         }
 
-       // return answercompleted;
+        // return answercompleted;
         if (lblQuesID5.Text.Trim() != "")
         {
             answer = GetRatingtypeAnswer(5);//.ToString();
@@ -2545,7 +2545,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
             }
         }
 
-       // return answercompleted;
+        // return answercompleted;
 
         if (lblQuesID6.Text.Trim() != "")
         {
@@ -2557,7 +2557,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
             }
         }
 
-       // return answercompleted;
+        // return answercompleted;
         if (lblQuesID7.Text.Trim() != "")
         {
             answer = GetRatingtypeAnswer(7);//.ToString();
@@ -2568,7 +2568,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
             }
         }
 
-       // return answercompleted;
+        // return answercompleted;
         if (lblQuesID8.Text.Trim() != "")
         {
             answer = GetRatingtypeAnswer(8);//.ToString();
@@ -2590,7 +2590,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
             }
         }
 
-       // return answercompleted;
+        // return answercompleted;
         if (lblQuesID10.Text.Trim() != "")
         {
             answer = GetRatingtypeAnswer(10);//.ToString();
@@ -2625,13 +2625,13 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         int curindex = 0;
         curindex = (pagecount - 1) * quesperPage;
         if (curindex >= 0)
-        {            
+        {
             pagecount--;
             Session["pagecountRating"] = pagecount; SetCurrentPageCount();// 230110 bip
         }
         else
         {
-            GoToPreviousPage();            
+            GoToPreviousPage();
         }
         FillQuestion();
     }
@@ -2647,7 +2647,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         if (Session["CurrentTestSectionId"] != null)
         {
             testsectionid = int.Parse(Session["CurrentTestSectionId"].ToString());
-        }        
+        }
 
         ClearSessionValues();
         Session["evaldirection"] = "Previous";
@@ -2672,7 +2672,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
     }
     protected void btnYes_confirm_Click(object sender, EventArgs e)
     {
-        pnlMessage.Visible = false; pnlMessage_confirm.Visible = false;        
+        pnlMessage.Visible = false; pnlMessage_confirm.Visible = false;
         GoToNextPage();
     }
     protected void btnCancel_confirm_Click(object sender, EventArgs e)
@@ -2681,13 +2681,13 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         btnSubmit.Visible = true; btnPrevious.Visible = true;
     }
     protected void btnYespopup_Click(object sender, EventArgs e)
-    {        
+    {
         SaveValues(); pnlpopup.Visible = false;
         Timer1.Enabled = true;
     }
 
     // for first level variablewise time setting 24-02-2010 bip
-      
+
 
     private Boolean CheckTestSecVarTimeValidity()
     {
@@ -2775,7 +2775,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
                     drTimedet["TimeUsed"] = hrs + ":" + min + ":" + sec;
                     drTimedet["AssignTime"] = setHrs + ":" + setMin + ":" + 0;
                     drTimedet["AssignStatus"] = 1;
-                   // dtTimeDetails.Rows.Add(drTimedet);
+                    // dtTimeDetails.Rows.Add(drTimedet);
 
                     if (timeExpired == true)
                     {
@@ -2801,153 +2801,153 @@ public partial class RatingQuestions : System.Web.UI.UserControl
     private Boolean CheckTestSecVarGenValidity()
     {
         //if (Session["TestSectionVariableTimeDuration"] == null)
-            if (Session["TotalTimeForUnAssgnSecVariables"] != null)
+        if (Session["TotalTimeForUnAssgnSecVariables"] != null)
+        {
+            string[] totaltimeforUnAssgn = Session["TotalTimeForUnAssgnSecVariables"].ToString().Split(new char[] { ':' });
+            int totalHrsforUnAssgn = int.Parse(totaltimeforUnAssgn[0]);
+            int totalMinforUnAssgn = int.Parse(totaltimeforUnAssgn[1]);
+            int totalSecforUnAssgn = int.Parse(totaltimeforUnAssgn[2]);
+
+            TimeSpan tsUnAssgn = new TimeSpan(totalHrsforUnAssgn, totalMinforUnAssgn, totalSecforUnAssgn);
+            int genHrs = 0, genMin = 0, genSec = 0;
+            if (Session["GeneralVariableTimeUsed"] != null)
             {
-                string[] totaltimeforUnAssgn = Session["TotalTimeForUnAssgnSecVariables"].ToString().Split(new char[] { ':' });
-                int totalHrsforUnAssgn = int.Parse(totaltimeforUnAssgn[0]);
-                int totalMinforUnAssgn = int.Parse(totaltimeforUnAssgn[1]);
-                int totalSecforUnAssgn = int.Parse(totaltimeforUnAssgn[2]);
+                string[] genTimeUsed = Session["GeneralVariableTimeUsed"].ToString().Split(new char[] { ':' });
+                genHrs = int.Parse(genTimeUsed[0]);
+                genMin = int.Parse(genTimeUsed[1]);
+                genSec = int.Parse(genTimeUsed[2]);
+                TimeSpan tsGeneral = new TimeSpan(genHrs, genMin, genSec);
 
-                TimeSpan tsUnAssgn = new TimeSpan(totalHrsforUnAssgn, totalMinforUnAssgn, totalSecforUnAssgn);
-                int genHrs = 0, genMin = 0, genSec = 0;
-                if (Session["GeneralVariableTimeUsed"] != null)
+                if (tsGeneral > tsUnAssgn)
+                    return true;
+            }
+
+            //
+
+            if (Session["TestSectionVariableStartTime"] != null)
+            {
+                DateTime dtStartTime = (DateTime)Session["TestSectionVariableStartTime"];
+                DateTime dtendTime = DateTime.Now;
+                TimeSpan tsUsed = dtendTime.Subtract(dtStartTime);
+
+                genHrs += tsUsed.Hours;
+                genMin += tsUsed.Minutes;
+                genSec += tsUsed.Seconds;
+
+                if (genSec >= 60)
                 {
-                    string[] genTimeUsed = Session["GeneralVariableTimeUsed"].ToString().Split(new char[] { ':' });
-                    genHrs = int.Parse(genTimeUsed[0]);
-                    genMin = int.Parse(genTimeUsed[1]);
-                    genSec = int.Parse(genTimeUsed[2]);
-                    TimeSpan tsGeneral = new TimeSpan(genHrs, genMin, genSec);
+                    double getMin = float.Parse(genSec.ToString()) / 60;
+                    string[] newMin = getMin.ToString().Split(new char[] { '.' });
+                    if (newMin.Length > 1)
+                    {
+                        int newminutes = int.Parse(newMin[0]);
+                        genMin += newminutes;
 
-                    if (tsGeneral > tsUnAssgn)
-                        return true;
+                        float newSec = float.Parse(getMin.ToString().Substring(1)) * 60;
+                        string[] newSeconds = newSec.ToString().Split(new char[] { '.' });
+                        int seconds = int.Parse(newSeconds[0]);
+                        genSec = seconds;
+                    }
                 }
 
-                //
-
-                if (Session["TestSectionVariableStartTime"] != null)
+                if (genMin >= 60)
                 {
-                    DateTime dtStartTime = (DateTime)Session["TestSectionVariableStartTime"];
-                    DateTime dtendTime = DateTime.Now;
-                    TimeSpan tsUsed = dtendTime.Subtract(dtStartTime);
-
-                    genHrs += tsUsed.Hours;
-                    genMin += tsUsed.Minutes;
-                    genSec += tsUsed.Seconds;
-
-                    if (genSec >= 60)
+                    double getHrs = float.Parse(genMin.ToString()) / 60;
+                    string[] newHrs = getHrs.ToString().Split(new char[] { '.' });
+                    if (newHrs.Length > 1)
                     {
-                        double getMin = float.Parse(genSec.ToString()) / 60;
-                        string[] newMin = getMin.ToString().Split(new char[] { '.' });
-                        if (newMin.Length > 1)
-                        {
-                            int newminutes = int.Parse(newMin[0]);
-                            genMin += newminutes;
+                        int newhours = int.Parse(newHrs[0]);
+                        genHrs += newhours;
 
-                            float newSec = float.Parse(getMin.ToString().Substring(1)) * 60;
-                            string[] newSeconds = newSec.ToString().Split(new char[] { '.' });
-                            int seconds = int.Parse(newSeconds[0]);
-                            genSec = seconds;
-                        }
+                        float newMin = float.Parse(getHrs.ToString().Substring(1)) * 60;
+                        string[] newMinutes = newMin.ToString().Split(new char[] { '.' });
+                        int minutes = int.Parse(newMinutes[0]);
+                        genMin = minutes;
                     }
+                }
+                Session["GeneralVariableTimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
+                bool timeExpired = false;
+                if (tsUsed > tsUnAssgn)
+                    timeExpired = true;
+                // return true;
 
-                    if (genMin >= 60)
+                // return false;// 03-02-2010 bip
+
+                TimeSpan tsTimeRemains = tsUnAssgn.Subtract(tsUsed);
+
+                // 03-02-2010 bip
+                int firstvariableid = 0;
+                if (Session["CurrentTestFirstVariableId"] != null)
+                    firstvariableid = int.Parse(Session["CurrentTestFirstVariableId"].ToString());
+                DataTable dtTimeDetails = new DataTable();
+                if (Session["FirstvarTimeDet"] == null)
+                {
+                    dtTimeDetails.Columns.Add("FirstVarID");
+                    dtTimeDetails.Columns.Add("TimeUsed");
+                    dtTimeDetails.Columns.Add("CompletionStatus");
+                    dtTimeDetails.Columns.Add("AssignTime");
+                    dtTimeDetails.Columns.Add("AssignStatus");
+                }
+                else
+                {
+                    dtTimeDetails = (DataTable)Session["FirstvarTimeDet"];
+                }
+                bool valueexists = false;
+                for (int i = 0; i < dtTimeDetails.Rows.Count; i++)
+                {
+                    int firstvarid = 0;
+                    string competionstatus = "", remainingtime = "", timeused = "";
+                    if (dtTimeDetails.Rows[i]["FirstVarID"] != null)
+                        firstvarid = int.Parse(dtTimeDetails.Rows[i]["FirstVarID"].ToString());
+                    if (dtTimeDetails.Rows[i]["TimeUsed"] != null)
+                        timeused = dtTimeDetails.Rows[i]["TimeUsed"].ToString();
+                    if (dtTimeDetails.Rows[i]["CompletionStatus"] != null)
+                        competionstatus = dtTimeDetails.Rows[i]["CompletionStatus"].ToString();
+                    if (dtTimeDetails.Rows[i]["AssignTime"] != null)
+                        remainingtime = dtTimeDetails.Rows[i]["AssignTime"].ToString();
+                    if (dtTimeDetails.Rows[i]["AssignStatus"] != null)
+                        remainingtime = dtTimeDetails.Rows[i]["AssignStatus"].ToString();
+
+                    if (firstvariableid == firstvarid)
                     {
-                        double getHrs = float.Parse(genMin.ToString()) / 60;
-                        string[] newHrs = getHrs.ToString().Split(new char[] { '.' });
-                        if (newHrs.Length > 1)
-                        {
-                            int newhours = int.Parse(newHrs[0]);
-                            genHrs += newhours;
+                        valueexists = true;
 
-                            float newMin = float.Parse(getHrs.ToString().Substring(1)) * 60;
-                            string[] newMinutes = newMin.ToString().Split(new char[] { '.' });
-                            int minutes = int.Parse(newMinutes[0]);
-                            genMin = minutes;
-                        }
-                    }
-                    Session["GeneralVariableTimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
-                    bool timeExpired = false;
-                    if (tsUsed > tsUnAssgn)
-                        timeExpired = true;
-                       // return true;
-
-                   // return false;// 03-02-2010 bip
-
-                    TimeSpan tsTimeRemains = tsUnAssgn.Subtract(tsUsed);
-
-                    // 03-02-2010 bip
-                    int firstvariableid = 0;
-                    if (Session["CurrentTestFirstVariableId"] != null)
-                        firstvariableid = int.Parse(Session["CurrentTestFirstVariableId"].ToString());
-                    DataTable dtTimeDetails = new DataTable();
-                    if (Session["FirstvarTimeDet"] == null)
-                    {
-                        dtTimeDetails.Columns.Add("FirstVarID");
-                        dtTimeDetails.Columns.Add("TimeUsed");
-                        dtTimeDetails.Columns.Add("CompletionStatus");
-                        dtTimeDetails.Columns.Add("AssignTime");
-                        dtTimeDetails.Columns.Add("AssignStatus");
-                    }
-                    else
-                    {
-                        dtTimeDetails = (DataTable)Session["FirstvarTimeDet"];
-                    }
-                    bool valueexists = false;
-                    for (int i = 0; i < dtTimeDetails.Rows.Count; i++)
-                    {
-                        int firstvarid = 0;
-                        string competionstatus = "", remainingtime = "", timeused = "";
-                        if (dtTimeDetails.Rows[i]["FirstVarID"] != null)
-                            firstvarid = int.Parse(dtTimeDetails.Rows[i]["FirstVarID"].ToString());
-                        if (dtTimeDetails.Rows[i]["TimeUsed"] != null)
-                            timeused = dtTimeDetails.Rows[i]["TimeUsed"].ToString();
-                        if (dtTimeDetails.Rows[i]["CompletionStatus"] != null)
-                            competionstatus = dtTimeDetails.Rows[i]["CompletionStatus"].ToString();
-                        if (dtTimeDetails.Rows[i]["AssignTime"] != null)
-                            remainingtime = dtTimeDetails.Rows[i]["AssignTime"].ToString();
-                        if (dtTimeDetails.Rows[i]["AssignStatus"] != null)
-                            remainingtime = dtTimeDetails.Rows[i]["AssignStatus"].ToString();
-
-                        if (firstvariableid == firstvarid)
-                        {
-                            valueexists = true;
-
-                            dtTimeDetails.Rows[i]["TimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
-                            if (timeExpired == true)
-                            {
-                                dtTimeDetails.Rows[i]["CompletionStatus"] = 1;
-                                Session["FirstvarTimeDet"] = dtTimeDetails;
-                                return true;
-                            }
-                            Session["FirstvarTimeDet"] = dtTimeDetails; break;
-                        }
-                    }
-                    if (valueexists == false)
-                    {
-                        // code to assign values from here
-                        DataRow drTimedet = dtTimeDetails.NewRow();
-                        drTimedet["FirstVarID"] = firstvariableid;
-                        //drTimedet["CompletionStatus"] = 0;
-                        drTimedet["TimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
-                        drTimedet["AssignTime"] = totalHrsforUnAssgn + ":" + totalMinforUnAssgn + ":" + totalSecforUnAssgn;
-                        drTimedet["AssignStatus"] = 0;
-                        //dtTimeDetails.Rows.Add(drTimedet);
-
+                        dtTimeDetails.Rows[i]["TimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
                         if (timeExpired == true)
                         {
-                            drTimedet["CompletionStatus"] = 1;
-                            dtTimeDetails.Rows.Add(drTimedet);
+                            dtTimeDetails.Rows[i]["CompletionStatus"] = 1;
                             Session["FirstvarTimeDet"] = dtTimeDetails;
                             return true;
                         }
-                        drTimedet["CompletionStatus"] = 0;
+                        Session["FirstvarTimeDet"] = dtTimeDetails; break;
+                    }
+                }
+                if (valueexists == false)
+                {
+                    // code to assign values from here
+                    DataRow drTimedet = dtTimeDetails.NewRow();
+                    drTimedet["FirstVarID"] = firstvariableid;
+                    //drTimedet["CompletionStatus"] = 0;
+                    drTimedet["TimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
+                    drTimedet["AssignTime"] = totalHrsforUnAssgn + ":" + totalMinforUnAssgn + ":" + totalSecforUnAssgn;
+                    drTimedet["AssignStatus"] = 0;
+                    //dtTimeDetails.Rows.Add(drTimedet);
+
+                    if (timeExpired == true)
+                    {
+                        drTimedet["CompletionStatus"] = 1;
                         dtTimeDetails.Rows.Add(drTimedet);
                         Session["FirstvarTimeDet"] = dtTimeDetails;
-
+                        return true;
                     }
-                    ////
+                    drTimedet["CompletionStatus"] = 0;
+                    dtTimeDetails.Rows.Add(drTimedet);
+                    Session["FirstvarTimeDet"] = dtTimeDetails;
+
                 }
+                ////
             }
+        }
         return false;
     }
 
@@ -2969,7 +2969,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
                 int setMin = int.Parse(timeValues[1].ToString());
 
                 TimeSpan tsDuration = new TimeSpan(setHrs, setMin, 0);//25-02-2010 bip
-                if ( tsNow>tsDuration )
+                if (tsNow > tsDuration)
                     return true;
             }
             else return CheckTestSecGenValidity();
@@ -3051,7 +3051,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
                 int setMin = int.Parse(timeValues[1].ToString());
 
                 TimeSpan tsDuration = new TimeSpan(setHrs, setMin, 0);//25-02-2010 bip
-                if ( tsNow>tsDuration )
+                if (tsNow > tsDuration)
                     return true;
             }
         }
@@ -3077,7 +3077,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
 
     }
     private void SetNextSectionVariableDetails_Timer()// 24-02-2010 bip
-    {        
+    {
 
         // 27-02-2010 bip
         int firstvaridfortimer = 0, varidindex_timer = 0;
@@ -3176,7 +3176,7 @@ public partial class RatingQuestions : System.Web.UI.UserControl
         //SaveAnswer();// bip 07052010
         SetNextSectionVariableDetails_Timer();
     }
-   
+
     protected void Timer1_Tick(object sender, EventArgs e)
     {
 

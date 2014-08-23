@@ -140,49 +140,50 @@ public partial class UserProfileControl : System.Web.UI.UserControl
                 lblMessage.Text = "Profile Details are Saved Successfully";
 
                 string usercode = Session["UserCode"].ToString();
-                string curcontrol = "TestIntroductionControl.ascx";// "UserTrainingControl.ascx";// "UserTrainingIntroduction.ascx";//"UserTrainingControl.ascx";
-                int Evalstatid = 0;
-                if (Session["evalResult"] == null)
-                {
-                    //int Evalstatid = 0;
-                    if (Session["EvalStatId"] != null)
-                        Evalstatid = int.Parse(Session["EvalStatId"].ToString());
-                    var evaluationdetails = from EvalDet in dataclass.EvaluationStatus
-                                            where EvalDet.UserId == userid && EvalDet.Testid == Session["UserTestId"]
-                                            select EvalDet;
-                    if (evaluationdetails.Count() == 0)
-                    {
-                        if (Session["UserTestId"] != null || Session["UserTestId"] != "")
-                        {
-                            dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 0, 0, usercode, userid, int.Parse(Session["UserTestId"].ToString()));
-                        }
-                    }
+                string curcontrol = "TestListControl.ascx";
+                ////string curcontrol = "TestIntroductionControl.ascx";// "UserTrainingControl.ascx";// "UserTrainingIntroduction.ascx";//"UserTrainingControl.ascx";
+                ////int Evalstatid = 0;
+                ////if (Session["evalResult"] == null)
+                ////{
+                ////    //int Evalstatid = 0;
+                ////    if (Session["EvalStatId"] != null)
+                ////        Evalstatid = int.Parse(Session["EvalStatId"].ToString());
+                ////    var evaluationdetails = from EvalDet in dataclass.EvaluationStatus
+                ////                            where EvalDet.UserId == userid && EvalDet.Testid == int.Parse(Session["UserTestId"].ToString())
+                ////                            select EvalDet;
+                ////    if (evaluationdetails.Count() == 0)
+                ////    {
+                ////        if (Session["UserTestId"] != null || Session["UserTestId"] != "")
+                ////        {
+                ////            dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 0, 0, usercode, userid, int.Parse(Session["UserTestId"].ToString()));
+                ////        }
+                ////    }
 
-                    var evaluationdetails1 = from EvalDet in dataclass.EvaluationStatus
-                                            where EvalDet.UserId == userid && EvalDet.Testid == Session["UserTestId1"]
-                                            select EvalDet;
-                    if (evaluationdetails1.Count() == 0)
-                    {
-                        if (Session["UserTestId1"] != null || Session["UserTestId1"] != "")
-                        {
-                            dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 0, 0, usercode, userid, int.Parse(Session["UserTestId1"].ToString()));
-                        }
-                    }
+                ////    //var evaluationdetails1 = from EvalDet in dataclass.EvaluationStatus
+                ////    //                        where EvalDet.UserId == userid && EvalDet.Testid == int.Parse(Session["UserTestId1"].ToString())
+                ////    //                        select EvalDet;
+                ////    //if (evaluationdetails1.Count() == 0)
+                ////    //{
+                ////    //    if (Session["UserTestId1"] != null || Session["UserTestId1"] != "")
+                ////    //    {
+                ////    //        dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 0, 0, usercode, userid, int.Parse(Session["UserTestId1"].ToString()));
+                ////    //    }
+                ////    //}
                    
                     
-                    //if (Evalstatid == 0)
-                    //{
-                    //     var EvaluationDetails2 = from EvalDet in dataclass.EvaluationStatus
-                    //                                where EvalDet.UserId == userid
-                    //                                select EvalDet;
-                    //     if (EvaluationDetails2.Count() > 0)
-                    //     {
-                    //         //int stataid = (EvaluationDetails2.First().EvalStatusId);
-                    //         //if (EvaluationDetails2.First().EvalStatusId != null)
-                    //         Session["EvalStatId"] = EvaluationDetails2.First().EvalStatusId ;
-                    //     }
-                    //}
-                }
+                ////    //if (Evalstatid == 0)
+                ////    //{
+                ////    //     var EvaluationDetails2 = from EvalDet in dataclass.EvaluationStatus
+                ////    //                                where EvalDet.UserId == userid
+                ////    //                                select EvalDet;
+                ////    //     if (EvaluationDetails2.Count() > 0)
+                ////    //     {
+                ////    //         //int stataid = (EvaluationDetails2.First().EvalStatusId);
+                ////    //         //if (EvaluationDetails2.First().EvalStatusId != null)
+                ////    //         Session["EvalStatId"] = EvaluationDetails2.First().EvalStatusId ;
+                ////    //     }
+                ////    //}
+                ////}
                 ////
                 Session["NewIndustry"] = null; Session["NewOrg"] = null; Session["GrpExists"] = null;
                 ////
@@ -201,7 +202,7 @@ public partial class UserProfileControl : System.Web.UI.UserControl
 
     private void CheckExistence(int userid)
     {
-        var ProfileDetails1 = from ProfileDetails in dataclass.UserProfile1s
+        var ProfileDetails1 = from ProfileDetails in dataclass.UserProfiles
                               where ProfileDetails.UserId == userid
                               select ProfileDetails;
         if (ProfileDetails1.Count() > 0)
@@ -209,7 +210,6 @@ public partial class UserProfileControl : System.Web.UI.UserControl
         {
             Session["UserTestId"] = ProfileDetails1.First().Testid.ToString();
             Session["curtestid"] = ProfileDetails1.First().Testid.ToString();
-            Session["UserTestId1"] = ProfileDetails1.First().Testid2.ToString();
             if (ProfileDetails1.First().FirstName != null)
                 txtFsName.Text = ProfileDetails1.First().FirstName.ToString();
             if (ProfileDetails1.First().LastName != null)

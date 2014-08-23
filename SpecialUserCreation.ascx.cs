@@ -201,16 +201,16 @@ public partial class SpecialUserCreation : System.Web.UI.UserControl
                 //        }
                 //    }
 
-                if (details1.First().TestId != null)
-                    for (int i = 0; i < ddlTestLists.Items.Count; i++)
-                    {
-                        if (ddlTestLists.Items[i].Value == details1.First().TestId.ToString())
-                        {
-                            ddlTestLists.SelectedIndex = i;
-                            Session["TestIndex"] = i.ToString();
-                            break;
-                        }
-                    }
+                //////if (details1.First().TestId != null)
+                //////    for (int i = 0; i < ddlTestLists.Items.Count; i++)
+                //////    {
+                //////        if (ddlTestLists.Items[i].Value == details1.First().TestId.ToString())
+                //////        {
+                //////            ddlTestLists.SelectedIndex = i;
+                //////            Session["TestIndex"] = i.ToString();
+                //////            break;
+                //////        }
+                //////    }
 
                 //ddlUserGroup.SelectedValue = details1.First().GrpUserID.ToString();
                 if (details1.First().GrpUserID != null)

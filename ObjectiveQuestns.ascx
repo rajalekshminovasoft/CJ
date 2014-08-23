@@ -664,19 +664,13 @@
                             &nbsp;</td>
                         <td>
                 <asp:Button ID="btnPrevious" runat="server" onclick="ptnPrevious_Click" 
-                    Text="Go to Previous Page" Width="175px" onclientclick="ResetScroll()" />
+                    Text="Go to Previous Page" Width="175px"  />
                         </td>
                         <td>
                 <asp:Button ID="btnSubmit" runat="server" onclick="btnSubmit_Click" 
-                    Text="Submit and Go to Next Page" onclientclick="ResetScroll()" />
+                    Text="Submit and Go to Next Page"  />
                         </td>
-                        <td>
-                          <asp:Button ID="btn_yes" runat="server" 
-                    Text="Complete" onclientclick="ResetScroll()" Height="20px" OnClick="btn_yes_Click" Visible="false"  />  
-
-                          <asp:Button ID="btn_confirm" runat="server" 
-                    Text="Confirm" onclientclick="ResetScroll()" Height="20px" OnClick="btn_confirm_Click" Visible="false"   /> 
-                        </td>
+                        
                     </tr>
                 </table>
             </td>

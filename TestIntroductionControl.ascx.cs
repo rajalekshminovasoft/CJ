@@ -89,7 +89,7 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
 
     private void ShowPreviousControl()
     {
-        Session["SubCtrl"] = "UserProfileControl.ascx";
+        Session["SubCtrl"] = "TestListControl.ascx";
         Response.Redirect("FJAHome.aspx");
     }
 
@@ -112,11 +112,11 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
          {
              Evalstatid = int.Parse(EvaluationDetails.First().EvalStatusId.ToString());
          }
-        //if (Session["EvalStatId"] != null)
-        //{
-        //    Evalstatid = int.Parse(Session["EvalStatId"].ToString());
-        //}
-        dataclassses.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid, int.Parse(Session["curtestid"].ToString()));
+         if (Session["EvalStatId"] != null)
+         {
+             Evalstatid = int.Parse(Session["EvalStatId"].ToString());
+         }
+         dataclassses.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid,int.Parse(Session["curtestid"].ToString()));
 
 
 
@@ -130,9 +130,16 @@ public partial class TestIntroductionControl : System.Web.UI.UserControl
         Session["sectionIdIndexNo"] = null;
         Session["questionColl"] = null;
         Session["evaldirection"] = null;
-
-        Session["SubCtrl"] = "ObjectiveQuestns.ascx";
-        Response.Redirect("FJAHome.aspx");
+        Session["timeExpired"] = null;
+        //curcontrol = "ObjectiveQuestns.ascx";
+        if (Session["curtestid"] != null)
+        {
+            Session["UserTestId"] = Session["curtestid"];
+            Session["SubCtrl"] = "ObjectiveQuestns.ascx";
+            Response.Redirect("FJAHome.aspx");
+        }
+        //Session["SubCtrl"] = "ObjectiveQuestns.ascx";
+        //Response.Redirect("FJAHome.aspx");
     }
 
 }

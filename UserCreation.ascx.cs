@@ -106,7 +106,7 @@ public partial class UserCreation : System.Web.UI.UserControl
 
             int status = int.Parse(ddlStatus.SelectedValue);
             string emailid = txtEmailId.Text.Trim();
-            dataclasses.AddUserCreation(userCode, txtUserName.Text, txtPassword.Text, ddlUserType.SelectedValue, int.Parse(ddlOrg.SelectedValue), int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, status, userId,emailid,testid,1,testid1.ToString(),testid1);
+           // dataclasses.AddUserCreation(userCode, txtUserName.Text, txtPassword.Text, ddlUserType.SelectedValue, int.Parse(ddlOrg.SelectedValue), int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, status, userId,emailid,testid,1,testid1.ToString(),testid1);
             //string mailbody = GenerateMailBody(txtUserName.Text, txtPassword.Text);
             //if (emailid != "")
             //    SendEmail(emailid, "", "Login Details", mailbody);
@@ -167,16 +167,16 @@ public partial class UserCreation : System.Web.UI.UserControl
                         }
                     }
 
-                if (details1.First().TestId != null)
-                    for (int i = 0; i < ddlTestLists.Items.Count; i++)
-                    {
-                        if (ddlTestLists.Items[i].Value == details1.First().TestId.ToString())
-                        {
-                            ddlTestLists.SelectedIndex = i;
-                            Session["TestIndex"] = i.ToString();
-                            break;
-                        }
-                    }
+                //if (details1.First().TestId != null)
+                //    for (int i = 0; i < ddlTestLists.Items.Count; i++)
+                //    {
+                //        if (ddlTestLists.Items[i].Value == details1.First().TestId.ToString())
+                //        {
+                //            ddlTestLists.SelectedIndex = i;
+                //            Session["TestIndex"] = i.ToString();
+                //            break;
+                //        }
+                //    }
 
                 //ddlUserGroup.SelectedValue = details1.First().GrpUserID.ToString();
                 if (details1.First().GrpUserID != null)

@@ -178,11 +178,11 @@
                         <tr>
                             <td>
                                 <asp:Button ID="btnPrevious" runat="server" onclick="ptnPrevious_Click" 
-                                    onclientclick="ShowSelProcess();" Text="Go to Previous Page" Width="175px" />
+                                    Text="Go to Previous Page" Width="175px" />
                             </td>
                             <td>
                                 <asp:Button ID="btnSubmit" runat="server" Enabled="False" 
-                                    onclick="btnSubmit_Click" onclientclick="ShowSelProcess();" 
+                                    onclick="btnSubmit_Click"  
                                     Text="Submit and Go to Next Page" />
                             </td>
                         </tr>

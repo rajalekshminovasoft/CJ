@@ -16,33 +16,23 @@ public partial class ThankYou : System.Web.UI.UserControl
     AssesmentDataClassesDataContext dataclass = new AssesmentDataClassesDataContext();
     protected void Page_Load(object sender, EventArgs e)
     {
-       // return;//bip for testing with same user multiple times only for testing purpose....
-        int userid = 0; 
-        int testid=0;
-        int testid1=0;
-        string usercode = "";       
+        // return;//bip for testing with same user multiple times only for testing purpose....
+        int userid = 0;
+        string usercode = "";
         if (Session["UserCode"] != null)
         {
             usercode = Session["UserCode"].ToString();
         }
-        if(Session["curtestid"]!=null)
-        {
-            testid=int.Parse(Session["curtestid"].ToString());
-        }
-        //if(Session["UserTestId1"]!=null)
-        //{
-        //    testid1=int.Parse(Session["UserTestId1"].ToString());
-        //}
         if (Session["UserID"] != null)
             userid = int.Parse(Session["UserID"].ToString());
         string curcontrol = "ThankYou.ascx";
         int Evalstatid = 0;
-       
+
         if (Session["EvalStatId"] != null)
         {
             Evalstatid = int.Parse(Session["EvalStatId"].ToString());
         }
-        dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid,testid );
+        dataclass.ProcedureEvaluationStatus(Evalstatid, curcontrol, 1, 0, usercode, userid, int.Parse(Session["curtestid"].ToString()));
         //// 230110 bip        
         dataclass.Procedure_DeleteUserTest_TempValues(userid, 0, 0);
         ////
@@ -50,7 +40,7 @@ public partial class ThankYou : System.Web.UI.UserControl
             if (Session["CurUserReportAccess"].ToString() == "1")
                 btnShowReport.Visible = true;
     }
-    
+
     protected void btnExit_Click(object sender, EventArgs e)
     {
         /*
@@ -59,26 +49,8 @@ public partial class ThankYou : System.Web.UI.UserControl
         Response.Redirect("FJAHome.aspx");
         */
 
-        //ReDirectToCareerJudge();////bip 15062010
-        if (Session["curtestid"].ToString() == Session["UserTestId"].ToString())
-        {
-            if (Session["UserTestId1"] != null || Session["UserTestId1"] != "")
-            {
-                Session["curtestid"] = Session["UserTestId1"];
-                Session["TestStartTime"] = null;
-                //control to redirect
-                string curcontrol = "TestIntroductionControl.ascx";
-                Session["SubCtrl"] = curcontrol;
-                Response.Redirect("FJAHome.aspx");
-            }
-        }
-        //check cuetestid==testid2------------------go to thanks page
-        if (Session["curtestid"] == Session["UserTestId1"])
-        {
-            string curcontrol = "ThankYou.ascx";
-            Session["SubCtrl"] = curcontrol;
-            Response.Redirect("FJAHome.aspx");
-        }
+        ReDirectToCareerJudge();////bip 15062010
+
     }
     private void ReDirectToCareerJudge()
     {
@@ -88,10 +60,10 @@ public partial class ThankYou : System.Web.UI.UserControl
             userid = int.Parse(Session["UserID"].ToString());
         dataclass.Procedure_DeleteUserTest_TempValues(userid, 0, 0);
         ////
-       
+
 
         Session["starttime"] = null;//bip 15062010
-
+        Session["xx"] = "";
         //// bipson 12082010
         if (Session["dirLogin"] != null)
             if (Session["dirLogin"].ToString() == "Yes")
@@ -131,7 +103,7 @@ public partial class ThankYou : System.Web.UI.UserControl
     protected void btnShowReport_Click1(object sender, EventArgs e)
     {
         Session["UserId_Report"] = Session["UserID"];
-        Session["UserTestID_Report"] = Session["UserTestId"];      
+        Session["UserTestID_Report"] = Session["UserTestId"];
         GetReportType(int.Parse(Session["UserTestId"].ToString()));
 
         Session["SubCtrl"] = "ReportPreviewCtrl.ascx";
@@ -154,5 +126,6 @@ public partial class ThankYou : System.Web.UI.UserControl
         Session["ReportType"] = reporttype;
         Session["ScoringType"] = scoringType;
     }
+
 
 }

@@ -193,11 +193,11 @@
                             &nbsp;</td>
                         <td align="right" style="text-align: right">
                 <asp:Button ID="btnPrevious" runat="server" onclick="ptnPrevious_Click" 
-                    Text="Go to Previous Page" Width="175px" onclientclick="ShowSelProcess();" />
+                    Text="Go to Previous Page" Width="175px"  />
                         </td>
                         <td align="left" style="text-align: left">
                 <asp:Button ID="btnSubmit" runat="server" onclick="btnSubmit_Click" 
-                    Text="Submit and Go to Next Page" Enabled="False" onclientclick="ShowSelProcess();" />
+                    Text="Submit and Go to Next Page" Enabled="False"  />
                         </td>
                         <td>
                             &nbsp;</td>

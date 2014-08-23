@@ -24,11 +24,11 @@
         <tr valign="bottom" style="height: 20px">
             <td align="right" height="20">
                 <asp:Button ID="btnPrevious" runat="server" onclick="ptnPrevious_Click" 
-                    Text="Go to Previous Page" onclientclick="ShowSelProcess();" />
+                    Text="Go to Previous Page"  />
             </td>
             <td align="right" height="20">
                 <asp:Button ID="btnProceed" runat="server" onclick="btnProceed_Click" 
-                    Text="Go to next Page" onclientclick="ShowSelProcess();" />
+                    Text="Go to next Page"  />
             </td>
             <td align="right">
                 &nbsp;</td>

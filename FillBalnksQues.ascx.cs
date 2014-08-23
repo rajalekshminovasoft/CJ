@@ -18,8 +18,8 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
     int userid = 0;
     string usercode = "";
     DBManagementClass clsclass = new DBManagementClass();
-  AssesmentDataClassesDataContext dataclass = new AssesmentDataClassesDataContext();
-    
+    AssesmentDataClassesDataContext dataclass = new AssesmentDataClassesDataContext();
+
     DataSet ds;
     int qusid1 = 0;
     int qusid2 = 0;
@@ -45,19 +45,19 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
                     return;
                 }
 
-           // if (CheckTime() == true) return;//bip 15052010
-           
+            // if (CheckTime() == true) return;//bip 15052010
+
             testId = int.Parse(Session["UserTestId"].ToString());
             if (Session["UserID"] != null)
             {
-                userid = int.Parse(Session["UserID"].ToString());                
+                userid = int.Parse(Session["UserID"].ToString());
                 FillQuestions();
             }
         }
     }
     private void FillFillBlanksQuestionInstructions()
     {
-        
+
         int testSecondVariableId = 0, testFirstVariableId = 0, testSectionID = 0;
         if (Session["CurrentTestSectionId"] != null)
             testSectionID = int.Parse(Session["CurrentTestSectionId"].ToString());
@@ -163,7 +163,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
     }
 
     private DataSet GetQuestionList(int testsectionid)
-    { 
+    {
         //// bip 07122009        
 
         string firstVariableName = ""; string secondVariableName = "";
@@ -175,7 +175,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
         //
         DataSet dsQuesCount;
         string querystring = "";
-        
+
         DataTable dtQuestionList = new DataTable();
         //QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5
         dtQuestionList.Columns.Add("QuestionID");
@@ -201,39 +201,39 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
             if (dsQuestioncount.Tables.Count > 0)
                 if (dsQuestioncount.Tables[0].Rows.Count > 0)
                     for (int c = 0; c < dsQuestioncount.Tables[0].Rows.Count; c++)//        
-        {            
-            int fillQuescount = int.Parse(dsQuestioncount.Tables[0].Rows[c]["FillBlanksQuestionCount"].ToString());
-            int sectionid = int.Parse(dsQuestioncount.Tables[0].Rows[c]["SectionId"].ToString());
-           
-            if (fillQuescount > 0)
-            {
-
-                querystring = "SELECT TOP (" + fillQuescount + ") QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5,QuestionFileName,QuestionFileNameSub1  FROM View_TestBaseQuestionList where Category = 'FillBlanks' AND TestBaseQuestionStatus=1 AND TestSectionId=" + testsectionid + " AND SectionId=" + sectionid + " AND TestId=" + testId + " ORDER BY RAND((100*QuestionID)*DATEPART(millisecond, GETDATE())) ";
-                
-                dsQuesCount = new DataSet();
-                dsQuesCount = clsclass.GetValuesFromDB(querystring);
-                if (dsQuesCount != null)
-                    if (dsQuesCount.Tables[0].Rows.Count > 0)
                     {
-                        for (int i = 0; i < dsQuesCount.Tables[0].Rows.Count; i++)
-                        {
-                            drQurstionList = dtQuestionList.NewRow();
-                            drQurstionList["QuestionID"] = dsQuesCount.Tables[0].Rows[i]["QuestionID"];
-                            drQurstionList["Question"] = dsQuesCount.Tables[0].Rows[i]["Question"];
-                            drQurstionList["Answer"] = dsQuesCount.Tables[0].Rows[i]["Answer"];
-                            drQurstionList["Option1"] = dsQuesCount.Tables[0].Rows[i]["Option1"];
-                            drQurstionList["Option2"] = dsQuesCount.Tables[0].Rows[i]["Option2"];
-                            drQurstionList["Option3"] = dsQuesCount.Tables[0].Rows[i]["Option3"];
-                            drQurstionList["Option4"] = dsQuesCount.Tables[0].Rows[i]["Option4"];
-                            drQurstionList["Option5"] = dsQuesCount.Tables[0].Rows[i]["Option5"];
-                            drQurstionList["QuestionFileName"] = dsQuesCount.Tables[0].Rows[i]["QuestionFileName"];
-                            drQurstionList["QuestionFileNameSub1"] = dsQuesCount.Tables[0].Rows[i]["QuestionFileNameSub1"];
+                        int fillQuescount = int.Parse(dsQuestioncount.Tables[0].Rows[c]["FillBlanksQuestionCount"].ToString());
+                        int sectionid = int.Parse(dsQuestioncount.Tables[0].Rows[c]["SectionId"].ToString());
 
-                            dtQuestionList.Rows.Add(drQurstionList);
+                        if (fillQuescount > 0)
+                        {
+
+                            querystring = "SELECT TOP (" + fillQuescount + ") QuestionID,Question,Answer,Option1,Option2,Option3,Option4,Option5,QuestionFileName,QuestionFileNameSub1  FROM View_TestBaseQuestionList where Category = 'FillBlanks' AND TestBaseQuestionStatus=1 AND TestSectionId=" + testsectionid + " AND SectionId=" + sectionid + " AND TestId=" + testId + " ORDER BY RAND((100*QuestionID)*DATEPART(millisecond, GETDATE())) ";
+
+                            dsQuesCount = new DataSet();
+                            dsQuesCount = clsclass.GetValuesFromDB(querystring);
+                            if (dsQuesCount != null)
+                                if (dsQuesCount.Tables[0].Rows.Count > 0)
+                                {
+                                    for (int i = 0; i < dsQuesCount.Tables[0].Rows.Count; i++)
+                                    {
+                                        drQurstionList = dtQuestionList.NewRow();
+                                        drQurstionList["QuestionID"] = dsQuesCount.Tables[0].Rows[i]["QuestionID"];
+                                        drQurstionList["Question"] = dsQuesCount.Tables[0].Rows[i]["Question"];
+                                        drQurstionList["Answer"] = dsQuesCount.Tables[0].Rows[i]["Answer"];
+                                        drQurstionList["Option1"] = dsQuesCount.Tables[0].Rows[i]["Option1"];
+                                        drQurstionList["Option2"] = dsQuesCount.Tables[0].Rows[i]["Option2"];
+                                        drQurstionList["Option3"] = dsQuesCount.Tables[0].Rows[i]["Option3"];
+                                        drQurstionList["Option4"] = dsQuesCount.Tables[0].Rows[i]["Option4"];
+                                        drQurstionList["Option5"] = dsQuesCount.Tables[0].Rows[i]["Option5"];
+                                        drQurstionList["QuestionFileName"] = dsQuesCount.Tables[0].Rows[i]["QuestionFileName"];
+                                        drQurstionList["QuestionFileNameSub1"] = dsQuesCount.Tables[0].Rows[i]["QuestionFileNameSub1"];
+
+                                        dtQuestionList.Rows.Add(drQurstionList);
+                                    }
+                                }
                         }
                     }
-            }
-        }
         DataSet dsQuestionList = new DataSet();
         if (dtQuestionList.Rows.Count > 0)
         {
@@ -285,7 +285,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
                         if (GetPageIndex.First().PageIndex != null)
                         {
                             pagecount = int.Parse(GetPageIndex.First().PageIndex.ToString());
-                            Session["pagecount_fill"] = pagecount;                            
+                            Session["pagecount_fill"] = pagecount;
                         }
                     }
                 }
@@ -298,284 +298,284 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
 
         //try
         //{
-            ClearControls();
-            int QuestionID = 0;
-            string querystring = "";           
+        ClearControls();
+        int QuestionID = 0;
+        string querystring = "";
 
-            if (Session["pagecount_fill"] != null)
-                pagecount = int.Parse(Session["pagecount_fill"].ToString());
-                       
-            string connString = ConfigurationManager.ConnectionStrings["talentscoutConnectionString"].ConnectionString;
-            //int slno = pagecount * 1 + 1;
-            //if (slno < 0)
-            //    slno = 1;
-            int testsectionid = 0; 
+        if (Session["pagecount_fill"] != null)
+            pagecount = int.Parse(Session["pagecount_fill"].ToString());
+
+        string connString = ConfigurationManager.ConnectionStrings["talentscoutConnectionString"].ConnectionString;
+        //int slno = pagecount * 1 + 1;
+        //if (slno < 0)
+        //    slno = 1;
+        int testsectionid = 0;
+        if (Session["CurrentTestSectionId"] != null)
+            testsectionid = int.Parse(Session["CurrentTestSectionId"].ToString());
+        if (Session["questionColl_fill"] != null)
+            ds = (DataSet)Session["questionColl_fill"];
+        else
+        {
+            //bip 081009
+            //int testsectionid = 0;
             if (Session["CurrentTestSectionId"] != null)
-                testsectionid = int.Parse(Session["CurrentTestSectionId"].ToString());  
-            if (Session["questionColl_fill"] != null)
-                ds = (DataSet)Session["questionColl_fill"];
-            else
             {
-                //bip 081009
-                //int testsectionid = 0;
-                if (Session["CurrentTestSectionId"] != null)
+                testsectionid = int.Parse(Session["CurrentTestSectionId"].ToString());
+                //
+                //  //// 220110 ... bip
+                int testSecondVariableId = 0, testFirstVariableId = 0;
+                if (Session["CurrentTestSecondVariableId"] != null)
+                    testSecondVariableId = int.Parse(Session["CurrentTestSecondVariableId"].ToString());
+                if (Session["CurrentTestFirstVariableId"] != null)
+                    testFirstVariableId = int.Parse(Session["CurrentTestFirstVariableId"].ToString());
+                int questionid = 0; string questiontype = "FillBlanks";
+
+                ds = GetTempData();
+                bool newentry = false;
+                if (ds == null)
                 {
-                    testsectionid = int.Parse(Session["CurrentTestSectionId"].ToString());
-                    //
-                    //  //// 220110 ... bip
-                    int testSecondVariableId = 0, testFirstVariableId = 0;
-                    if (Session["CurrentTestSecondVariableId"] != null)
-                        testSecondVariableId = int.Parse(Session["CurrentTestSecondVariableId"].ToString());
-                    if (Session["CurrentTestFirstVariableId"] != null)
-                        testFirstVariableId = int.Parse(Session["CurrentTestFirstVariableId"].ToString());
-                    int questionid = 0; string questiontype = "FillBlanks";
+                    newentry = true;
+                    ds = GetQuestionList(testsectionid);
+                }
+                else if (ds.Tables.Count <= 0)
+                { newentry = true; ds = GetQuestionList(testsectionid); }
 
-                    ds = GetTempData();
-                    bool newentry = false;
-                    if (ds == null)
-                    {
-                        newentry = true;
-                        ds = GetQuestionList(testsectionid);
-                    }
-                    else if (ds.Tables.Count <= 0)
-                    { newentry = true; ds = GetQuestionList(testsectionid); }
+                //ds = GetQuestionList(testsectionid);
+                if (ds == null)
+                {
 
-                    //ds = GetQuestionList(testsectionid);
-                    if (ds == null)
-                    {
+                    string evaldirection = "Next";
+                    if (Session["evaldirection"] != null)
+                        evaldirection = Session["evaldirection"].ToString();
+                    if (evaldirection == "Next")
+                        GoToNextPage();
+                    else GoToPreviousPage();
+                    return;
 
-                        string evaldirection = "Next";
-                        if (Session["evaldirection"] != null)
-                            evaldirection = Session["evaldirection"].ToString();
-                        if (evaldirection == "Next")
-                            GoToNextPage();
-                        else GoToPreviousPage();
-                        return;
-
-                        //GoToNextPage(); return; 
-                    }
-                    else // store the questiondetails in a temp table.
-                    {
-                        if (newentry == true)
-                            if (ds.Tables.Count > 0)
-                                if (ds.Tables[0].Rows.Count > 0)
+                    //GoToNextPage(); return; 
+                }
+                else // store the questiondetails in a temp table.
+                {
+                    if (newentry == true)
+                        if (ds.Tables.Count > 0)
+                            if (ds.Tables[0].Rows.Count > 0)
+                            {
+                                for (int q = 0; q < ds.Tables[0].Rows.Count; q++)
                                 {
-                                    for (int q = 0; q < ds.Tables[0].Rows.Count; q++)
-                                    {
-                                        questionid = int.Parse(ds.Tables[0].Rows[q]["QuestionID"].ToString());
-                                        dataclass.Procedure_UserTestQuestions_Temp(userid, testId, testsectionid, testFirstVariableId, testSecondVariableId, questionid, questiontype);
-                                    }
+                                    questionid = int.Parse(ds.Tables[0].Rows[q]["QuestionID"].ToString());
+                                    dataclass.Procedure_UserTestQuestions_Temp(userid, testId, testsectionid, testFirstVariableId, testSecondVariableId, questionid, questiontype);
                                 }
-                    }
+                            }
                 }
             }
-            int slno = pagecount * quesperPage + 1;
-            if (slno < 0)
-                slno = 1;
+        }
+        int slno = pagecount * quesperPage + 1;
+        if (slno < 0)
+            slno = 1;
 
-            //not completed below
-            int pagecnt = 0;
-            int curntquescnt = 0;
-            int slnos = 0;
-            if (ds.Tables[0].Rows.Count > 0)
+        //not completed below
+        int pagecnt = 0;
+        int curntquescnt = 0;
+        int slnos = 0;
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            //Session["ValueExists"] = "True";
+
+            FillFillBlanksQuestionInstructions();
+
+            Session["totalQuesAvailable_fill"] = ds.Tables[0].Rows.Count.ToString();
+            int j = 0;
+            for (int i = slno - 1; i < ds.Tables[0].Rows.Count; i++)
             {
-                //Session["ValueExists"] = "True";
+                if (j >= quesperPage) break;
+                string Answer = "";
+                Session["CurrentControlCtrl"] = "FillBalnksQues.ascx";// bip 08012010
+                Session["ValueExists"] = "True";
 
-                FillFillBlanksQuestionInstructions();
-
-                Session["totalQuesAvailable_fill"] = ds.Tables[0].Rows.Count.ToString();
-                int j = 0;
-                for (int i = slno - 1; i < ds.Tables[0].Rows.Count; i++)
+                switch (j)
                 {
-                    if (j >= quesperPage) break;
-                    string Answer = "";
-                    Session["CurrentControlCtrl"] = "FillBalnksQues.ascx";// bip 08012010
-                    Session["ValueExists"] = "True";
+                    case 0:
+                        lblNo1.Text = slno.ToString() + ".  ";
+                        //lblQues1.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues1.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
 
-                    switch (j)
-                    {
-                        case 0:
-                            lblNo1.Text = slno.ToString() + ".  ";
-                            //lblQues1.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues1.InnerHtml=ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID1.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-                            /// bip 13052010 inorder to add images in the question part of fillblanks questions
-                            if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
+                        lblQuesID1.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        /// bip 13052010 inorder to add images in the question part of fillblanks questions
+                        if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
+                        {
+                            imgQuestion1.Visible = true;
+                            imgQuestion1.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();
+                        }
+                        if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
+                        {
+                            imgQuestion1Sub1.Visible = true;
+                            imgQuestion1Sub1.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();
+                        }
+                        ///
+                        txtAns1.Visible = true;
+                        var Ques1 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;//Ques.UserCode == usercode &&
+                        if (Ques1.Count() > 0)
+                            if (Ques1.First().Answer != null)
                             {
-                                imgQuestion1.Visible = true;
-                                imgQuestion1.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();                                
+                                txtAns1.Text = Ques1.First().Answer.ToString();
                             }
-                            if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion1.Visible = true;
+                        break;
+                    case 1:
+                        lblNo2.Text = (slno + 1).ToString() + ".  ";
+                        //lblQues2.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues2.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID2.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+
+                        /// bip 13052010 inorder to add images in the question part of fillblanks questions
+                        if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
+                        {
+                            imgQuestion2.Visible = true;
+                            imgQuestion2.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();
+                        }
+                        if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
+                        {
+                            imgQuestion1Sub2.Visible = true;
+                            imgQuestion1Sub2.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();
+                        }
+                        ///
+
+                        txtAns2.Visible = true;
+
+                        var Ques2 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;//Ques.UserCode == usercode &&
+                        if (Ques2.Count() > 0)
+
+                            if (Ques2.First().Answer != null)
                             {
-                                imgQuestion1Sub1.Visible = true;
-                                imgQuestion1Sub1.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();                                
+                                txtAns2.Text = Ques2.First().Answer.ToString();
                             }
-                            ///
-                            txtAns1.Visible = true;
-                            var Ques1 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;//Ques.UserCode == usercode &&
-                            if (Ques1.Count() > 0)
-                                if (Ques1.First().Answer != null)
-                                {
-                                    txtAns1.Text = Ques1.First().Answer.ToString();
-                                }
-                            
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion1.Visible = true;
-                            break;
-                        case 1:
-                            lblNo2.Text = (slno + 1).ToString() + ".  ";
-                            //lblQues2.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues2.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
 
-                            lblQuesID2.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion2.Visible = true;
+                        break;
+                    case 2:
+                        lblNo3.Text = (slno + 2).ToString() + ".  ";
+                        //lblQues3.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues3.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
 
-                            /// bip 13052010 inorder to add images in the question part of fillblanks questions
-                            if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
+                        lblQuesID3.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+
+                        /// bip 13052010 inorder to add images in the question part of fillblanks questions
+                        if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
+                        {
+                            imgQuestion3.Visible = true;
+                            imgQuestion3.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();
+                        }
+                        if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
+                        {
+                            imgQuestion1Sub3.Visible = true;
+                            imgQuestion1Sub3.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();
+                        }
+                        ///
+
+                        txtAns3.Visible = true;
+
+                        var Ques3 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques3.Count() > 0)
+                            if (Ques3.First().Answer != null)
                             {
-                                imgQuestion2.Visible = true;
-                                imgQuestion2.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();
+                                txtAns3.Text = Ques3.First().Answer.ToString();
                             }
-                            if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
+
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion3.Visible = true;
+                        break;
+                    case 3:
+                        lblNo4.Text = (slno + 3).ToString() + ".  ";
+                        //lblQues4.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues4.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+
+                        lblQuesID4.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+
+                        /// bip 13052010 inorder to add images in the question part of fillblanks questions
+                        if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
+                        {
+                            imgQuestion4.Visible = true;
+                            imgQuestion4.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();
+                        }
+                        if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
+                        {
+                            imgQuestion1Sub4.Visible = true;
+                            imgQuestion1Sub4.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();
+                        }
+                        ///
+
+                        txtAns4.Visible = true;
+                        var Ques4 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques4.Count() > 0)
+                            if (Ques4.First().Answer != null)
                             {
-                                imgQuestion1Sub2.Visible = true;
-                                imgQuestion1Sub2.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();
+                                txtAns4.Text = Ques4.First().Answer.ToString();
                             }
-                            ///
 
-                            txtAns2.Visible = true;
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion4.Visible = true;
+                        break;
+                    case 4:
+                        lblNo5.Text = (slno + 4).ToString() + ".  ";
+                        //lblQues5.Text = ds.Tables[0].Rows[i]["Question"].ToString();
+                        tcellQues5.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
 
-                            var Ques2 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;//Ques.UserCode == usercode &&
-                            if (Ques2.Count() > 0)
+                        lblQuesID5.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
 
-                                if (Ques2.First().Answer != null)
-                                {
-                                    txtAns2.Text = Ques2.First().Answer.ToString();
-                                }
-                           
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion2.Visible = true;
-                            break;
-                        case 2:
-                            lblNo3.Text = (slno + 2).ToString() + ".  ";
-                            //lblQues3.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues3.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
+                        /// bip 13052010 inorder to add images in the question part of fillblanks questions
+                        if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
+                        {
+                            imgQuestion5.Visible = true;
+                            imgQuestion5.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();
+                        }
+                        if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
+                        {
+                            imgQuestion1Sub5.Visible = true;
+                            imgQuestion1Sub5.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();
+                        }
+                        ///
 
-                            lblQuesID3.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
+                        txtAns5.Visible = true;
 
-                            /// bip 13052010 inorder to add images in the question part of fillblanks questions
-                            if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
+                        var Ques5 = from Ques in dataclass.EvaluationResults
+                                    where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
+                                    Ques.TestId == testId && Ques.TestSectionId == testsectionid
+                                    select Ques;
+                        if (Ques5.Count() > 0)
+                            if (Ques5.First().Answer != null)
                             {
-                                imgQuestion3.Visible = true;
-                                imgQuestion3.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();
+                                txtAns5.Text = Ques5.First().Answer.ToString();
                             }
-                            if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
-                            {
-                                imgQuestion1Sub3.Visible = true;
-                                imgQuestion1Sub3.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();
-                            }
-                            ///
 
-                            txtAns3.Visible = true;
-
-                            var Ques3 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques3.Count() > 0)
-                                if (Ques3.First().Answer != null)
-                                {
-                                    txtAns3.Text = Ques3.First().Answer.ToString();
-                                }
-                            
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion3.Visible = true;
-                            break;
-                        case 3:
-                            lblNo4.Text = (slno + 3).ToString() + ".  ";
-                            //lblQues4.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues4.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID4.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-
-                            /// bip 13052010 inorder to add images in the question part of fillblanks questions
-                            if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
-                            {
-                                imgQuestion4.Visible = true;
-                                imgQuestion4.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();
-                            }
-                            if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
-                            {
-                                imgQuestion1Sub4.Visible = true;
-                                imgQuestion1Sub4.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();
-                            }
-                            ///
-
-                            txtAns4.Visible = true;
-                            var Ques4 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques4.Count() > 0)
-                                if (Ques4.First().Answer != null)
-                                {
-                                    txtAns4.Text = Ques4.First().Answer.ToString();
-                                }
-                            
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion4.Visible = true;
-                            break;
-                        case 4:
-                            lblNo5.Text = (slno + 4).ToString() + ".  ";
-                            //lblQues5.Text = ds.Tables[0].Rows[i]["Question"].ToString();
-                            tcellQues5.InnerHtml = ds.Tables[0].Rows[i]["Question"].ToString();
-
-                            lblQuesID5.Text = ds.Tables[0].Rows[i]["QuestionID"].ToString();
-
-                            /// bip 13052010 inorder to add images in the question part of fillblanks questions
-                            if (ds.Tables[0].Rows[i]["QuestionFileName"].ToString() != "")
-                            {
-                                imgQuestion5.Visible = true;
-                                imgQuestion5.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileName"].ToString();
-                            }
-                            if (ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString() != "")
-                            {
-                                imgQuestion1Sub5.Visible = true;
-                                imgQuestion1Sub5.ImageUrl = "QuestionAnswerFiles/" + ds.Tables[0].Rows[i]["QuestionFileNameSub1"].ToString();
-                            }
-                            ///
-
-                            txtAns5.Visible = true;
-
-                            var Ques5 = from Ques in dataclass.EvaluationResults
-                                        where Ques.UserId == userid && Ques.Question == ds.Tables[0].Rows[i]["Question"].ToString() && Ques.QuestionID == int.Parse(ds.Tables[0].Rows[i]["QuestionID"].ToString()) &&
-                                        Ques.TestId == testId && Ques.TestSectionId == testsectionid
-                                        select Ques;
-                            if (Ques5.Count() > 0)
-                                if (Ques5.First().Answer != null)
-                                {
-                                    txtAns5.Text = Ques5.First().Answer.ToString();
-                                }
-                            
-                            curntquescnt++;
-                            j++;
-                            pnlQuestion5.Visible = true;
-                            break;                       
-                    }
+                        curntquescnt++;
+                        j++;
+                        pnlQuestion5.Visible = true;
+                        break;
                 }
             }
-            else { GoToNextPage(); }
-            Session["curntques1"] = curntquescnt;
+        }
+        else { GoToNextPage(); }
+        Session["curntques1"] = curntquescnt;
         //}
         //catch (Exception ex)
         //{
@@ -628,7 +628,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
     }
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
-        
+
         Boolean timeExpired = CheckTime();
         if (timeExpired == false)//bip 10052010
         {
@@ -641,7 +641,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
             SaveValues();
         }
         //else SaveAnswers();//bip 10052010
-        
+
     }
     private void SaveValues()
     {
@@ -669,8 +669,8 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
         if (curindex < curcount)
         {
             pagecount++;
-            Session["pagecount_fill"] = pagecount;SetCurrentPageCount();
-            FillQuestions(); 
+            Session["pagecount_fill"] = pagecount; SetCurrentPageCount();
+            FillQuestions();
         }
         else
         {
@@ -805,7 +805,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
             qusid1 = int.Parse(lblQuesID1.Text.Trim());
 
             answer = txtAns1.Text;
-            dataclass.Procedure_QuesAnswers(qusid1, usercode, tcellQues1.InnerHtml, answer, userid, testId, testsectionid,quescategory);
+            dataclass.Procedure_QuesAnswers(qusid1, usercode, tcellQues1.InnerHtml, answer, userid, testId, testsectionid, quescategory);
         }
 
         if (lblQuesID2.Text.Trim() != "")
@@ -813,7 +813,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
             qusid2 = int.Parse(lblQuesID2.Text.Trim());
 
             answer = txtAns2.Text;
-            dataclass.Procedure_QuesAnswers(qusid2, usercode, tcellQues2.InnerHtml, answer, userid, testId, testsectionid,quescategory);
+            dataclass.Procedure_QuesAnswers(qusid2, usercode, tcellQues2.InnerHtml, answer, userid, testId, testsectionid, quescategory);
         }
 
         if (lblQuesID3.Text.Trim() != "")
@@ -821,7 +821,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
             qusid3 = int.Parse(lblQuesID3.Text.Trim());
 
             answer = txtAns3.Text;
-            dataclass.Procedure_QuesAnswers(qusid3, usercode, tcellQues3.InnerHtml, answer, userid, testId, testsectionid,quescategory);
+            dataclass.Procedure_QuesAnswers(qusid3, usercode, tcellQues3.InnerHtml, answer, userid, testId, testsectionid, quescategory);
         }
 
         if (lblQuesID4.Text.Trim() != "")
@@ -829,7 +829,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
             qusid4 = int.Parse(lblQuesID4.Text.Trim());
 
             answer = txtAns4.Text;
-            dataclass.Procedure_QuesAnswers(qusid4, usercode, tcellQues4.InnerHtml, answer, userid, testId, testsectionid,quescategory);
+            dataclass.Procedure_QuesAnswers(qusid4, usercode, tcellQues4.InnerHtml, answer, userid, testId, testsectionid, quescategory);
         }
 
         if (lblQuesID5.Text.Trim() != "")
@@ -837,9 +837,9 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
             qusid5 = int.Parse(lblQuesID5.Text.Trim());
 
             answer = txtAns5.Text;
-            dataclass.Procedure_QuesAnswers(qusid5, usercode, tcellQues5.InnerHtml, answer, userid, testId, testsectionid,quescategory);
+            dataclass.Procedure_QuesAnswers(qusid5, usercode, tcellQues5.InnerHtml, answer, userid, testId, testsectionid, quescategory);
         }
-    }   
+    }
 
     private void ClearControls()
     {
@@ -848,24 +848,24 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
         lblNo3.Text = "";
         lblNo4.Text = "";
         lblNo5.Text = "";
-        
+
         txtAns1.Text = "";
         txtAns2.Text = "";
         txtAns3.Text = "";
         txtAns4.Text = "";
         txtAns5.Text = "";
-        
+
         //lblQues1.Text = "";
         //lblQues2.Text = "";
         //lblQues3.Text = "";
         //lblQues4.Text = "";
         //lblQues5.Text = "";
-        
+
         txtAns1.Visible = false;
         txtAns2.Visible = false;
         txtAns3.Visible = false;
         txtAns4.Visible = false;
-        txtAns5.Visible = false;        
+        txtAns5.Visible = false;
     }
 
     protected void btnExit_Click(object sender, EventArgs e)
@@ -877,7 +877,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
     }
 
     protected void ptnPrevious_Click(object sender, EventArgs e)
-    {        
+    {
         int curcount = 0;
         int totalcount = 0, totalquesavail = 0;
         if (Session["totalQuesCount_fill"] != null)
@@ -893,15 +893,15 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
 
         int curindex = 0;
         curindex = (pagecount - 1) * quesperPage;
-        if (curindex >=0)
-        {            
+        if (curindex >= 0)
+        {
             pagecount--;
             Session["pagecount_fill"] = pagecount;
             SetCurrentPageCount();// 230110 bip
         }
         else
         {
-            GoToPreviousPage();           
+            GoToPreviousPage();
         }
         FillQuestions();
     }
@@ -917,7 +917,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
     }
 
     protected void btnYes_Click(object sender, EventArgs e)
-    {        
+    {
         SaveValues(); pnlpopup.Visible = false;
         Timer1.Enabled = true;// 26-10-2010 bip
     }
@@ -1008,7 +1008,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
                     drTimedet["FirstVarID"] = firstvariableid;
                     drTimedet["CompletionStatus"] = 0;
                     drTimedet["TimeUsed"] = hrs + ":" + min + ":" + sec;
-                    drTimedet["AssignTime"] = setHrs + ":" + setMin + ":" + 0;                    
+                    drTimedet["AssignTime"] = setHrs + ":" + setMin + ":" + 0;
                     drTimedet["AssignStatus"] = 1;
 
                     if (timeExpired == true)
@@ -1036,155 +1036,155 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
     }
     private Boolean CheckTestSecVarGenValidity()
     {
-       // if (Session["TestSectionVariableTimeDuration"] == null)
-            if (Session["TotalTimeForUnAssgnSecVariables"] != null)
+        // if (Session["TestSectionVariableTimeDuration"] == null)
+        if (Session["TotalTimeForUnAssgnSecVariables"] != null)
+        {
+            string[] totaltimeforUnAssgn = Session["TotalTimeForUnAssgnSecVariables"].ToString().Split(new char[] { ':' });
+            int totalHrsforUnAssgn = int.Parse(totaltimeforUnAssgn[0]);
+            int totalMinforUnAssgn = int.Parse(totaltimeforUnAssgn[1]);
+            int totalSecforUnAssgn = int.Parse(totaltimeforUnAssgn[2]);
+
+            TimeSpan tsUnAssgn = new TimeSpan(totalHrsforUnAssgn, totalMinforUnAssgn, totalSecforUnAssgn);
+            int genHrs = 0, genMin = 0, genSec = 0;
+            if (Session["GeneralVariableTimeUsed"] != null)
             {
-                string[] totaltimeforUnAssgn = Session["TotalTimeForUnAssgnSecVariables"].ToString().Split(new char[] { ':' });
-                int totalHrsforUnAssgn = int.Parse(totaltimeforUnAssgn[0]);
-                int totalMinforUnAssgn = int.Parse(totaltimeforUnAssgn[1]);
-                int totalSecforUnAssgn = int.Parse(totaltimeforUnAssgn[2]);
+                string[] genTimeUsed = Session["GeneralVariableTimeUsed"].ToString().Split(new char[] { ':' });
+                genHrs = int.Parse(genTimeUsed[0]);
+                genMin = int.Parse(genTimeUsed[1]);
+                genSec = int.Parse(genTimeUsed[2]);
+                TimeSpan tsGeneral = new TimeSpan(genHrs, genMin, genSec);
 
-                TimeSpan tsUnAssgn = new TimeSpan(totalHrsforUnAssgn, totalMinforUnAssgn, totalSecforUnAssgn);
-                int genHrs = 0, genMin = 0, genSec = 0;
-                if (Session["GeneralVariableTimeUsed"] != null)
+                if (tsGeneral > tsUnAssgn)
+                    return true;
+            }
+
+            //
+
+            if (Session["TestSectionVariableStartTime"] != null)
+            {
+                DateTime dtStartTime = (DateTime)Session["TestSectionVariableStartTime"];
+                DateTime dtendTime = DateTime.Now;
+                TimeSpan tsUsed = dtendTime.Subtract(dtStartTime);
+
+                genHrs += tsUsed.Hours;
+                genMin += tsUsed.Minutes;
+                genSec += tsUsed.Seconds;
+
+                if (genSec >= 60)
                 {
-                    string[] genTimeUsed = Session["GeneralVariableTimeUsed"].ToString().Split(new char[] { ':' });
-                    genHrs = int.Parse(genTimeUsed[0]);
-                    genMin = int.Parse(genTimeUsed[1]);
-                    genSec = int.Parse(genTimeUsed[2]);
-                    TimeSpan tsGeneral = new TimeSpan(genHrs, genMin, genSec);
+                    double getMin = float.Parse(genSec.ToString()) / 60;
+                    string[] newMin = getMin.ToString().Split(new char[] { '.' });
+                    if (newMin.Length > 1)
+                    {
+                        int newminutes = int.Parse(newMin[0]);
+                        genMin += newminutes;
 
-                    if (tsGeneral > tsUnAssgn)
-                        return true;
+                        float newSec = float.Parse(getMin.ToString().Substring(1)) * 60;
+                        string[] newSeconds = newSec.ToString().Split(new char[] { '.' });
+                        int seconds = int.Parse(newSeconds[0]);
+                        genSec = seconds;
+                    }
                 }
 
-                //
-
-                if (Session["TestSectionVariableStartTime"] != null)
+                if (genMin >= 60)
                 {
-                    DateTime dtStartTime = (DateTime)Session["TestSectionVariableStartTime"];
-                    DateTime dtendTime = DateTime.Now;
-                    TimeSpan tsUsed = dtendTime.Subtract(dtStartTime);
-
-                    genHrs += tsUsed.Hours;
-                    genMin += tsUsed.Minutes;
-                    genSec += tsUsed.Seconds;
-
-                    if (genSec >= 60)
+                    double getHrs = float.Parse(genMin.ToString()) / 60;
+                    string[] newHrs = getHrs.ToString().Split(new char[] { '.' });
+                    if (newHrs.Length > 1)
                     {
-                        double getMin = float.Parse(genSec.ToString()) / 60;
-                        string[] newMin = getMin.ToString().Split(new char[] { '.' });
-                        if (newMin.Length > 1)
-                        {
-                            int newminutes = int.Parse(newMin[0]);
-                            genMin += newminutes;
+                        int newhours = int.Parse(newHrs[0]);
+                        genHrs += newhours;
 
-                            float newSec = float.Parse(getMin.ToString().Substring(1)) * 60;
-                            string[] newSeconds = newSec.ToString().Split(new char[] { '.' });
-                            int seconds = int.Parse(newSeconds[0]);
-                            genSec = seconds;
-                        }
+                        float newMin = float.Parse(getHrs.ToString().Substring(1)) * 60;
+                        string[] newMinutes = newMin.ToString().Split(new char[] { '.' });
+                        int minutes = int.Parse(newMinutes[0]);
+                        genMin = minutes;
                     }
+                }
+                Session["GeneralVariableTimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
+                bool timeExpired = false;
+                if (tsUsed > tsUnAssgn)
+                    timeExpired = true;
+                // return true;
 
-                    if (genMin >= 60)
+                // return false;// 03-02-2010 bip
+
+                TimeSpan tsTimeRemains = tsUnAssgn.Subtract(tsUsed);
+
+                // 03-02-2010 bip
+                int firstvariableid = 0;
+                if (Session["CurrentTestFirstVariableId"] != null)
+                    firstvariableid = int.Parse(Session["CurrentTestFirstVariableId"].ToString());
+                DataTable dtTimeDetails = new DataTable();
+                if (Session["FirstvarTimeDet"] == null)
+                {
+                    dtTimeDetails.Columns.Add("FirstVarID");
+                    dtTimeDetails.Columns.Add("TimeUsed");
+                    dtTimeDetails.Columns.Add("CompletionStatus");
+                    dtTimeDetails.Columns.Add("AssignTime");
+                    dtTimeDetails.Columns.Add("AssignStatus");
+                }
+                else
+                {
+                    dtTimeDetails = (DataTable)Session["FirstvarTimeDet"];
+                }
+                bool valueexists = false;
+                for (int i = 0; i < dtTimeDetails.Rows.Count; i++)
+                {
+                    int firstvarid = 0;
+                    string competionstatus = "", remainingtime = "", timeused = "";
+                    if (dtTimeDetails.Rows[i]["FirstVarID"] != null)
+                        firstvarid = int.Parse(dtTimeDetails.Rows[i]["FirstVarID"].ToString());
+                    if (dtTimeDetails.Rows[i]["TimeUsed"] != null)
+                        timeused = dtTimeDetails.Rows[i]["TimeUsed"].ToString();
+                    if (dtTimeDetails.Rows[i]["CompletionStatus"] != null)
+                        competionstatus = dtTimeDetails.Rows[i]["CompletionStatus"].ToString();
+                    if (dtTimeDetails.Rows[i]["AssignTime"] != null)
+                        remainingtime = dtTimeDetails.Rows[i]["AssignTime"].ToString();
+                    if (dtTimeDetails.Rows[i]["AssignStatus"] != null)
+                        remainingtime = dtTimeDetails.Rows[i]["AssignStatus"].ToString();
+
+                    if (firstvariableid == firstvarid)
                     {
-                        double getHrs = float.Parse(genMin.ToString()) / 60;
-                        string[] newHrs = getHrs.ToString().Split(new char[] { '.' });
-                        if (newHrs.Length > 1)
-                        {
-                            int newhours = int.Parse(newHrs[0]);
-                            genHrs += newhours;
+                        valueexists = true;
 
-                            float newMin = float.Parse(getHrs.ToString().Substring(1)) * 60;
-                            string[] newMinutes = newMin.ToString().Split(new char[] { '.' });
-                            int minutes = int.Parse(newMinutes[0]);
-                            genMin = minutes;
-                        }
-                    }
-                    Session["GeneralVariableTimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
-                    bool timeExpired = false;
-                    if (tsUsed > tsUnAssgn)
-                        timeExpired = true;
-                       // return true;
-
-                   // return false;// 03-02-2010 bip
-
-                    TimeSpan tsTimeRemains = tsUnAssgn.Subtract(tsUsed);
-
-                    // 03-02-2010 bip
-                    int firstvariableid = 0;
-                    if (Session["CurrentTestFirstVariableId"] != null)
-                        firstvariableid = int.Parse(Session["CurrentTestFirstVariableId"].ToString());
-                    DataTable dtTimeDetails = new DataTable();
-                    if (Session["FirstvarTimeDet"] == null)
-                    {
-                        dtTimeDetails.Columns.Add("FirstVarID");
-                        dtTimeDetails.Columns.Add("TimeUsed");
-                        dtTimeDetails.Columns.Add("CompletionStatus");
-                        dtTimeDetails.Columns.Add("AssignTime");
-                        dtTimeDetails.Columns.Add("AssignStatus");
-                    }
-                    else
-                    {
-                        dtTimeDetails = (DataTable)Session["FirstvarTimeDet"];
-                    }
-                    bool valueexists = false;
-                    for (int i = 0; i < dtTimeDetails.Rows.Count; i++)
-                    {
-                        int firstvarid = 0;
-                        string competionstatus = "", remainingtime = "", timeused = "";
-                        if (dtTimeDetails.Rows[i]["FirstVarID"] != null)
-                            firstvarid = int.Parse(dtTimeDetails.Rows[i]["FirstVarID"].ToString());
-                        if (dtTimeDetails.Rows[i]["TimeUsed"] != null)
-                            timeused = dtTimeDetails.Rows[i]["TimeUsed"].ToString();
-                        if (dtTimeDetails.Rows[i]["CompletionStatus"] != null)
-                            competionstatus = dtTimeDetails.Rows[i]["CompletionStatus"].ToString();
-                        if (dtTimeDetails.Rows[i]["AssignTime"] != null)
-                            remainingtime = dtTimeDetails.Rows[i]["AssignTime"].ToString();
-                        if (dtTimeDetails.Rows[i]["AssignStatus"] != null)
-                            remainingtime = dtTimeDetails.Rows[i]["AssignStatus"].ToString();
-
-                        if (firstvariableid == firstvarid)
-                        {
-                            valueexists = true;
-
-                            dtTimeDetails.Rows[i]["TimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
-
-                            if (timeExpired == true)
-                            {
-                                dtTimeDetails.Rows[i]["CompletionStatus"] = 1;
-                                Session["FirstvarTimeDet"] = dtTimeDetails;
-                                return true;
-                            }
-                            Session["FirstvarTimeDet"] = dtTimeDetails;
-                            break;
-                        }
-                    }
-                    if (valueexists == false)
-                    {
-                        // code to assign values from here
-                        DataRow drTimedet = dtTimeDetails.NewRow();
-                        drTimedet["FirstVarID"] = firstvariableid;
-                        //drTimedet["CompletionStatus"] = 0;
-                        drTimedet["TimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
-                        drTimedet["AssignTime"] = totalHrsforUnAssgn + ":" + totalMinforUnAssgn + ":" + totalSecforUnAssgn;
-                        drTimedet["AssignStatus"] = 0;
-                       // dtTimeDetails.Rows.Add(drTimedet);
+                        dtTimeDetails.Rows[i]["TimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
 
                         if (timeExpired == true)
                         {
-                            drTimedet["CompletionStatus"] = 1;
-                            dtTimeDetails.Rows.Add(drTimedet);
+                            dtTimeDetails.Rows[i]["CompletionStatus"] = 1;
                             Session["FirstvarTimeDet"] = dtTimeDetails;
                             return true;
                         }
-                        drTimedet["CompletionStatus"] = 0;
+                        Session["FirstvarTimeDet"] = dtTimeDetails;
+                        break;
+                    }
+                }
+                if (valueexists == false)
+                {
+                    // code to assign values from here
+                    DataRow drTimedet = dtTimeDetails.NewRow();
+                    drTimedet["FirstVarID"] = firstvariableid;
+                    //drTimedet["CompletionStatus"] = 0;
+                    drTimedet["TimeUsed"] = genHrs + ":" + genMin + ":" + genSec;
+                    drTimedet["AssignTime"] = totalHrsforUnAssgn + ":" + totalMinforUnAssgn + ":" + totalSecforUnAssgn;
+                    drTimedet["AssignStatus"] = 0;
+                    // dtTimeDetails.Rows.Add(drTimedet);
+
+                    if (timeExpired == true)
+                    {
+                        drTimedet["CompletionStatus"] = 1;
                         dtTimeDetails.Rows.Add(drTimedet);
                         Session["FirstvarTimeDet"] = dtTimeDetails;
+                        return true;
                     }
-                    ////
+                    drTimedet["CompletionStatus"] = 0;
+                    dtTimeDetails.Rows.Add(drTimedet);
+                    Session["FirstvarTimeDet"] = dtTimeDetails;
                 }
+                ////
             }
+        }
         return false;
     }
 
@@ -1206,7 +1206,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
                 int setMin = int.Parse(timeValues[1].ToString());
 
                 TimeSpan tsDuration = new TimeSpan(setHrs, setMin, 0);//25-02-2010 bip
-                if ( tsNow>tsDuration )
+                if (tsNow > tsDuration)
                     return true;
             }
             else return CheckTestSecGenValidity();
@@ -1288,7 +1288,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
                 int setMin = int.Parse(timeValues[1].ToString());
 
                 TimeSpan tsDuration = new TimeSpan(setHrs, setMin, 0);//25-02-2010 bip
-                if ( tsNow>tsDuration )
+                if (tsNow > tsDuration)
                     return true;
             }
         }
@@ -1315,7 +1315,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
     }
     private void SetNextSectionVariableDetails_Timer()// 24-02-2010 bip
     {
-        
+
         // 27-02-2010 bip
         int firstvaridfortimer = 0, varidindex_timer = 0;
         if (Session["FirstVariableIdForTimer"] != null)
@@ -1368,7 +1368,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
         Session["totalQuesCount_memWords"] = null; Session["totalQuesAvailable_memWords"] = null;
 
         Session["totalQuesCount_imgPhoto"] = null; Session["totalQuesAvailable_imgPhoto"] = null;
-        
+
         Session["SubCtrl"] = "ObjectiveQuestns.ascx";
         Response.Redirect("FJAHome.aspx");
 
@@ -1395,7 +1395,7 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
     protected void btnYes_timer_Test_Click(object sender, EventArgs e)
     {
         Session["timeExpired"] = null; Session["saved"] = null;
-       // SaveAnswers();// bip 07052010
+        // SaveAnswers();// bip 07052010
         //// 230110 bip        
         dataclass.Procedure_DeleteUserTest_TempValues(userid, 0, 0);
         ////
@@ -1409,19 +1409,19 @@ public partial class FillBalnksQues : System.Web.UI.UserControl
     protected void btnYes_timer_TestVariable_Click(object sender, EventArgs e)
     {
         Session["timeExpired"] = null; Session["saved"] = null;
-       // SaveAnswers();// bip 07052010
+        // SaveAnswers();// bip 07052010
         SetNextSectionVariableDetails_Timer();
     }
-   
+
     protected void Timer1_Tick(object sender, EventArgs e)
-    {        
+    {
         ///bip 10052010
         if (Session["timeExpired"] != null)
             if (Session["timeExpired"].ToString() == "True")
                 return;
 
         CheckTime();// 
-       // SaveAnswers();
+        // SaveAnswers();
         ///
 
     }

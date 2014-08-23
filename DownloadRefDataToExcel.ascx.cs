@@ -156,152 +156,152 @@ public partial class DownloadRefDataToExcel : System.Web.UI.UserControl
             int sectionid = 0;
             ////int testid = int.Parse(Session["UserTestID_Report"].ToString());
 // bip 07052010
-            var UserList = from Userprf in dataclass.UserProfiles
-                           where Userprf.TestId == testid && Userprf.FirstLoginDate.HasValue == true 
-                           select Userprf;
-            if (UserList.Count() > 0)
-                foreach (var userlistdetails in UserList)
-                {
-                    username = userlistdetails.UserName;
-                    userid = userlistdetails.UserId;
-                    var UserAnsws1 = from UserAnsws in dataclass.EvaluationResults
-                                     where UserAnsws.UserId == userid   // && UserAnsws.TestId == testid
-                                     select UserAnsws;
+            //var UserList = from Userprf in dataclass.UserProfiles
+            //               where Userprf.TestId == testid && Userprf.FirstLoginDate.HasValue == true 
+            //               select Userprf;
+            //if (UserList.Count() > 0)
+            //    foreach (var userlistdetails in UserList)
+            //    {
+            //        username = userlistdetails.UserName;
+            //        userid = userlistdetails.UserId;
+            //        var UserAnsws1 = from UserAnsws in dataclass.EvaluationResults
+            //                         where UserAnsws.UserId == userid   // && UserAnsws.TestId == testid
+            //                         select UserAnsws;
 
-                    if (UserAnsws1.Count() > 0)
-                    {
-                        foreach (var UserAnswers in UserAnsws1)
-                        {
-                            int marks = 0;
-                            int currentmarks = 0;
-                            sectionid = 0;
-                            if (UserAnswers.Category == "MemTestWords")
-                            {
-                                var MemWords1 = from MemWords in dataclass.MemmoryTestTextQuesCollections
-                                                where MemWords.Question == UserAnswers.Question && MemWords.QuestionID == UserAnswers.QuestionID
-                                                select MemWords;
-                                if (MemWords1.Count() > 0)
-                                {
-                                    TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
-                                    sectionname = MemWords1.First().SectionName.ToString();
-                                    sectionid = GetSectionId(sectionname);// int.Parse(MemWords1.First().SectionId.ToString());
-                                    if (UserAnswers.Answer != null)
-                                        if (MemWords1.First().Answer == UserAnswers.Answer)
-                                            marks = 1;
-                                }
-                            }
-                            else if (UserAnswers.Category == "MemTestImages")
-                            {
-                                var MemImages1 = from MemImages in dataclass.MemmoryTestImageQuesCollections
-                                                 where MemImages.Question == UserAnswers.Question && MemImages.QuestionID == UserAnswers.QuestionID
-                                                 select MemImages;
-                                if (MemImages1.Count() > 0)
-                                {
-                                    TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
-                                    sectionname = MemImages1.First().SectionName.ToString();
-                                    sectionid = GetSectionId(sectionname);// int.Parse(MemImages1.First().SectionId.ToString());
-                                    if (UserAnswers.Answer != null)
-                                        if (MemImages1.First().Answer == UserAnswers.Answer)
-                                            marks = 1;
-                                }
-                            }
-                            else if (UserAnswers.Category == "FillBlanks")
-                            {
-                                var FillQues1 = from FillQues in dataclass.QuestionCollections
-                                                where FillQues.Question == UserAnswers.Question && FillQues.QuestionID == UserAnswers.QuestionID
-                                                select FillQues;
-                                if (FillQues1.Count() > 0)
-                                {
-                                    TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
-                                    sectionname = FillQues1.First().SectionName.ToString();
-                                    sectionid = GetSectionId(sectionname);// int.Parse(FillQues1.First().SectionId.ToString());
-                                    if (UserAnswers.Answer != null)
-                                        if (FillQues1.First().Option1 == UserAnswers.Answer || FillQues1.First().Option2 == UserAnswers.Answer ||
-                                            FillQues1.First().Option3 == UserAnswers.Answer || FillQues1.First().Option4 == UserAnswers.Answer ||
-                                            FillQues1.First().Option5 == UserAnswers.Answer)
-                                            marks = 1;
-                                }
-                            }
-                            else if (UserAnswers.Category == "RatingType")
-                            {
-                                var FillQues1 = from FillQues in dataclass.QuestionCollections
-                                                where FillQues.Question == UserAnswers.Question && FillQues.QuestionID == UserAnswers.QuestionID
-                                                select FillQues;
-                                if (FillQues1.Count() > 0)
-                                {
-                                    TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
-                                    sectionname = FillQues1.First().SectionName.ToString();
-                                    sectionid = GetSectionId(sectionname);// int.Parse(FillQues1.First().SectionId.ToString());
-                                    ////if (sectionname == "Test2")
-                                    ////    sectionid = 40;
-                                    //if (UserAnswers.Answer != null)
-                                    //    if (FillQues1.First().Answer == UserAnswers.Answer)
-                                    //    {
-                                            marks = int.Parse(UserAnswers.Answer.ToString());
-                                            //// marks = ratingmark;
-                                            // dataclass.ProcSectionMarks(userid, testid, sectionid, sectionname, marks);
-                                            ////}
-                                     //   }
-                                }
-                            }
-                            else
-                            {
-                                var OtherQues1 = from OtherQues in dataclass.QuestionCollections
-                                                 where OtherQues.Question == UserAnswers.Question && OtherQues.QuestionID == UserAnswers.QuestionID
-                                                 select OtherQues;
-                                if (OtherQues1.Count() > 0)
-                                {
-                                    TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
-                                    sectionname = OtherQues1.First().SectionName.ToString();
-                                    sectionid = GetSectionId(sectionname);// int.Parse(OtherQues1.First().SectionId.ToString());
-                                    if (UserAnswers.Answer != null)
-                                        if (OtherQues1.First().Answer == UserAnswers.Answer)
-                                            marks = 1;
-                                }
+            //        if (UserAnsws1.Count() > 0)
+            //        {
+            //            foreach (var UserAnswers in UserAnsws1)
+            //            {
+            //                int marks = 0;
+            //                int currentmarks = 0;
+            //                sectionid = 0;
+            //                if (UserAnswers.Category == "MemTestWords")
+            //                {
+            //                    var MemWords1 = from MemWords in dataclass.MemmoryTestTextQuesCollections
+            //                                    where MemWords.Question == UserAnswers.Question && MemWords.QuestionID == UserAnswers.QuestionID
+            //                                    select MemWords;
+            //                    if (MemWords1.Count() > 0)
+            //                    {
+            //                        TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
+            //                        sectionname = MemWords1.First().SectionName.ToString();
+            //                        sectionid = GetSectionId(sectionname);// int.Parse(MemWords1.First().SectionId.ToString());
+            //                        if (UserAnswers.Answer != null)
+            //                            if (MemWords1.First().Answer == UserAnswers.Answer)
+            //                                marks = 1;
+            //                    }
+            //                }
+            //                else if (UserAnswers.Category == "MemTestImages")
+            //                {
+            //                    var MemImages1 = from MemImages in dataclass.MemmoryTestImageQuesCollections
+            //                                     where MemImages.Question == UserAnswers.Question && MemImages.QuestionID == UserAnswers.QuestionID
+            //                                     select MemImages;
+            //                    if (MemImages1.Count() > 0)
+            //                    {
+            //                        TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
+            //                        sectionname = MemImages1.First().SectionName.ToString();
+            //                        sectionid = GetSectionId(sectionname);// int.Parse(MemImages1.First().SectionId.ToString());
+            //                        if (UserAnswers.Answer != null)
+            //                            if (MemImages1.First().Answer == UserAnswers.Answer)
+            //                                marks = 1;
+            //                    }
+            //                }
+            //                else if (UserAnswers.Category == "FillBlanks")
+            //                {
+            //                    var FillQues1 = from FillQues in dataclass.QuestionCollections
+            //                                    where FillQues.Question == UserAnswers.Question && FillQues.QuestionID == UserAnswers.QuestionID
+            //                                    select FillQues;
+            //                    if (FillQues1.Count() > 0)
+            //                    {
+            //                        TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
+            //                        sectionname = FillQues1.First().SectionName.ToString();
+            //                        sectionid = GetSectionId(sectionname);// int.Parse(FillQues1.First().SectionId.ToString());
+            //                        if (UserAnswers.Answer != null)
+            //                            if (FillQues1.First().Option1 == UserAnswers.Answer || FillQues1.First().Option2 == UserAnswers.Answer ||
+            //                                FillQues1.First().Option3 == UserAnswers.Answer || FillQues1.First().Option4 == UserAnswers.Answer ||
+            //                                FillQues1.First().Option5 == UserAnswers.Answer)
+            //                                marks = 1;
+            //                    }
+            //                }
+            //                else if (UserAnswers.Category == "RatingType")
+            //                {
+            //                    var FillQues1 = from FillQues in dataclass.QuestionCollections
+            //                                    where FillQues.Question == UserAnswers.Question && FillQues.QuestionID == UserAnswers.QuestionID
+            //                                    select FillQues;
+            //                    if (FillQues1.Count() > 0)
+            //                    {
+            //                        TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
+            //                        sectionname = FillQues1.First().SectionName.ToString();
+            //                        sectionid = GetSectionId(sectionname);// int.Parse(FillQues1.First().SectionId.ToString());
+            //                        ////if (sectionname == "Test2")
+            //                        ////    sectionid = 40;
+            //                        //if (UserAnswers.Answer != null)
+            //                        //    if (FillQues1.First().Answer == UserAnswers.Answer)
+            //                        //    {
+            //                                marks = int.Parse(UserAnswers.Answer.ToString());
+            //                                //// marks = ratingmark;
+            //                                // dataclass.ProcSectionMarks(userid, testid, sectionid, sectionname, marks);
+            //                                ////}
+            //                         //   }
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    var OtherQues1 = from OtherQues in dataclass.QuestionCollections
+            //                                     where OtherQues.Question == UserAnswers.Question && OtherQues.QuestionID == UserAnswers.QuestionID
+            //                                     select OtherQues;
+            //                    if (OtherQues1.Count() > 0)
+            //                    {
+            //                        TestSecionID = int.Parse(UserAnswers.TestSectionId.ToString());
+            //                        sectionname = OtherQues1.First().SectionName.ToString();
+            //                        sectionid = GetSectionId(sectionname);// int.Parse(OtherQues1.First().SectionId.ToString());
+            //                        if (UserAnswers.Answer != null)
+            //                            if (OtherQues1.First().Answer == UserAnswers.Answer)
+            //                                marks = 1;
+            //                    }
 
-                            }
+            //                }
                             
                                 
-                                Boolean exists = CheckExistence(sectionname);
-                                if (exists == true)
-                                {
-                                    rowid = int.Parse(Session["RowID"].ToString());
-                                    dr = dt.Rows[rowid];
-                                    currentmarks = int.Parse(dr["TotalMarks"].ToString());
-                                    currentmarks = currentmarks + marks;
-                                    dr["TotalMarks"] = currentmarks;
-                                    Session["RowID"] = null;
-                                }
-                                else
-                                {
-                                    //if (currentmarks > 0)
-                                    //    marks = currentmarks;
+            //                    Boolean exists = CheckExistence(sectionname);
+            //                    if (exists == true)
+            //                    {
+            //                        rowid = int.Parse(Session["RowID"].ToString());
+            //                        dr = dt.Rows[rowid];
+            //                        currentmarks = int.Parse(dr["TotalMarks"].ToString());
+            //                        currentmarks = currentmarks + marks;
+            //                        dr["TotalMarks"] = currentmarks;
+            //                        Session["RowID"] = null;
+            //                    }
+            //                    else
+            //                    {
+            //                        //if (currentmarks > 0)
+            //                        //    marks = currentmarks;
 
-                                    dr = dt.NewRow();
-                                    dr["TestID"] = testid;
-                                    dr["TestSectionID"] = TestSecionID.ToString();
-                                    dr["SectionName"] = sectionname;
-                                    dr["SectionID"] = sectionid;
-                                    //
-                                    //if (exists == false)
-                                    dr["TotalMarks"] = marks;
-                                    // else
-                                    //   dr["TotalMarks"] = "0";
-                                    //dr["BandDescription"] = "";
-                                    dr["UserId"] = userid; dr["UserName"] = username;
-                                    dt.Rows.Add(dr);
-                                }
-                            //}
-                        }
-                    }
-                }
-            ds = new DataSet();
-            ds.Tables.Add(dt);
-            GridView1.DataSource = ds.Tables[0];// dt;
-            GridView1.DataBind();
-            Session["dsDownloadtoExcel_refData"] = ds;// dt;
-            if (GridView1.Rows.Count <= 0)
-                lblMessage.Text = "No data found for export";
+            //                        dr = dt.NewRow();
+            //                        dr["TestID"] = testid;
+            //                        dr["TestSectionID"] = TestSecionID.ToString();
+            //                        dr["SectionName"] = sectionname;
+            //                        dr["SectionID"] = sectionid;
+            //                        //
+            //                        //if (exists == false)
+            //                        dr["TotalMarks"] = marks;
+            //                        // else
+            //                        //   dr["TotalMarks"] = "0";
+            //                        //dr["BandDescription"] = "";
+            //                        dr["UserId"] = userid; dr["UserName"] = username;
+            //                        dt.Rows.Add(dr);
+            //                    }
+            //                //}
+            //            }
+            //        }
+            //    }
+            //ds = new DataSet();
+            //ds.Tables.Add(dt);
+            //GridView1.DataSource = ds.Tables[0];// dt;
+            //GridView1.DataBind();
+            //Session["dsDownloadtoExcel_refData"] = ds;// dt;
+            //if (GridView1.Rows.Count <= 0)
+            //    lblMessage.Text = "No data found for export";
         }
         catch (Exception ex) { lblMessage.Text = ex.Message; }
     }

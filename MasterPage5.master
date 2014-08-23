@@ -102,14 +102,14 @@ document.getElementById("staticcontent").style.top=dsoctop+70+"px"
 }setInterval("positionit()",1000)
        </script>--%>
        
-    <link href="styles_menu.css" rel="stylesheet" />
+   <%-- <link href="styles_menu.css" rel="stylesheet" />
        <style type="text/css">
 #fixme { position: absolute; right: 25px; top: 70px; }
 <%--#fixmetoo { position: absolute; right: 0px; bottom: 0px; }--%>
-div > div#fixme { position: fixed; }
+<%--div > div#fixme { position: fixed; }--%>
 <%--div > div#fixmetoo { position: fixed; }--%>
-pre.fixit { overflow:auto;border-left:1px dashed #000;border-right:1px dashed #000;padding-right:25px; }
-		</style><!--[if gte IE 5.5]><![if lt IE 7]>
+<%--pre.fixit { overflow:auto;border-left:1px dashed #000;border-right:1px dashed #000;padding-right:25px; }--%>
+		<%--</style>--%><!--[if gte IE 5.5]><![if lt IE 7]>
 		<style type="text/css">
 div#fixme {
 right: expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollRight ? document.documentElement.scrollRight : document.body.scrollRight ) ) + 'px' );
@@ -125,7 +125,7 @@ top: expression( ( 0 - fixmetoo.offsetHeight + ( document.documentElement.client
        
        
 </head><%--onload="ImageShow();"onload="countdown();"onload="positionit()"onload="ccb();"--%>
-<body   style="padding-top:1px;"  leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" oncopy="return false;" onpaste="return false;" oncut="return false;" oncontextmenu="return false;" onselectstart="return false;" >
+<body   style="padding-top:1px;"  leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" oncopy="return false;" onpaste="return false;" oncut="return false;" oncontextmenu="return true;" onselectstart="return false;" >
     <form id="counter" name="counter" runat="server"  >
     <div>
         <asp:ScriptManager ID="ScriptManager1" runat="server" 
