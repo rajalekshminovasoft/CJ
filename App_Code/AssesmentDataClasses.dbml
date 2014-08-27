@@ -1929,17 +1929,14 @@
     <Parameter Name="QuestionCode" Parameter="questionCode" Type="System.String" DbType="VarChar(100)" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.AddUserTestList" Method="AddUserTestList">
-    <Parameter Name="TestId" Parameter="testId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="UserTestId" Parameter="userTestId" Type="System.Int32" DbType="Int" />
+  <Function Name="dbo.ProcedureEvaluationStatus" Method="ProcedureEvaluationStatus">
+    <Parameter Name="EvalStatusId" Parameter="evalStatusId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EvalControl" Parameter="evalControl" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="EvalCompletionStatus" Parameter="evalCompletionStatus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EvalExitStatus" Parameter="evalExitStatus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserCode" Parameter="userCode" Type="System.String" DbType="NVarChar(50)" />
     <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="PaymentStatus" Parameter="paymentStatus" Type="System.String" DbType="VarChar(50)" />
-    <Parameter Name="TestStatus" Parameter="testStatus" Type="System.String" DbType="VarChar(50)" />
-    <Parameter Name="PaymentDate" Parameter="paymentDate" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="ReportAccess" Parameter="reportAccess" Type="System.Int32" DbType="Int" />
-    <Parameter Name="TestLoginDate" Parameter="testLoginDate" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="TestLogoutDate" Parameter="testLogoutDate" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="TestPrice" Parameter="testPrice" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Testid" Parameter="testid" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.AddUser" Method="AddUser">
@@ -1973,14 +1970,17 @@
     <Parameter Name="Recruiter" Parameter="recruiter" Type="System.String" DbType="NVarChar(250)" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.ProcedureEvaluationStatus" Method="ProcedureEvaluationStatus">
-    <Parameter Name="EvalStatusId" Parameter="evalStatusId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="EvalControl" Parameter="evalControl" Type="System.String" DbType="NVarChar(50)" />
-    <Parameter Name="EvalCompletionStatus" Parameter="evalCompletionStatus" Type="System.Int32" DbType="Int" />
-    <Parameter Name="EvalExitStatus" Parameter="evalExitStatus" Type="System.Int32" DbType="Int" />
-    <Parameter Name="UserCode" Parameter="userCode" Type="System.String" DbType="NVarChar(50)" />
+  <Function Name="dbo.AddUserTestList" Method="AddUserTestList">
+    <Parameter Name="TestId" Parameter="testId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserTestId" Parameter="userTestId" Type="System.Int32" DbType="Int" />
     <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Testid" Parameter="testid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PaymentStatus" Parameter="paymentStatus" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="TestStatus" Parameter="testStatus" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PaymentDate" Parameter="paymentDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ReportAccess" Parameter="reportAccess" Type="System.Int32" DbType="Int" />
+    <Parameter Name="TestLoginDate" Parameter="testLoginDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="TestLogoutDate" Parameter="testLogoutDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="TestPrice" Parameter="testPrice" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

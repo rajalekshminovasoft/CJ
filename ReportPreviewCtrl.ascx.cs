@@ -67,7 +67,7 @@ public partial class ReportPreviewCtrl : System.Web.UI.UserControl
 
        // FillUserReportDetails(); FillReportDescriptionDetails();
 
-        if (Session["usertype"].ToString() == "OrgAdmin" || Session["usertype"].ToString() == "GrpAdmin" || Session["usertype"].ToString() == "SuperAdmin")
+        if (Session["usertype"].ToString() == "OrgAdmin" || Session["usertype"].ToString() == "GrpAdmin" || Session["usertype"].ToString() == "SuperAdmin" || Session["usertype"].ToString() =="User")
         {lbtnBack.Visible = true; lbtnBack0.Visible = true;}
 
         goToPrintPage();//bip 17062010

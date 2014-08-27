@@ -23,7 +23,7 @@
 <div>
     <asp:Label ID="lblmsg" runat="server" ForeColor="#CC0000" ></asp:Label>
 </div>
-                <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1"  NavigationStyle-VerticalAlign="Top" NavigationStyle-HorizontalAlign="NotSet" HeaderStyle-VerticalAlign="Top" OnNextButtonClick="Wizard1_NextButtonClick" DisplaySideBar="true" >
+                <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0"  NavigationStyle-VerticalAlign="Top" NavigationStyle-HorizontalAlign="NotSet" HeaderStyle-VerticalAlign="Top" OnNextButtonClick="Wizard1_NextButtonClick" DisplaySideBar="true" >
                     <HeaderStyle VerticalAlign="Top" />
             <NavigationButtonStyle ForeColor="#660033" />
                     <NavigationStyle VerticalAlign="Top" />
@@ -95,6 +95,11 @@
                     <div class="tab_box_login1_inner">
                         <table>
                             <tr>
+                                <td >New Users can sign up here and take test</td>
+                           </tr>
+<tr><td>&nbsp</td>                                
+                            </tr>
+                            <tr>
                                 <td>
                                     <div class="tab_box_butsign"><asp:LinkButton ID="lnkSignup" runat="server" ForeColor="#006600" OnClick="lnkSignup_Click" >Sign Up</asp:LinkButton></div>
                                     
@@ -109,11 +114,11 @@
             <table>
                 <tr>
                     <td>Username:</td>
-                    <td><asp:TextBox ID="txtuname" runat="server"></asp:TextBox></td>
+                    <td><asp:TextBox ID="txtuname" runat="server" Width="128px"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td>Password:</td>
-                    <td><asp:TextBox ID="txtpwd" runat="server" TextMode="Password"></asp:TextBox></td>
+                    <td><asp:TextBox ID="txtpwd" runat="server" TextMode="Password" Width="128px"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td>
@@ -128,7 +133,26 @@
             </div> 
         <div class="tab_box_login1">       
         <div class="tab_box_login1_head">Forgot Password</div>
-        <div class="tab_box_login1_inner"></div>       
+        <div class="tab_box_login1_inner">
+             <table>
+                <tr>
+                    <td>Enter EmailID:</td>
+                    <td><asp:TextBox ID="txtforemail" runat="server"></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td>Enter UserName:</td>
+                    <td><asp:TextBox ID="txt_forusername" runat="server" ></asp:TextBox></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="tab_box_butsign">
+                            <asp:LinkButton ID="lnkbtn_Forgpwd" runat="server" ForeColor="#006600" >Submit</asp:LinkButton>
+                            <asp:Label ID="lbl_forgotmsg" runat="server" ></asp:Label>
+                        </div> 
+                    </td>
+                </tr>
+            </table>
+        </div>       
         </div> 
       </div>
                     <%--<table>
@@ -603,7 +627,7 @@
                     readonly="readonly" /></td>
                         </tr>--%>
                         
-            <tr><td class="titlesub">User Details</td></tr>
+            <%--<tr><td class="titlesub">User Details</td></tr>
               <tr>
                             <td class="label1" >
                                 User Name:</td>
@@ -618,7 +642,7 @@
                                 <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" Width="250px"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*" ControlToValidate="txtPassword"></asp:RequiredFieldValidator>
                             </td>
-                        </tr>
+                        </tr>--%>
           
 
                         <tr>

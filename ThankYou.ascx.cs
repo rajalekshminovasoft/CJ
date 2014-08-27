@@ -59,6 +59,17 @@ public partial class ThankYou : System.Web.UI.UserControl
         if (Session["UserID"] != null)
             userid = int.Parse(Session["UserID"].ToString());
         dataclass.Procedure_DeleteUserTest_TempValues(userid, 0, 0);
+        //Update UserTestList
+         var usertestdet = from userdetails in dataclass.UserTestLists
+                          where userdetails.UserId == int.Parse(Session["UserID"].ToString()) && userdetails.UserTestId==int.Parse(Session["curtestid"].ToString())
+                          select userdetails;
+
+        if (usertestdet.Count() > 0)
+        {
+            dataclass.AddUserTestList(int.Parse(usertestdet.First().TestId.ToString()), int.Parse(Session["curtestid"].ToString()), int.Parse(Session["UserID"].ToString()), usertestdet.First().PaymentStatus, "TAKEN",
+                usertestdet.First().PaymentDate, usertestdet.First().ReportAccess, usertestdet.First().TestLoginDate, DateTime.Now, usertestdet.First().TestPrice);
+        }
+        
         ////
 
 
@@ -68,10 +79,16 @@ public partial class ThankYou : System.Web.UI.UserControl
         if (Session["dirLogin"] != null)
             if (Session["dirLogin"].ToString() == "Yes")
             {
+                if (Session["UserID"] != null)
+                    userid = int.Parse(Session["UserID"].ToString());
                 Session.Clear();
-                Session["SubCtrl"] = null;
-                Session["MasterCtrl"] = "~/MasterPage5.master";
+                Session["curtestid"] = "";
+                Session["UserID"] = userid;
+                Session["SubCtrl"] = "TestListControl.ascx";
                 Response.Redirect("FJAHome.aspx");
+                //Session["SubCtrl"] = null;
+                //Session["MasterCtrl"] = "~/MasterPage5.master";
+                //Response.Redirect("FJAHome.aspx");
                 return;
             }
 

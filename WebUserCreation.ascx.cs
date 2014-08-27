@@ -24,6 +24,10 @@ public partial class WebUserCreation : System.Web.UI.UserControl
         //{
         //    Wizard1.ActiveStepIndex = 0;
         //}
+        if (!Page.IsPostBack)
+        {
+            Wizard1.ActiveStepIndex = 0;
+        }
         if ((Wizard1.ActiveStepIndex == 3) && (Session["TestIDList"] == null))
         {
             lblmsg.Text = "";
@@ -225,21 +229,21 @@ public partial class WebUserCreation : System.Web.UI.UserControl
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        if (txtUserName.Text.Trim() == "" || txtPassword.Text.Trim() == "" || txtFsName.Text.Trim()=="" || txtEmailId.Text.Trim()=="")// || ddlOrg.SelectedIndex < 0 || ddlUserGroup.SelectedIndex < 0)
+        if ( txtFsName.Text.Trim()=="" || txtEmailId.Text.Trim()=="")// || ddlOrg.SelectedIndex < 0 || ddlUserGroup.SelectedIndex < 0)
         { lblMessage.Text = "Enter the values"; }
         else
         {
             try
             {
-                if (txtPassword.Text != "")
-                    ViewState["Password"] = txtPassword.Text;
+                //if (txtPassword.Text != "")
+                //    ViewState["Password"] = txtPassword.Text;
                 DateTime dtFrom = DateTime.Today;
                 DateTime dtTo = DateTime.Today.AddDays(1);
-                var checkDuplication = from userdetails in dataclasses.UserProfiles
-                                       where (userdetails.UserName == txtUserName.Text.Trim() && userdetails.Password == txtPassword.Text.Trim())
-                                       select userdetails;
-                if (checkDuplication.Count() > 0)
-                { lblMessage.Text = "Username/password already exists"; }
+                //var checkDuplication = from userdetails in dataclasses.UserProfiles
+                //                       where (userdetails.UserName == txtUserName.Text.Trim() && userdetails.Password == txtPassword.Text.Trim())
+                //                       select userdetails;
+                //if (checkDuplication.Count() > 0)
+                //{ lblMessage.Text = "Username/password already exists"; }
                 
                 string emailid = txtEmailId.Text.Trim();
                 int userCode = 0;
@@ -297,12 +301,13 @@ public partial class WebUserCreation : System.Web.UI.UserControl
                 {
                     lblmsg.Text = "Select  test and proceed";
                 }
-                //dataclasses.AddUser(txtUserName.Text, txtPassword.Text, "User", int.Parse(ddlOrg.SelectedValue),
-                //    int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, 1, 0, txtEmailId.Text, int.Parse(Session["TestID"].ToString()),
-                //    1, tests, txtFsName.Text, txtMidName.Text, txtLstName.Text, ddlGender.SelectedValue,
-                //    age, industryid, int.Parse(ddlJobCatgy.SelectedValue),txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue), 
-                //    int.Parse(ddlTotExpMonths.SelectedValue),int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue),
-                //    ddlQualification.SelectedItem.Text,txtProffQual.Text, txtPhoneNumber.Text,txtrecrutr.Text );
+                
+                dataclasses.AddUser(Username, Username, "User", int.Parse(ddlOrg.SelectedValue),
+                    int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, 1, 0, txtEmailId.Text, 0,
+                    1,  txtFsName.Text, txtMidName.Text, txtLstName.Text, ddlGender.SelectedValue,
+                    age, industryid, int.Parse(ddlJobCatgy.SelectedValue), txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue),
+                    int.Parse(ddlTotExpMonths.SelectedValue), int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue),
+                    ddlQualification.SelectedItem.Text, txtProffQual.Text, txtPhoneNumber.Text, txtrecrutr.Text);
                 Session["UserTestId"] = tests; 
                 lblMessage.Text = "Profile Details Saved Successfully";
                 Wizard1.ActiveStepIndex = 2;
@@ -351,14 +356,20 @@ public partial class WebUserCreation : System.Web.UI.UserControl
     {
         try
         {
-            //if (Session["TestIDList"] != null)
-            //{
+            int userid_new = 0;
 
-            //}
-           // Session["UserTestId"] = Session["UserTestId"];
-            Session["UserID"] = Session["UserID"];
-            Session["SubCtrl"] = "TestListControl.ascx";
-            Response.Redirect("FJAHome.aspx");
+            var LoginDetails1 = from LoginDetails in dataclasses.UserProfiles
+                                where LoginDetails.UserName == Username && LoginDetails.Password == Username && LoginDetails.Status == 1
+                                select LoginDetails;
+
+            if (LoginDetails1.Count() > 0)
+            {
+                userid_new = int.Parse(LoginDetails1.First().UserId.ToString());
+                Session["UserID"] = userid_new;
+                //CheckUserDetails(userid_new, "Yes");
+                Session["SubCtrl"] = "TestListControl.ascx";
+                Response.Redirect("FJAHome.aspx");
+            }
         }
         catch (Exception ex)
         {

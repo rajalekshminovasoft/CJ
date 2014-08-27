@@ -1,4 +1,4 @@
-﻿ttt<%@ Control Language="C#" AutoEventWireup="true" CodeFile="TestListControl.ascx.cs" Inherits="TestListControl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="TestListControl.ascx.cs" Inherits="TestListControl" %>
 <div  align="center" style="padding-top: 5px; ">
     <asp:Panel ID="pnlUserCreation" runat="server">
         <table width="75%" align="center">
@@ -29,7 +29,7 @@
             <tr>
                 <td>
                     <asp:Button ID="Button1" runat="server" Text="Take test" OnClick="Button1_Click" Visible="false"  />
-                    <asp:Button ID="Button2" runat="server" Text="View Report" Visible="false"  />
+                    <asp:Button ID="Button2" runat="server" Text="View Report" Visible="false" OnClick="Button2_Click"  />
                 </td>
             </tr>
     </table>
