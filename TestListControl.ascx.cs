@@ -22,6 +22,7 @@ public partial class TestListControl : System.Web.UI.UserControl
         //if (!Page.IsPostBack)
         //{
             FillDatagrid();
+            
             ////if (Session["curtestid"] != "")
             ////{
             ////    Button1.Visible = true;
@@ -152,8 +153,7 @@ public partial class TestListControl : System.Web.UI.UserControl
                     if (i != rownumber)
                     {
                         CheckBox chkcheckbox = ((CheckBox)(grd_usertest.Rows[i].FindControl("chkSelect")));
-                        chkcheckbox.Checked = false;
-                        
+                        chkcheckbox.Checked = false;                        
                     }
                     else
                     {
@@ -170,6 +170,20 @@ public partial class TestListControl : System.Web.UI.UserControl
                         }
                     }
                 }
+                if (Button2.Visible == false)
+                {
+                    lblsummeryrep.Visible = false;
+                    lblreptype.Visible = false;
+                    ddlReportType.Visible = false;
+                    ddlSummaryGraph.Visible = false;
+                }
+                else
+                {
+                    lblsummeryrep.Visible = true;
+                    lblreptype.Visible = true;
+                    ddlReportType.Visible = true;
+                    ddlSummaryGraph.Visible = true;
+                }
             }
         }
         catch (Exception es)
@@ -181,54 +195,58 @@ public partial class TestListControl : System.Web.UI.UserControl
         try
         {
             var usertestdet = from userdetails in dataclass.UserTestLists
-                              where (userdetails.UserId == int.Parse(Session["UserID"].ToString()) && userdetails.UserTestId == int.Parse(Session["curtestid"].ToString())) && userdetails.ReportAccess==1)
+                              where (userdetails.UserId == int.Parse(Session["UserID"].ToString()) && userdetails.UserTestId == int.Parse(Session["curtestid"].ToString()) && userdetails.ReportAccess==1)
                           select userdetails;
 
             if (usertestdet.Count() > 0)
             {
-                string reptype = "Interpretative Report";//Indicative Report//Certification Report
-            string scortype = "Percentage";//Percentile
-            if (Session["curtestid"] != null)// || ddlUserList.SelectedIndex > 0)
-            {
-                if (Session["UserID"]!=null)
+                string reptype = ddlReportType.SelectedValue;//Indicative Report//Certification Report
+                string scortype = ddlSummaryGraph.SelectedValue; //Percentile
+                if (Session["curtestid"] != null)// || ddlUserList.SelectedIndex > 0)
                 {
-                    Session["UserId_Report"] = Session["UserID"];
-                    Session["usertype"] = "User";
-                    if (reptype == "Interpretative Report")
-                        Session["SubCtrl"] = "ReportPreviewCtrl.ascx";
-                    else if (reptype == "Indicative Report")
-                        Session["SubCtrl"] = "ReportPreviewCtrl_IdvlRpt.ascx";
-                    else
-                        Session["SubCtrl"] = "ReportPreviewCtrl_Certify.ascx";
+                    if (Session["UserID"] != null)
+                    {
+                        Session["UserId_Report"] = Session["UserID"];
+                        Session["usertype"] = "User";
+                        if (reptype == "Interpretative Report")
+                            Session["SubCtrl"] = "ReportPreviewCtrl.ascx";
+                        else if (reptype == "Indicative Report")
+                            Session["SubCtrl"] = "ReportPreviewCtrl_IdvlRpt.ascx";
+                        else
+                            Session["SubCtrl"] = "ReportPreviewCtrl_Certify.ascx";
 
-                    int userid = int.Parse(Session["UserID"].ToString());
-                    int testid = int.Parse(Session["curtestid"].ToString());
-                    dataclass.DeleteSectionMarks(userid, testid);
+                        int userid = int.Parse(Session["UserID"].ToString());
+                        int testid = int.Parse(Session["curtestid"].ToString());
+                        dataclass.DeleteSectionMarks(userid, testid);
+                    }
+                    //else
+                    //{
+                    //    if (ddlUserGroup.SelectedIndex > 0)
+                    //        Session["UserGroupID_Report"] = ddlUserGroup.SelectedValue;
+                    //    else { lblMessage.Text = "Please select a Group from the list"; return; }
+
+                    //    Session["UserId_Report"] = null;
+                    //    Session["SubCtrl"] = "ReportPreviewCtrl_GrpRpt.ascx";
+                    //}
+
+                    Session["ReportType"] = reptype;
+                    Session["ScoringType"] = scortype;
+                    Session["UserTestID_Report"] = Session["curtestid"]; //GetUserTestId(ddlUserList.SelectedValue);
+
+                    //["TestName"] = ddlTestList.SelectedItem.Text;
+
+                    //Session["OrganiationID_Report"] = ddlOrganizationList.SelectedValue;
+                    Response.Redirect("FJAHome.aspx");
+
                 }
-                //else
-                //{
-                //    if (ddlUserGroup.SelectedIndex > 0)
-                //        Session["UserGroupID_Report"] = ddlUserGroup.SelectedValue;
-                //    else { lblMessage.Text = "Please select a Group from the list"; return; }
-
-                //    Session["UserId_Report"] = null;
-                //    Session["SubCtrl"] = "ReportPreviewCtrl_GrpRpt.ascx";
+                //else if (ddlTestList.SelectedIndex <= 0 && ddlUserList.SelectedIndex <= 0)
+                //{ 
+                //    lblMessage.Text = "Please select a Test/User from the list";
                 //}
-
-                Session["ReportType"] = reptype;
-                Session["ScoringType"] = scortype ;
-                Session["UserTestID_Report"] = Session["curtestid"]; //GetUserTestId(ddlUserList.SelectedValue);
-
-                //["TestName"] = ddlTestList.SelectedItem.Text;
-
-                //Session["OrganiationID_Report"] = ddlOrganizationList.SelectedValue;
-                Response.Redirect("FJAHome.aspx");
-
             }
-            //else if (ddlTestList.SelectedIndex <= 0 && ddlUserList.SelectedIndex <= 0)
-            //{ 
-            //    lblMessage.Text = "Please select a Test/User from the list";
-            //}
+            else
+            {
+                lblmsg.Text = "You cannot access report.Contact system admin";
             }
             
         }

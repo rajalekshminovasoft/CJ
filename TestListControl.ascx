@@ -26,12 +26,47 @@
                
             </td>
         </tr>
+                <tr>
+                <td>
+                    <asp:Label ID="lblreptype" runat="server" Text="Summary Report Type" Visible="false" ></asp:Label>
+                    <asp:DropDownList ID="ddlReportType" runat="server" AutoPostBack="True" Visible="false"  >
+                    <asp:ListItem>Interpretative Report</asp:ListItem>
+                        <asp:ListItem>Indicative Report</asp:ListItem>
+                        <asp:ListItem>Certification Report</asp:ListItem>
+                    </asp:DropDownList>
+                </td>
+            </tr>
+           <%-- <tr>
+                <td>
+                    <asp:Label ID="lblReportCategory" runat="server" Text="Report Category"></asp:Label>
+                </td>
+                <td>
+                    <asp:DropDownList ID="ddlReportCategory" runat="server">
+                        <asp:ListItem>Variablewise</asp:ListItem>
+                        <asp:ListItem>TestSectionwise</asp:ListItem>
+                    </asp:DropDownList>
+                </td>
+            </tr>--%>
+            <tr>
+                <td>
+                    <asp:Label ID="lblsummeryrep" runat="server" Text="Summary Report Type" Visible="false" ></asp:Label>
+                    
+                    <asp:DropDownList ID="ddlSummaryGraph" runat="server" Visible="false" 
+                        AppendDataBoundItems="True">
+                        <asp:ListItem Value="Percentage">Percentage (%)</asp:ListItem>
+                        <asp:ListItem Value="Percentile">Percentile</asp:ListItem>
+                    </asp:DropDownList>
+                </td>
+            </tr>
             <tr>
                 <td>
                     <asp:Button ID="Button1" runat="server" Text="Take test" OnClick="Button1_Click" Visible="false"  />
                     <asp:Button ID="Button2" runat="server" Text="View Report" Visible="false" OnClick="Button2_Click"  />
+
+                    <asp:Label ID="lblmsg" runat="server"></asp:Label>
                 </td>
             </tr>
+        
     </table>
                 
    </asp:Panel>
