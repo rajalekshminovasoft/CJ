@@ -183,6 +183,14 @@ public partial class TestListControl : System.Web.UI.UserControl
                     lblreptype.Visible = true;
                     ddlReportType.Visible = true;
                     ddlSummaryGraph.Visible = true;
+                    if (ddlReportType.SelectedValue == "Interpretative Report" )
+                    {
+                        btn_ciareport.Visible = true;
+                    }
+                    else
+                    {
+                        btn_ciareport.Visible = false;
+                    }
                 }
             }
         }
@@ -200,6 +208,7 @@ public partial class TestListControl : System.Web.UI.UserControl
 
             if (usertestdet.Count() > 0)
             {
+                
                 string reptype = ddlReportType.SelectedValue;//Indicative Report//Certification Report
                 string scortype = ddlSummaryGraph.SelectedValue; //Percentile
                 if (Session["curtestid"] != null)// || ddlUserList.SelectedIndex > 0)
@@ -252,5 +261,58 @@ public partial class TestListControl : System.Web.UI.UserControl
         }
         catch (Exception ex)
         { }
+    }
+    protected void btn_ciareport_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            var usertestdet = from userdetails in dataclass.UserTestLists
+                              where (userdetails.UserId == int.Parse(Session["UserID"].ToString()) && userdetails.UserTestId == int.Parse(Session["curtestid"].ToString()) && userdetails.ReportAccess == 1)
+                              select userdetails;
+
+            if (usertestdet.Count() > 0)
+            {
+                string reptype = ddlReportType.SelectedValue;//Indicative Report//Certification Report
+                string scortype = ddlSummaryGraph.SelectedValue; //Percentile
+                if (Session["curtestid"] != null)// || ddlUserList.SelectedIndex > 0)
+                {
+                    if (Session["UserID"] != null)
+                    {
+                        Session["UserId_Report"] = Session["UserID"];
+                        Session["usertype"] = "User";
+                        if (reptype == "Interpretative Report")
+                            Session["SubCtrl"] = "ReportCIA.ascx";
+
+                        int userid = int.Parse(Session["UserID"].ToString());
+                        int testid = int.Parse(Session["curtestid"].ToString());
+                        dataclass.DeleteSectionMarks(userid, testid);
+                    }
+                    Session["ReportType"] = reptype;
+                    Session["ScoringType"] = scortype;
+                    Session["UserTestID_Report"] = Session["curtestid"]; 
+                    Response.Redirect("FJAHome.aspx");
+
+                }
+            }
+            else
+            {
+                lblmsg.Text = "You cannot access report.Contact system admin";
+            }
+
+        }
+        catch (Exception ex)
+        { }
+
+    }
+    protected void ddlReportType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlReportType.SelectedValue == "Interpretative Report")
+        {
+            btn_ciareport.Visible = true;
+        }
+        else
+        {
+            btn_ciareport.Visible = false;
+        }
     }
 }

@@ -1,5 +1,5 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage5.master.cs" Inherits="MasterPage5" %>
-
+<%@ Register src="Homepage.ascx" tagname="Homepage" tagprefix="uc1" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -15,11 +15,11 @@
     <%--<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">--%>
 <%--<link rel="stylesheet" type="text/css" href="style.css"/>--%>
 <link rel="stylesheet" type="text/css" href="FJAStyles.css" />
-<%--<script type="text/JavaScript" src="FJAJScript.js"></script>--%>
+<script type="text/JavaScript" src="FJAJScript.js"></script>
     
     
     
-    <style type="text/css">
+   <%-- <style type="text/css">
         .style2
         {
             height: 9px;
@@ -32,7 +32,7 @@ var str = document.getElementById('ctl00_PageContent_starttime1').value;
 alert(str);
 }
 
-</script>
+</script>--%>
     <link href="style.css" rel="stylesheet" />
 <%--<script language="javascript" type="text/javascript">
 function clearData(){
@@ -128,8 +128,8 @@ top: expression( ( 0 - fixmetoo.offsetHeight + ( document.documentElement.client
 <body   style="padding-top:1px;"  leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" oncopy="return false;" onpaste="return false;" oncut="return false;" oncontextmenu="return true;" onselectstart="return false;" >
     <form id="counter" name="counter" runat="server"  >
     <div>
-        <asp:ScriptManager ID="ScriptManager1" runat="server" 
-            AsyncPostBackTimeout="1000" />       
+        <asp:ScriptManager ID="ScriptManager1" runat="server" />
+            <%--AsyncPostBackTimeout="1000"--%>        
 
         <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
             <table align="center" height="143" border="0" cellpadding="0" 
@@ -172,6 +172,8 @@ top: expression( ( 0 - fixmetoo.offsetHeight + ( document.documentElement.client
                                                 </div>
                                             </div>
                                             <div class="header_inner_head_inn_3">
+                                                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                                <ContentTemplate>
                                                 <table width="200" border="0">
                                                     <tr>
                                                         <td style="color:#8cb6d6;">User ID</td>
@@ -196,6 +198,7 @@ top: expression( ( 0 - fixmetoo.offsetHeight + ( document.documentElement.client
                                                             <img src="images/submit.jpg" width="56" height="24" alt="" /></a>--%></td>
                                                     </tr>
                                                 </table>
+                                    </ContentTemplate> </asp:UpdatePanel> 
                                             </div>
                                         </div>
                                     </div>

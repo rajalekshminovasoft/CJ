@@ -1375,7 +1375,9 @@ public partial class ReportPreviewCtrl : System.Web.UI.UserControl
         else if (Session["usertype"].ToString() == "GrpAdmin")
         { Session["SubCtrl"] = "ReportSel_GroupAdmin.ascx"; Response.Redirect("FJAHome.aspx"); }
         else if (Session["usertype"].ToString() == "SuperAdmin")
-        { Session["SubCtrl"] = "ReportSel_SuperAdmin.ascx"; Response.Redirect("FJAHome.aspx"); }   
+        { Session["SubCtrl"] = "ReportSel_SuperAdmin.ascx"; Response.Redirect("FJAHome.aspx"); }
+        else
+        { Session["SubCtrl"] = "TestListControl.ascx"; Response.Redirect("FJAHome.aspx"); }
 
     }
     protected void btnPrint_Click(object sender, EventArgs e)

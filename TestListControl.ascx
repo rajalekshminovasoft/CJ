@@ -29,7 +29,7 @@
                 <tr>
                 <td>
                     <asp:Label ID="lblreptype" runat="server" Text="Summary Report Type" Visible="false" ></asp:Label>
-                    <asp:DropDownList ID="ddlReportType" runat="server" AutoPostBack="True" Visible="false"  >
+                    <asp:DropDownList ID="ddlReportType" runat="server" AutoPostBack="True" Visible="false" OnSelectedIndexChanged="ddlReportType_SelectedIndexChanged"  >
                     <asp:ListItem>Interpretative Report</asp:ListItem>
                         <asp:ListItem>Indicative Report</asp:ListItem>
                         <asp:ListItem>Certification Report</asp:ListItem>
@@ -62,7 +62,7 @@
                 <td>
                     <asp:Button ID="Button1" runat="server" Text="Take test" OnClick="Button1_Click" Visible="false"  />
                     <asp:Button ID="Button2" runat="server" Text="View Report" Visible="false" OnClick="Button2_Click"  />
-
+                    <asp:Button ID="btn_ciareport" runat="server" Text="View CIA Report" OnClick="btn_ciareport_Click" Visible="false"  />
                     <asp:Label ID="lblmsg" runat="server"></asp:Label>
                 </td>
             </tr>
