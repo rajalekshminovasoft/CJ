@@ -122,7 +122,7 @@ public partial class ReportCIA : System.Web.UI.UserControl
             Response.Write("</script>");
             //Response.Redirect("FJAHome.aspx");
             Response.Write("<script>");
-            Response.Write("window.open('ReportPrint.aspx','_blank')");
+            Response.Write("window.open('ReportPrintNew.aspx','_blank')");
             Response.Write("</script>");
             Response.Write("<script language='javascript'>window.open('','_self');window.close();</script>");
         }
@@ -459,7 +459,7 @@ public partial class ReportCIA : System.Web.UI.UserControl
             int rowid = 0;
             int totalmarks = 0;
             int sectionid = 0;
-            ////int testid = int.Parse(Session["UserTestID_Report"].ToString());
+            int testid = int.Parse(Session["UserTestID_Report"].ToString());
 
 
             string quesrystring = "SELECT DISTINCT EvaluationResult.QuestionID, TestBaseQuestionList.TestId, TestBaseQuestionList.TestSectionId,TestBaseQuestionList.Status, EvaluationResult.Question, " +
@@ -903,11 +903,11 @@ public partial class ReportCIA : System.Web.UI.UserControl
              */
 
             //////////Modification for new report
-
+            string serial="", Theoratical="", verbal="", Enterpricing ="", social="", mental="";
             if (txtValues.Text.Trim() != "")
             {
                 double P1 = 0, P2 = 0, P3 = 0, P4 = 0, P5 = 0, P6 = 0, result = 0;
-
+                txtValues.Text = "93.75,75,81.25,61.53846,56.25,85.71429";
                 string txtval = txtValues.Text.Trim();
                 char[] Inputstring = txtval.ToCharArray();
                 char Ch = ',';
@@ -919,73 +919,951 @@ public partial class ReportCIA : System.Web.UI.UserControl
                 P5 = Convert.ToDouble(valuess[3]);
                 P4 = Convert.ToDouble(valuess[4]);
                 P6 = Convert.ToDouble(valuess[5]);
-                //int i = 0;
-                //foreach (string xval in valuess)
-                //{
-                //    if (i == 0)
-                //        P2 = xval[0];
-                //    else if(i==1)
-                //        P3 = xval[1];
-                //    else if (i==2)
-                //        P1 = xval[2];
-                //    else if(i==3)
-                //        P5 = xval[3];
-                //    else if(i==4)
-                //        P4 = xval[4];
-                //    else
-                //        P6 = xval[5];
-                //    i++;
-                //}
-                //foreach (char chr in txtval)
-                //{
-                //    if (chr == Ch)
-                //    {
-                //        //result++;
-                //        P1=0
-                //            P2=1
-                //                P3=
-                //    }
-                //}
+                // Sorted Array 
+                double[] MyNumbers = new double[] { P1, P2, P3, P4, P5, P6 };
+                Array.Sort(MyNumbers);
+                Array.Reverse (MyNumbers);
+                //if(MyNumbers[0]==P1)
+                    ///////////////////////////////////
+                string ProfileCode = "",pfcode="";
+                int stat1 = 0, stat2 = 0, stat3 = 0, stat4 = 0, stat5 = 0, stat6 = 0;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (MyNumbers[i] == P1 && stat1==0 )
+                    {
+                        stat1 = 1;
+                        if (P1 < 30)
+                        { serial = "T"; pfcode = "T"; }
+                        else if (P1 >= 75)
+                        { serial = "R"; pfcode = "R"; }
+                        else
+                        { serial = "O"; pfcode = "O"; }
+                    }
+                    else if (MyNumbers[i] == P2 && stat2==0)
+                    {
+                        stat2 = 1;
+                        if (P2 < 30)
+                        {Theoratical = "I";pfcode = "I"; }
+                        else if (P2 >= 75)
+                        {Theoratical = "C";pfcode = "C"; }
+                        else
+                        { Theoratical = "G"; pfcode = "G"; }
+                    }
+                    else if (MyNumbers[i] == P3 && stat3 == 0)
+                    {
+                        stat3 = 1;
+                        if (P3 < 30)
+                        {verbal = "V";pfcode = "V"; }
+                        else if (P3 >= 75)
+                        {   verbal = "N";pfcode = "N"; }
+                        else
+                        { verbal = "Q"; pfcode = "Q"; }
+                    }
+                    else if (MyNumbers[i] == P4 && stat4 == 0)
+                    {
+                        stat4 = 1;
+                        if (P4 < 30)
+                        {Enterpricing = "A";pfcode = "A"; }
+                        else if (P4 >= 75)
+                        {   Enterpricing = "E";pfcode = "E"; }
+                        else
+                        { Enterpricing = "B"; pfcode = "B"; }                    
+                    }
+                    else if (MyNumbers[i] == P5 && stat5 == 0)
+                    {
+                        stat5 = 1;
+                        if (P5 < 30)
+                        {social = "D";pfcode = "D"; }
+                        else if (P5 >= 75)
+                        {   social = "S";pfcode = "S"; }
+                        else
+                        { social = "H"; pfcode = "H"; }
+                    }
+                    else if (MyNumbers[i] == P6 && stat6 == 0)
+                    {
+                        stat6 = 1;
+                        if (P6 < 30)
+                        {mental = "P";pfcode = "P"; }
+                        else if (P6 >= 75)
+                        { mental = "M";pfcode = "M"; }
+                        else
+                        { mental = "U"; pfcode = "U"; }
+                    }
+                    ProfileCode += pfcode;
+                    pfcode = "";
+                }
+                lblMessage.Text = ProfileCode;
+                Session["ProfileCode"] = ProfileCode;
+                string strorder;
+                strorder = serial +  Theoratical + verbal + Enterpricing +  social + mental;
+                double ser = 0, theor = 0, verb = 0, enter = 0, soc = 0, ment= 0;
+                // take data from database
+                string JobCode = "IMNRHB";// "CMRNHB";
+                foreach (char j in JobCode)
+                {
+                    //if (JobCode.Contains(j)) //
+                    for(int i=0;i<6;i++)
+                    {
+                        // first ordervalue
+                        if (JobCode[i]=='C' || JobCode[i]=='G' || JobCode[i]=='I')
+                        {
+                            if (ProfileCode.Contains('C') || ProfileCode.Contains('G') || ProfileCode.Contains('I'))
+                            {
+                                if (ProfileCode.Contains('C') && JobCode[i] == 'C')
+                                {
+                                    if (i == 0)
+                                        theor = 28.8;
+                                    else if (i == 1)
+                                        theor = 24.2;
+                                    else if (i == 2)
+                                        theor = 20;
+                                    else if (i == 3)
+                                        theor = 16.2;
+                                    else if (i == 4)
+                                        theor = 12.8;
+                                    else if (i == 5)
+                                        theor = 9.8;
+                                }
+                                else if (ProfileCode.Contains('C') && JobCode[i] == 'G')
+                                {
+                                    if (i == 0)
+                                        theor = 14.5;
+                                    else if (i == 1)
+                                        theor = 12.5;
+                                    else if (i == 2)
+                                        theor = 10.9;
+                                    else if (i == 3)
+                                        theor = 9.7;
+                                    else if (i == 4)
+                                        theor = 8.9;
+                                    else if (i == 5)
+                                        theor = 8.5;
+                                }
+                                else if (ProfileCode.Contains('C') && JobCode[i] == 'I')
+                                {
+                                    if (i == 0)
+                                        theor = 0.2;
+                                    else if (i == 1)
+                                        theor = 0.8;
+                                    else if (i == 2)
+                                        theor = 1.8;
+                                    else if (i == 3)
+                                        theor = 3.2;
+                                    else if (i == 4)
+                                        theor = 5;
+                                    else if (i == 5)
+                                        theor = 7.2;
+                                }
+                                else if (ProfileCode.Contains('I') && JobCode[i] == 'I')
+                                {
+                                    if (i == 0)
+                                        theor = 28.8;
+                                    else if (i == 1)
+                                        theor = 24.2;
+                                    else if (i == 2)
+                                        theor = 20;
+                                    else if (i == 3)
+                                        theor = 16.2;
+                                    else if (i == 4)
+                                        theor = 12.8;
+                                    else if (i == 5)
+                                        theor = 9.8;
+                                }
+                                else if (ProfileCode.Contains('I') && JobCode[i] == 'G')
+                                {
+                                    if (i == 0)
+                                        theor = 14.5;
+                                    else if (i == 1)
+                                        theor = 12.5;
+                                    else if (i == 2)
+                                        theor = 10.9;
+                                    else if (i == 3)
+                                        theor = 9.7;
+                                    else if (i == 4)
+                                        theor = 8.9;
+                                    else if (i == 5)
+                                        theor = 8.5;
+                                }
+                                else if (ProfileCode.Contains('I') && JobCode[i] == 'C')
+                                {
+                                    if (i == 0)
+                                        theor = 0.2;
+                                    else if (i == 1)
+                                        theor = 0.8;
+                                    else if (i == 2)
+                                        theor = 1.8;
+                                    else if (i == 3)
+                                        theor = 3.2;
+                                    else if (i == 4)
+                                        theor = 5;
+                                    else if (i == 5)
+                                        theor = 7.2;
+                                }
+                                else if (ProfileCode.Contains('G') && JobCode[i] == 'G')
+                                {
+                                    if (i == 0)
+                                        theor = 28.8;
+                                    else if (i == 1)
+                                        theor = 24.2;
+                                    else if (i == 2)
+                                        theor = 20;
+                                    else if (i == 3)
+                                        theor = 16.2;
+                                    else if (i == 4)
+                                        theor = 12.8;
+                                    else if (i == 5)
+                                        theor = 9.8;
+                                }
+                                else if (ProfileCode.Contains('G') && JobCode[i] == 'C')
+                                {
+                                    if (i == 0)
+                                        theor = 14.5;
+                                    else if (i == 1)
+                                        theor = 12.5;
+                                    else if (i == 2)
+                                        theor = 10.9;
+                                    else if (i == 3)
+                                        theor = 9.7;
+                                    else if (i == 4)
+                                        theor = 8.9;
+                                    else if (i == 5)
+                                        theor = 8.5;
+                                }
+                                else if (ProfileCode.Contains('G') && JobCode[i] == 'I')
+                                {
+                                    if (i == 0)
+                                        theor = 14.5;
+                                    else if (i == 1)
+                                        theor = 12.5;
+                                    else if (i == 2)
+                                        theor = 10.9;
+                                    else if (i == 3)
+                                        theor = 9.7;
+                                    else if (i == 4)
+                                        theor = 8.9;
+                                    else if (i == 5)
+                                        theor = 8.5;
+                                }
                                 
-                //for (int i = 0; i < result ; i++)
-                //{
-                //    if (i == 0)
-                //    {
-                //        P2 =Convert.ToDouble( txtval.Substring(0, txtval.IndexOf(',')));
-                //    }
-                //    if (i == 1)
-                //    {
-                //        string p=P2.ToString();
-                //        string str = txtval.Substring( p.Length+1);
-                //        P3=Convert.ToDouble(str.Substring(0,str.IndexOf(',')));
-                //    }
-                //    if (i == 2)
-                //    {
-                //        string p = ( P2. +','+P3).ToString();
-                //        string str = txtval.Substring(p.Length + 1);
-                //        P1 = Convert.ToDouble(str.Substring(0, str.IndexOf(',')));
-                //    }
-                //    if (i == 3)
-                //    {
-                //        string p = (P1 + ',' + P3 +','+P2).ToString();
-                //        string str = txtval.Substring(p.Length + 1);
-                //        P5 = Convert.ToDouble(str.Substring(0, str.IndexOf(',')));
-                //    }
-                //    if (i == 4)
-                //    {
-                //        string p = (P1 + ',' + P3 + ',' + P2 + ',' + P5).ToString();
-                //        string str = txtval.Substring(p.Length + 1);
-                //        P4 = Convert.ToDouble(str.Substring(0, str.IndexOf(',')));
-                //    }
-                //    if (i == 5)
-                //    {
-                //        string p = (P1 + ',' + P3 + ',' + P2 + ',' + P5 + ',' + P4).ToString();
-                //        string str = txtval.Substring(p.Length + 1);
-                //        P6 = Convert.ToDouble(str.Substring(0, str.IndexOf(',')));
-                //    }
-                    
-                //}
-                lblMessage.Text = (P1 + "," + P2 + "," + P3 + "," + P4 + "," + P5 + "," + P6).ToString();
+                            }
+                        }
+                        else if (JobCode[i] == 'R' || JobCode[i] == 'O' || JobCode[i] == 'T')
+                        {
+                            if (ProfileCode.Contains('R') || ProfileCode.Contains('O') || ProfileCode.Contains('T'))
+                            {
+                                if (ProfileCode.Contains('R') && JobCode[i] == 'R')
+                                {
+                                    if (i == 0)
+                                        ser = 28.8;
+                                    else if (i == 1)
+                                        ser = 24.2;
+                                    else if (i == 2)
+                                        ser = 20;
+                                    else if (i == 3)
+                                        ser = 16.2;
+                                    else if (i == 4)
+                                        ser = 12.8;
+                                    else if (i == 5)
+                                        ser = 9.8;
+                                }
+                                else if (ProfileCode.Contains('R') && JobCode[i] == 'O')
+                                {
+                                    if (i == 0)
+                                        ser = 14.5;
+                                    else if (i == 1)
+                                        ser = 12.5;
+                                    else if (i == 2)
+                                        ser = 10.9;
+                                    else if (i == 3)
+                                        ser = 9.7;
+                                    else if (i == 4)
+                                        ser = 8.9;
+                                    else if (i == 5)
+                                        ser = 8.5;
+                                }
+                                else if (ProfileCode.Contains('R') && JobCode[i] == 'T')
+                                {
+                                    if (i == 0)
+                                        ser = 0.2;
+                                    else if (i == 1)
+                                        ser = 0.8;
+                                    else if (i == 2)
+                                        ser = 1.8;
+                                    else if (i == 3)
+                                        ser = 3.2;
+                                    else if (i == 4)
+                                        ser = 5;
+                                    else if (i == 5)
+                                        ser = 7.2;
+                                }
+                                else if (ProfileCode.Contains('T') && JobCode[i] == 'T')
+                                {
+                                    if (i == 0)
+                                        ser = 28.8;
+                                    else if (i == 1)
+                                        ser = 24.2;
+                                    else if (i == 2)
+                                        ser = 20;
+                                    else if (i == 3)
+                                        ser = 16.2;
+                                    else if (i == 4)
+                                        ser = 12.8;
+                                    else if (i == 5)
+                                        ser = 9.8;
+                                }
+                                else if (ProfileCode.Contains('T') && JobCode[i] == 'O')
+                                {
+                                    if (i == 0)
+                                        ser = 14.5;
+                                    else if (i == 1)
+                                        ser = 12.5;
+                                    else if (i == 2)
+                                        ser = 10.9;
+                                    else if (i == 3)
+                                        ser = 9.7;
+                                    else if (i == 4)
+                                        ser = 8.9;
+                                    else if (i == 5)
+                                        ser = 8.5;
+                                }
+                                else if (ProfileCode.Contains('T') && JobCode[i] == 'R')
+                                {
+                                    if (i == 0)
+                                        ser = 0.2;
+                                    else if (i == 1)
+                                        ser = 0.8;
+                                    else if (i == 2)
+                                        ser = 1.8;
+                                    else if (i == 3)
+                                        ser = 3.2;
+                                    else if (i == 4)
+                                        ser = 5;
+                                    else if (i == 5)
+                                        ser = 7.2;
+                                }
+                                else if (ProfileCode.Contains('O') && JobCode[i] == 'O')
+                                {
+                                    if (i == 0)
+                                        ser = 28.8;
+                                    else if (i == 1)
+                                        ser = 24.2;
+                                    else if (i == 2)
+                                        ser = 20;
+                                    else if (i == 3)
+                                        ser = 16.2;
+                                    else if (i == 4)
+                                        ser = 12.8;
+                                    else if (i == 5)
+                                        ser = 9.8;
+                                }
+                                else if (ProfileCode.Contains('O') && JobCode[i] == 'R')
+                                {
+                                    if (i == 0)
+                                        ser = 14.5;
+                                    else if (i == 1)
+                                        ser = 12.5;
+                                    else if (i == 2)
+                                        ser = 10.9;
+                                    else if (i == 3)
+                                        ser = 9.7;
+                                    else if (i == 4)
+                                        ser = 8.9;
+                                    else if (i == 5)
+                                        ser = 8.5;
+                                }
+                                else if (ProfileCode.Contains('O') && JobCode[i] == 'T')
+                                {
+                                    if (i == 0)
+                                        ser = 14.5;
+                                    else if (i == 1)
+                                        ser = 12.5;
+                                    else if (i == 2)
+                                        ser = 10.9;
+                                    else if (i == 3)
+                                        ser = 9.7;
+                                    else if (i == 4)
+                                        ser = 8.9;
+                                    else if (i == 5)
+                                        ser = 8.5;
+                                }
+                            }    
+                        }
+                        else if (JobCode[i] == 'N' || JobCode[i] == 'Q' || JobCode[i] == 'V')
+                        {
+                            if (ProfileCode.Contains('N') || ProfileCode.Contains('Q') || ProfileCode.Contains('V'))
+                            {
+                                if (ProfileCode.Contains('N') && JobCode[i] == 'N')
+                                {
+                                    if (i == 0)
+                                        verb = 28.8;
+                                    else if (i == 1)
+                                        verb = 24.2;
+                                    else if (i == 2)
+                                        verb = 20;
+                                    else if (i == 3)
+                                        verb = 16.2;
+                                    else if (i == 4)
+                                        verb = 12.8;
+                                    else if (i == 5)
+                                        verb = 9.8;
+                                }
+                                else if (ProfileCode.Contains('N') && JobCode[i] == 'Q')
+                                {
+                                    if (i == 0)
+                                        verb = 14.5;
+                                    else if (i == 1)
+                                        verb = 12.5;
+                                    else if (i == 2)
+                                        verb = 10.9;
+                                    else if (i == 3)
+                                        verb = 9.7;
+                                    else if (i == 4)
+                                        verb = 8.9;
+                                    else if (i == 5)
+                                        verb = 8.5;
+                                }
+                                if (ProfileCode.Contains('N') && JobCode[i] == 'V')
+                                {
+                                    if (i == 0)
+                                        verb = 0.2;
+                                    else if (i == 1)
+                                        verb = 0.8;
+                                    else if (i == 2)
+                                        verb = 1.8;
+                                    else if (i == 3)
+                                        verb = 3.2;
+                                    else if (i == 4)
+                                        verb = 5;
+                                    else if (i == 5)
+                                        verb = 7.2;
+                                }
+                                else if (ProfileCode.Contains('V') && JobCode[i] == 'V')
+                                {
+                                    if (i == 0)
+                                        verb = 28.8;
+                                    else if (i == 1)
+                                        verb = 24.2;
+                                    else if (i == 2)
+                                        verb = 20;
+                                    else if (i == 3)
+                                        verb = 16.2;
+                                    else if (i == 4)
+                                        verb = 12.8;
+                                    else if (i == 5)
+                                        verb = 9.8;
+                                }
+                                else if (ProfileCode.Contains('V') && JobCode[i] == 'Q')
+                                {
+                                    if (i == 0)
+                                        verb = 14.5;
+                                    else if (i == 1)
+                                        verb = 12.5;
+                                    else if (i == 2)
+                                        verb = 10.9;
+                                    else if (i == 3)
+                                        verb = 9.7;
+                                    else if (i == 4)
+                                        verb = 8.9;
+                                    else if (i == 5)
+                                        verb = 8.5;
+                                }
+                                else if (ProfileCode.Contains('V') && JobCode[i] == 'N')
+                                {
+                                    if (i == 0)
+                                        verb = 0.2;
+                                    else if (i == 1)
+                                        verb = 0.8;
+                                    else if (i == 2)
+                                        verb = 1.8;
+                                    else if (i == 3)
+                                        verb = 3.2;
+                                    else if (i == 4)
+                                        verb = 5;
+                                    else if (i == 5)
+                                        verb = 7.2;
+                                }
+                                else if (ProfileCode.Contains('Q') && JobCode[i] == 'Q')
+                                {
+                                    if (i == 0)
+                                        verb = 28.8;
+                                    else if (i == 1)
+                                        verb = 24.2;
+                                    else if (i == 2)
+                                        verb = 20;
+                                    else if (i == 3)
+                                        verb = 16.2;
+                                    else if (i == 4)
+                                        verb = 12.8;
+                                    else if (i == 5)
+                                        verb = 9.8;
+                                }
+                                else if (ProfileCode.Contains('Q') && JobCode[i] == 'N')
+                                {
+                                    if (i == 0)
+                                        verb = 14.5;
+                                    else if (i == 1)
+                                        verb = 12.5;
+                                    else if (i == 2)
+                                        verb = 10.9;
+                                    else if (i == 3)
+                                        verb = 9.7;
+                                    else if (i == 4)
+                                        verb = 8.9;
+                                    else if (i == 5)
+                                        verb = 8.5;
+                                }
+                                else if (ProfileCode.Contains('Q') && JobCode[i] == 'V')
+                                {
+                                    if (i == 0)
+                                        verb = 14.5;
+                                    else if (i == 1)
+                                        verb = 12.5;
+                                    else if (i == 2)
+                                        verb = 10.9;
+                                    else if (i == 3)
+                                        verb = 9.7;
+                                    else if (i == 4)
+                                        verb = 8.9;
+                                    else if (i == 5)
+                                        verb = 8.5;
+                                }
+                            }
+                        }
+                        else if (JobCode[i] == 'E' || JobCode[i] == 'B' || JobCode[i] == 'A')
+                        {
+                            if (ProfileCode.Contains('E') || ProfileCode.Contains('B') || ProfileCode.Contains('A'))
+                            {
+                                if (ProfileCode.Contains('E') && JobCode[i] == 'E')
+                                {
+                                    if (i == 0)
+                                        enter = 28.8;
+                                    else if (i == 1)
+                                        enter  = 24.2;
+                                    else if (i == 2)
+                                        enter = 20;
+                                    else if (i == 3)
+                                        enter = 16.2;
+                                    else if (i == 4)
+                                        enter = 12.8;
+                                    else if (i == 5)
+                                        enter = 9.8;
+                                }
+                                else if (ProfileCode.Contains('E') && JobCode[i] == 'B')
+                                {
+                                    if (i == 0)
+                                        enter = 14.5;
+                                    else if (i == 1)
+                                        enter = 12.5;
+                                    else if (i == 2)
+                                        enter = 10.9;
+                                    else if (i == 3)
+                                        enter = 9.7;
+                                    else if (i == 4)
+                                        enter = 8.9;
+                                    else if (i == 5)
+                                        enter = 8.5;
+                                }
+                                else if (ProfileCode.Contains('E') && JobCode[i] == 'A')
+                                {
+                                    if (i == 0)
+                                        enter  = 0.2;
+                                    else if (i == 1)
+                                        enter  = 0.8;
+                                    else if (i == 2)
+                                        enter = 1.8;
+                                    else if (i == 3)
+                                        enter = 3.2;
+                                    else if (i == 4)
+                                        enter = 5;
+                                    else if (i == 5)
+                                        enter = 7.2;
+                                }
+                                else if (ProfileCode.Contains('A') && JobCode[i] == 'A')
+                                {
+                                    if (i == 0)
+                                        enter = 28.8;
+                                    else if (i == 1)
+                                        enter = 24.2;
+                                    else if (i == 2)
+                                        enter = 20;
+                                    else if (i == 3)
+                                        enter = 16.2;
+                                    else if (i == 4)
+                                        enter = 12.8;
+                                    else if (i == 5)
+                                        enter = 9.8;
+                                }
+                                else if (ProfileCode.Contains('A') && JobCode[i] == 'B')
+                                {
+                                    if (i == 0)
+                                        enter = 14.5;
+                                    else if (i == 1)
+                                        enter = 12.5;
+                                    else if (i == 2)
+                                        enter = 10.9;
+                                    else if (i == 3)
+                                        enter = 9.7;
+                                    else if (i == 4)
+                                        enter = 8.9;
+                                    else if (i == 5)
+                                        enter = 8.5;
+                                }
+                                else if (ProfileCode.Contains('A') && JobCode[i] == 'E')
+                                {
+                                    if (i == 0)
+                                        enter = 0.2;
+                                    else if (i == 1)
+                                        enter = 0.8;
+                                    else if (i == 2)
+                                        enter = 1.8;
+                                    else if (i == 3)
+                                        enter = 3.2;
+                                    else if (i == 4)
+                                        enter = 5;
+                                    else if (i == 5)
+                                        enter = 7.2;
+                                }
+                                else if (ProfileCode.Contains('B') && JobCode[i] == 'B')
+                                {
+                                    if (i == 0)
+                                        enter = 28.8;
+                                    else if (i == 1)
+                                        enter = 24.2;
+                                    else if (i == 2)
+                                        enter = 20;
+                                    else if (i == 3)
+                                        enter = 16.2;
+                                    else if (i == 4)
+                                        enter = 12.8;
+                                    else if (i == 5)
+                                        enter = 9.8;
+                                }
+                                else if (ProfileCode.Contains('B') && JobCode[i] == 'E')
+                                {
+                                    if (i == 0)
+                                        enter = 14.5;
+                                    else if (i == 1)
+                                        enter = 12.5;
+                                    else if (i == 2)
+                                        enter = 10.9;
+                                    else if (i == 3)
+                                        enter = 9.7;
+                                    else if (i == 4)
+                                        enter = 8.9;
+                                    else if (i == 5)
+                                        enter = 8.5;
+                                }
+                                else if (ProfileCode.Contains('B') && JobCode[i] == 'A')
+                                {
+                                    if (i == 0)
+                                        enter = 14.5;
+                                    else if (i == 1)
+                                        enter = 12.5;
+                                    else if (i == 2)
+                                        enter = 10.9;
+                                    else if (i == 3)
+                                        enter = 9.7;
+                                    else if (i == 4)
+                                        enter = 8.9;
+                                    else if (i == 5)
+                                        enter = 8.5;
+                                }
+                            }
+                        }
+                        else if (JobCode[i] == 'S' || JobCode[i] == 'H' || JobCode[i] == 'D')
+                        {
+                            if (ProfileCode.Contains('S') || ProfileCode.Contains('H') || ProfileCode.Contains('D'))
+                            {
+                                if (ProfileCode.Contains('S') && JobCode[i] == 'S')
+                                {
+                                    if (i == 0)
+                                        soc = 28.8;
+                                    else if (i == 1)
+                                        soc = 24.2;
+                                    else if (i == 2)
+                                        soc = 20;
+                                    else if (i == 3)
+                                        soc = 16.2;
+                                    else if (i == 4)
+                                        soc = 12.8;
+                                    else if (i == 5)
+                                        soc = 9.8;
+                                }
+                                else if (ProfileCode.Contains('S') && JobCode[i] == 'H')
+                                {
+                                    if (i == 0)
+                                        soc = 14.5;
+                                    else if (i == 1)
+                                        soc = 12.5;
+                                    else if (i == 2)
+                                        soc = 10.9;
+                                    else if (i == 3)
+                                        soc = 9.7;
+                                    else if (i == 4)
+                                        soc = 8.9;
+                                    else if (i == 5)
+                                        soc = 8.5;
+                                }
+                                else if (ProfileCode.Contains('S') && JobCode[i] == 'D')
+                                {
+                                    if (i == 0)
+                                        soc = 0.2;
+                                    else if (i == 1)
+                                        soc = 0.8;
+                                    else if (i == 2)
+                                        soc = 1.8;
+                                    else if (i == 3)
+                                        soc = 3.2;
+                                    else if (i == 4)
+                                        soc = 5;
+                                    else if (i == 5)
+                                        soc = 7.2;
+                                }
+                                else if (ProfileCode.Contains('D') && JobCode[i] == 'D')
+                                {
+                                    if (i == 0)
+                                        soc = 28.8;
+                                    else if (i == 1)
+                                        soc = 24.2;
+                                    else if (i == 2)
+                                        soc = 20;
+                                    else if (i == 3)
+                                        soc = 16.2;
+                                    else if (i == 4)
+                                        soc = 12.8;
+                                    else if (i == 5)
+                                        soc = 9.8;
+                                }
+                                else if (ProfileCode.Contains('D') && JobCode[i] == 'H')
+                                {
+                                    if (i == 0)
+                                        soc = 14.5;
+                                    else if (i == 1)
+                                        soc = 12.5;
+                                    else if (i == 2)
+                                        soc = 10.9;
+                                    else if (i == 3)
+                                        soc = 9.7;
+                                    else if (i == 4)
+                                        soc = 8.9;
+                                    else if (i == 5)
+                                        soc = 8.5;
+                                }
+                                else if (ProfileCode.Contains('D') && JobCode[i] == 'S')
+                                {
+                                    if (i == 0)
+                                        soc = 0.2;
+                                    else if (i == 1)
+                                        soc = 0.8;
+                                    else if (i == 2)
+                                        soc = 1.8;
+                                    else if (i == 3)
+                                        soc = 3.2;
+                                    else if (i == 4)
+                                        soc = 5;
+                                    else if (i == 5)
+                                        soc = 7.2;
+                                }
+                                else if (ProfileCode.Contains('H') && JobCode[i] == 'H')
+                                {
+                                    if (i == 0)
+                                        soc = 28.8;
+                                    else if (i == 1)
+                                        soc = 24.2;
+                                    else if (i == 2)
+                                        soc = 20;
+                                    else if (i == 3)
+                                        soc = 16.2;
+                                    else if (i == 4)
+                                        soc = 12.8;
+                                    else if (i == 5)
+                                        soc = 9.8;
+                                }
+                                else if (ProfileCode.Contains('H') && JobCode[i] == 'S')
+                                {
+                                    if (i == 0)
+                                        soc = 14.5;
+                                    else if (i == 1)
+                                        soc = 12.5;
+                                    else if (i == 2)
+                                        soc = 10.9;
+                                    else if (i == 3)
+                                        soc = 9.7;
+                                    else if (i == 4)
+                                        soc = 8.9;
+                                    else if (i == 5)
+                                        soc = 8.5;
+                                }
+                                else if (ProfileCode.Contains('H') && JobCode[i] == 'D')
+                                {
+                                    if (i == 0)
+                                        soc = 14.5;
+                                    else if (i == 1)
+                                        soc = 12.5;
+                                    else if (i == 2)
+                                        soc = 10.9;
+                                    else if (i == 3)
+                                        soc = 9.7;
+                                    else if (i == 4)
+                                        soc = 8.9;
+                                    else if (i == 5)
+                                        soc = 8.5;
+                                }
+                                
+                            }
+                        }
+                        else if (JobCode[i] == 'M' || JobCode[i] == 'U' || JobCode[i] == 'P')
+                        {
+                            if (ProfileCode.Contains('M') || ProfileCode.Contains('U') || ProfileCode.Contains('P'))
+                            {
+                                if (ProfileCode.Contains('M') && JobCode[i] == 'M')
+                                {
+                                    if (i == 0)
+                                        ment = 28.8;
+                                    else if (i == 1)
+                                        ment = 24.2;
+                                    else if (i == 2)
+                                        ment = 20;
+                                    else if (i == 3)
+                                        ment = 16.2;
+                                    else if (i == 4)
+                                        ment = 12.8;
+                                    else if (i == 5)
+                                        ment = 9.8;
+                                }
+                                else if (ProfileCode.Contains('M') && JobCode[i] == 'U')
+                                {
+                                    if (i == 0)
+                                        ment = 14.5;
+                                    else if (i == 1)
+                                        ment = 12.5;
+                                    else if (i == 2)
+                                        ment = 10.9;
+                                    else if (i == 3)
+                                        ment = 9.7;
+                                    else if (i == 4)
+                                        ment = 8.9;
+                                    else if (i == 5)
+                                        ment = 8.5;
+                                }
+                                else if (ProfileCode.Contains('M') && JobCode[i] == 'P')
+                                {
+                                    if (i == 0)
+                                        ment = 0.2;
+                                    else if (i == 1)
+                                        ment = 0.8;
+                                    else if (i == 2)
+                                        ment = 1.8;
+                                    else if (i == 3)
+                                        ment = 3.2;
+                                    else if (i == 4)
+                                        ment = 5;
+                                    else if (i == 5)
+                                        ment = 7.2;
+                                }
+                                else if (ProfileCode.Contains('P') && JobCode[i] == 'P')
+                                {
+                                    if (i == 0)
+                                        ment = 28.8;
+                                    else if (i == 1)
+                                        ment = 24.2;
+                                    else if (i == 2)
+                                        ment = 20;
+                                    else if (i == 3)
+                                        ment = 16.2;
+                                    else if (i == 4)
+                                        ment = 12.8;
+                                    else if (i == 5)
+                                        ment = 9.8;
+                                }
+                                else if (ProfileCode.Contains('P') && JobCode[i] == 'U')
+                                {
+                                    if (i == 0)
+                                        ment = 14.5;
+                                    else if (i == 1)
+                                        ment = 12.5;
+                                    else if (i == 2)
+                                        ment = 10.9;
+                                    else if (i == 3)
+                                        ment = 9.7;
+                                    else if (i == 4)
+                                        ment = 8.9;
+                                    else if (i == 5)
+                                        ment = 8.5;
+                                }
+                                else if (ProfileCode.Contains('P') && JobCode[i] == 'M')
+                                {
+                                    if (i == 0)
+                                        ment = 0.2;
+                                    else if (i == 1)
+                                        ment = 0.8;
+                                    else if (i == 2)
+                                        ment = 1.8;
+                                    else if (i == 3)
+                                        ment = 3.2;
+                                    else if (i == 4)
+                                        ment = 5;
+                                    else if (i == 5)
+                                        ment = 7.2;
+                                }
+                                else if (ProfileCode.Contains('U') && JobCode[i] == 'U')
+                                {
+                                    if (i == 0)
+                                        ment = 28.8;
+                                    else if (i == 1)
+                                        ment = 24.2;
+                                    else if (i == 2)
+                                        ment = 20;
+                                    else if (i == 3)
+                                        ment = 16.2;
+                                    else if (i == 4)
+                                        ment = 12.8;
+                                    else if (i == 5)
+                                        ment = 9.8;
+                                }
+                                else if (ProfileCode.Contains('U') && JobCode[i] == 'M')
+                                {
+                                    if (i == 0)
+                                        ment = 14.5;
+                                    else if (i == 1)
+                                        ment = 12.5;
+                                    else if (i == 2)
+                                        ment = 10.9;
+                                    else if (i == 3)
+                                        ment = 9.7;
+                                    else if (i == 4)
+                                        ment = 8.9;
+                                    else if (i == 5)
+                                        ment = 8.5;
+                                }
+                                else if (ProfileCode.Contains('U') && JobCode[i] == 'P')
+                                {
+                                    if (i == 0)
+                                        ment = 14.5;
+                                    else if (i == 1)
+                                        ment = 12.5;
+                                    else if (i == 2)
+                                        ment = 10.9;
+                                    else if (i == 3)
+                                        ment = 9.7;
+                                    else if (i == 4)
+                                        ment = 8.9;
+                                    else if (i == 5)
+                                        ment = 8.5;
+                                }
+                            }
+                        }
+                        
+                       
+                      
+
+                    }
+                }
+                
+                double summ;
+                summ = ser + theor + verb + enter + soc + ment;
+                summ = summ / 115 * 100;
+                
             }
 
 
@@ -1511,7 +2389,7 @@ public partial class ReportCIA : System.Web.UI.UserControl
 
             Session["variablereportvalues"] = dtvariablevalues;
 
-            Response.Redirect("ReportPrint.aspx"); return;
+            Response.Redirect("ReportPrintNew.aspx"); return;
         }
         else { lblMessage.Text = "No Values for Print"; }
 
