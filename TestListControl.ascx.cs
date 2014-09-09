@@ -168,7 +168,31 @@ public partial class TestListControl : System.Web.UI.UserControl
                             Button1.Visible = false ;
                             Button2.Visible = true ;
                         }
+                        if (ddlReportType.SelectedValue == "Interpretative Report")
+                        {
+                            if (grd_usertest.Rows[i].Cells[9].Text == "34")
+                            {
+                                btn_ciareport.Visible = true;
+                                btn_citatq.Visible = false;
+                            }
+                            else if (grd_usertest.Rows[i].Cells[9].Text == "1")
+                            {
+                                btn_citatq.Visible = true;
+                                btn_ciareport.Visible = false;
+                            }
+                            else
+                            {
+                                btn_citatq.Visible = false;
+                                btn_ciareport.Visible = false;
+                            }
+
+                        }
+                        else
+                        {
+                            btn_ciareport.Visible = false;
+                        }
                     }
+                   
                 }
                 if (Button2.Visible == false)
                 {
@@ -183,14 +207,7 @@ public partial class TestListControl : System.Web.UI.UserControl
                     lblreptype.Visible = true;
                     ddlReportType.Visible = true;
                     ddlSummaryGraph.Visible = true;
-                    if (ddlReportType.SelectedValue == "Interpretative Report" )
-                    {
-                        btn_ciareport.Visible = true;
-                    }
-                    else
-                    {
-                        btn_ciareport.Visible = false;
-                    }
+                    //////////////////////////////////////////////
                 }
             }
         }
@@ -314,5 +331,46 @@ public partial class TestListControl : System.Web.UI.UserControl
         {
             btn_ciareport.Visible = false;
         }
+    }
+    protected void btn_citatq_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            var usertestdet = from userdetails in dataclass.UserTestLists
+                              where (userdetails.UserId == int.Parse(Session["UserID"].ToString()) && userdetails.UserTestId == int.Parse(Session["curtestid"].ToString()) && userdetails.ReportAccess == 1)
+                              select userdetails;
+
+            if (usertestdet.Count() > 0)
+            {
+                string reptype = ddlReportType.SelectedValue;//Indicative Report//Certification Report
+                string scortype = ddlSummaryGraph.SelectedValue; //Percentile
+                if (Session["curtestid"] != null)// || ddlUserList.SelectedIndex > 0)
+                {
+                    if (Session["UserID"] != null)
+                    {
+                        Session["UserId_Report"] = Session["UserID"];
+                        Session["usertype"] = "User";
+                        if (reptype == "Interpretative Report")
+                            Session["SubCtrl"] = "ReportCITATQ.ascx";
+
+                        int userid = int.Parse(Session["UserID"].ToString());
+                        int testid = int.Parse(Session["curtestid"].ToString());
+                        dataclass.DeleteSectionMarks(userid, testid);
+                    }
+                    Session["ReportType"] = reptype;
+                    Session["ScoringType"] = scortype;
+                    Session["UserTestID_Report"] = Session["curtestid"];
+                    Response.Redirect("FJAHome.aspx");
+
+                }
+            }
+            else
+            {
+                lblmsg.Text = "You cannot access report.Contact system admin";
+            }
+
+        }
+        catch (Exception ex)
+        { }
     }
 }

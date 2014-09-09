@@ -650,6 +650,31 @@ public partial class ReportPreviewCtrl : System.Web.UI.UserControl
                                     {
                                         dr["BandDescription"] = "M";
                                     }
+                                        ////Modification for 
+                                    else if (sectionname == "Fluid Intelligence")
+                                    {
+                                        dr["BandDescription"] = "FI";
+                                    }
+                                    else if (sectionname == "Analytical Intelligence")
+                                    {
+                                        dr["BandDescription"] = "AI";
+                                    }
+                                    else if (sectionname == "Verbal Intelligence")
+                                    {
+                                        dr["BandDescription"] = "VI";
+                                    }
+                                    else if (sectionname == "Quantitative Intelligence")
+                                    {
+                                        dr["BandDescription"] = "QI";
+                                    }
+                                    else if (sectionname == "Spatial Intelligence")
+                                    {
+                                        dr["BandDescription"] = "SI";
+                                    }
+                                    else if (sectionname == "Executive Intelligence")
+                                    {
+                                        dr["BandDescription"] = "EI";
+                                    }
                                     else
                                     {
                                         dr["BandDescription"] = "";

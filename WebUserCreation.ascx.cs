@@ -302,12 +302,12 @@ public partial class WebUserCreation : System.Web.UI.UserControl
                     lblmsg.Text = "Select  test and proceed";
                 }
                 
-                dataclasses.AddUser(Username, Username, "User", int.Parse(ddlOrg.SelectedValue),
-                    int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, 1, 0, txtEmailId.Text, 0,
-                    1,  txtFsName.Text, txtMidName.Text, txtLstName.Text, ddlGender.SelectedValue,
-                    age, industryid, int.Parse(ddlJobCatgy.SelectedValue), txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue),
-                    int.Parse(ddlTotExpMonths.SelectedValue), int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue),
-                    ddlQualification.SelectedItem.Text, txtProffQual.Text, txtPhoneNumber.Text, txtrecrutr.Text);
+                //dataclasses.AddUser(Username, Username, "User", int.Parse(ddlOrg.SelectedValue),
+                //    int.Parse(ddlUserGroup.SelectedValue), dtFrom, dtTo, 1, 0, txtEmailId.Text, 0,
+                //    1,  txtFsName.Text, txtMidName.Text, txtLstName.Text, ddlGender.SelectedValue,
+                //    age, industryid, int.Parse(ddlJobCatgy.SelectedValue), txtJob.Text, int.Parse(ddlTotExpYears.SelectedValue),
+                //    int.Parse(ddlTotExpMonths.SelectedValue), int.Parse(ddlCurExpYears.SelectedValue), int.Parse(ddlCurExpMonths.SelectedValue),
+                //    ddlQualification.SelectedItem.Text, txtProffQual.Text, txtPhoneNumber.Text, txtrecrutr.Text);
                 Session["UserTestId"] = tests; 
                 lblMessage.Text = "Profile Details Saved Successfully";
                 Wizard1.ActiveStepIndex = 2;

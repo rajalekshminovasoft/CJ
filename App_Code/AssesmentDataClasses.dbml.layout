@@ -386,5 +386,17 @@
         <elementListCompartment Id="525e5198-c54c-4547-aa81-beec91d19850" absoluteBounds="6.64, 4.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="ebb1d8b1-23a2-403e-adfe-cedf1d07445b" absoluteBounds="7, 4, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/AssesmentDataClassesDataContext/CIACode" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d3954b36-a63e-46fb-8f4f-f91d26b48f8c" absoluteBounds="7.015, 4.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="913c767d-73b4-46a2-b7b3-9d404c5d4670" absoluteBounds="6, 4.625, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/AssesmentDataClassesDataContext/CITATQValue" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c788e196-232b-4d43-a9fb-5a9f0e57982a" absoluteBounds="6.015, 5.085, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

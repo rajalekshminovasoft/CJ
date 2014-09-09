@@ -134,6 +134,12 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
   partial void InsertUserProfile(UserProfile instance);
   partial void UpdateUserProfile(UserProfile instance);
   partial void DeleteUserProfile(UserProfile instance);
+  partial void InsertCIACode(CIACode instance);
+  partial void UpdateCIACode(CIACode instance);
+  partial void DeleteCIACode(CIACode instance);
+  partial void InsertCITATQValue(CITATQValue instance);
+  partial void UpdateCITATQValue(CITATQValue instance);
+  partial void DeleteCITATQValue(CITATQValue instance);
   #endregion
 	
 	public AssesmentDataClassesDataContext() : 
@@ -675,6 +681,22 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
 		get
 		{
 			return this.GetTable<View_UserTestList>();
+		}
+	}
+	
+	public System.Data.Linq.Table<CIACode> CIACodes
+	{
+		get
+		{
+			return this.GetTable<CIACode>();
+		}
+	}
+	
+	public System.Data.Linq.Table<CITATQValue> CITATQValues
+	{
+		get
+		{
+			return this.GetTable<CITATQValue>();
 		}
 	}
 	
@@ -22824,6 +22846,418 @@ public partial class View_UserTestList
 			{
 				this._PaymentStatus = value;
 			}
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CIACodes")]
+public partial class CIACode : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _CIAId;
+	
+	private string _CCategory;
+	
+	private string _CTitle;
+	
+	private string _CCode;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCIAIdChanging(int value);
+    partial void OnCIAIdChanged();
+    partial void OnCCategoryChanging(string value);
+    partial void OnCCategoryChanged();
+    partial void OnCTitleChanging(string value);
+    partial void OnCTitleChanged();
+    partial void OnCCodeChanging(string value);
+    partial void OnCCodeChanged();
+    #endregion
+	
+	public CIACode()
+	{
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CIAId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int CIAId
+	{
+		get
+		{
+			return this._CIAId;
+		}
+		set
+		{
+			if ((this._CIAId != value))
+			{
+				this.OnCIAIdChanging(value);
+				this.SendPropertyChanging();
+				this._CIAId = value;
+				this.SendPropertyChanged("CIAId");
+				this.OnCIAIdChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CCategory", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+	public string CCategory
+	{
+		get
+		{
+			return this._CCategory;
+		}
+		set
+		{
+			if ((this._CCategory != value))
+			{
+				this.OnCCategoryChanging(value);
+				this.SendPropertyChanging();
+				this._CCategory = value;
+				this.SendPropertyChanged("CCategory");
+				this.OnCCategoryChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CTitle", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+	public string CTitle
+	{
+		get
+		{
+			return this._CTitle;
+		}
+		set
+		{
+			if ((this._CTitle != value))
+			{
+				this.OnCTitleChanging(value);
+				this.SendPropertyChanging();
+				this._CTitle = value;
+				this.SendPropertyChanged("CTitle");
+				this.OnCTitleChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CCode", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+	public string CCode
+	{
+		get
+		{
+			return this._CCode;
+		}
+		set
+		{
+			if ((this._CCode != value))
+			{
+				this.OnCCodeChanging(value);
+				this.SendPropertyChanging();
+				this._CCode = value;
+				this.SendPropertyChanged("CCode");
+				this.OnCCodeChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CITATQValues")]
+public partial class CITATQValue : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _CId;
+	
+	private string _CCategory;
+	
+	private string _CTitle;
+	
+	private double _FI;
+	
+	private double _AI;
+	
+	private double _VI;
+	
+	private double _QI;
+	
+	private double _SI;
+	
+	private double _EI;
+	
+	private string _Remark;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCIdChanging(int value);
+    partial void OnCIdChanged();
+    partial void OnCCategoryChanging(string value);
+    partial void OnCCategoryChanged();
+    partial void OnCTitleChanging(string value);
+    partial void OnCTitleChanged();
+    partial void OnFIChanging(double value);
+    partial void OnFIChanged();
+    partial void OnAIChanging(double value);
+    partial void OnAIChanged();
+    partial void OnVIChanging(double value);
+    partial void OnVIChanged();
+    partial void OnQIChanging(double value);
+    partial void OnQIChanged();
+    partial void OnSIChanging(double value);
+    partial void OnSIChanged();
+    partial void OnEIChanging(double value);
+    partial void OnEIChanged();
+    partial void OnRemarkChanging(string value);
+    partial void OnRemarkChanged();
+    #endregion
+	
+	public CITATQValue()
+	{
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int CId
+	{
+		get
+		{
+			return this._CId;
+		}
+		set
+		{
+			if ((this._CId != value))
+			{
+				this.OnCIdChanging(value);
+				this.SendPropertyChanging();
+				this._CId = value;
+				this.SendPropertyChanged("CId");
+				this.OnCIdChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CCategory", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+	public string CCategory
+	{
+		get
+		{
+			return this._CCategory;
+		}
+		set
+		{
+			if ((this._CCategory != value))
+			{
+				this.OnCCategoryChanging(value);
+				this.SendPropertyChanging();
+				this._CCategory = value;
+				this.SendPropertyChanged("CCategory");
+				this.OnCCategoryChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CTitle", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+	public string CTitle
+	{
+		get
+		{
+			return this._CTitle;
+		}
+		set
+		{
+			if ((this._CTitle != value))
+			{
+				this.OnCTitleChanging(value);
+				this.SendPropertyChanging();
+				this._CTitle = value;
+				this.SendPropertyChanged("CTitle");
+				this.OnCTitleChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FI", DbType="Float NOT NULL")]
+	public double FI
+	{
+		get
+		{
+			return this._FI;
+		}
+		set
+		{
+			if ((this._FI != value))
+			{
+				this.OnFIChanging(value);
+				this.SendPropertyChanging();
+				this._FI = value;
+				this.SendPropertyChanged("FI");
+				this.OnFIChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AI", DbType="Float NOT NULL")]
+	public double AI
+	{
+		get
+		{
+			return this._AI;
+		}
+		set
+		{
+			if ((this._AI != value))
+			{
+				this.OnAIChanging(value);
+				this.SendPropertyChanging();
+				this._AI = value;
+				this.SendPropertyChanged("AI");
+				this.OnAIChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VI", DbType="Float NOT NULL")]
+	public double VI
+	{
+		get
+		{
+			return this._VI;
+		}
+		set
+		{
+			if ((this._VI != value))
+			{
+				this.OnVIChanging(value);
+				this.SendPropertyChanging();
+				this._VI = value;
+				this.SendPropertyChanged("VI");
+				this.OnVIChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QI", DbType="Float NOT NULL")]
+	public double QI
+	{
+		get
+		{
+			return this._QI;
+		}
+		set
+		{
+			if ((this._QI != value))
+			{
+				this.OnQIChanging(value);
+				this.SendPropertyChanging();
+				this._QI = value;
+				this.SendPropertyChanged("QI");
+				this.OnQIChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SI", DbType="Float NOT NULL")]
+	public double SI
+	{
+		get
+		{
+			return this._SI;
+		}
+		set
+		{
+			if ((this._SI != value))
+			{
+				this.OnSIChanging(value);
+				this.SendPropertyChanging();
+				this._SI = value;
+				this.SendPropertyChanged("SI");
+				this.OnSIChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EI", DbType="Float NOT NULL")]
+	public double EI
+	{
+		get
+		{
+			return this._EI;
+		}
+		set
+		{
+			if ((this._EI != value))
+			{
+				this.OnEIChanging(value);
+				this.SendPropertyChanging();
+				this._EI = value;
+				this.SendPropertyChanged("EI");
+				this.OnEIChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remark", DbType="NVarChar(500)")]
+	public string Remark
+	{
+		get
+		{
+			return this._Remark;
+		}
+		set
+		{
+			if ((this._Remark != value))
+			{
+				this.OnRemarkChanging(value);
+				this.SendPropertyChanging();
+				this._Remark = value;
+				this.SendPropertyChanged("Remark");
+				this.OnRemarkChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

@@ -63,6 +63,7 @@
                     <asp:Button ID="Button1" runat="server" Text="Take test" OnClick="Button1_Click" Visible="false"  />
                     <asp:Button ID="Button2" runat="server" Text="View Report" Visible="false" OnClick="Button2_Click"  />
                     <asp:Button ID="btn_ciareport" runat="server" Text="View CIA Report" OnClick="btn_ciareport_Click" Visible="false"  />
+                    <asp:Button ID="btn_citatq" runat="server" Text="View CITAT-Q Report" Visible="false" OnClick="btn_citatq_Click"  />
                     <asp:Label ID="lblmsg" runat="server"></asp:Label>
                 </td>
             </tr>

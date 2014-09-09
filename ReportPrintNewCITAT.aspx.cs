@@ -17,7 +17,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.ComponentModel;
 
-public partial class ReportPrintNew : System.Web.UI.Page
+public partial class ReportPrintNewCITAT : System.Web.UI.Page
 {
     DBManagementClass clsClasses = new DBManagementClass();
     AssesmentDataClassesDataContext dataclass = new AssesmentDataClassesDataContext();
@@ -314,8 +314,8 @@ public partial class ReportPrintNew : System.Web.UI.Page
                     if (Session["CList"] != "")
                     {
                         string[] res;
-                        string[] Rate=Session["CList"].ToString().Split('|');
-                        for (int i = 1; i < Rate.Count(); i=i + 3)
+                        string[] Rate = Session["CList"].ToString().Split('|');
+                        for (int i = 1; i < Rate.Count(); i = i + 3)
                         {
                             //res[i] = Rate[i].ToString() + "  " +Rate[i+1].ToString()+ "  "+Rate[i+2].ToString();
                             tblRow = new TableRow(); tblRow.BackColor = clrRow1;

@@ -1188,6 +1188,28 @@
       <Column Name="PaymentStatus" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.CIACodes" Member="CIACodes">
+    <Type Name="CIACode">
+      <Column Name="CIAId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CCategory" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="CTitle" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="CCode" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CITATQValues" Member="CITATQValues">
+    <Type Name="CITATQValue">
+      <Column Name="CId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CCategory" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="CTitle" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="FI" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="AI" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VI" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="QI" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="SI" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="EI" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Remark" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+    </Type>
+  </Table>
   <Function Name="AddDesignation">
     <Parameter Name="PostId" Parameter="postId" Type="System.Int32" DbType="Int" />
     <Parameter Name="PostName" Parameter="postName" Type="System.String" DbType="NVarChar(50)" />
