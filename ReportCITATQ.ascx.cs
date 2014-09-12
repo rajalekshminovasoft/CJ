@@ -666,6 +666,32 @@ public partial class ReportCITATQ : System.Web.UI.UserControl
                                     {
                                         dr["BandDescription"] = "M";
                                     }
+                                        ///CAT Exammmm
+                                    else if (sectionname == "Fluid Intelligence")
+                                    {
+                                        dr["BandDescription"] = "FI";
+                                    }
+                                    else if (sectionname == "Analytical Intelligence")
+                                    {
+                                        dr["BandDescription"] = "AI";
+                                    }
+                                    else if (sectionname == "Verbal Intelligence")
+                                    {
+                                        dr["BandDescription"] = "VI";
+                                    }
+                                    else if (sectionname == "Quantitative Intelligence")
+                                    {
+                                        dr["BandDescription"] = "QI";
+                                    }
+                                    else if (sectionname == "Spatial Intelligence")
+                                    {
+                                        dr["BandDescription"] = "SI";
+                                    }
+                                    else if (sectionname == "Executive Intelligence")
+                                    {
+                                        dr["BandDescription"] = "EI";
+                                    }
+                                    ///CAT Exammmm
                                     else
                                     {
                                         dr["BandDescription"] = "";
@@ -902,15 +928,118 @@ public partial class ReportCITATQ : System.Web.UI.UserControl
              */
 
             //////////Modification for new report
-           
-             var CheckCIT = from CCIT in dataclass.CITATQValues
-                            select CCIT;
-             if (CheckCIT.Count() > 0)
-             {
-
-             }
+            if(txtValues.Text!="")
+            {
+                double P1 = 0, P2 = 0, P3 = 0, P4 = 0, P5 = 0, P6 = 0;
+                //txtValues.Text = "20,25,40,45,45,39";
+                txtValues.Text = "93.75,75,81.25,61.53846,56.25,85.71429";
+                string txtval = txtValues.Text.Trim();
+                string result = "";
+                string res = "";
+                string jobvalues = "";
+                char[] Inputstring = txtval.ToCharArray();
+                char Ch = ',';
+                int cntofchar = txtval.Length;
+                string[] valuess = txtval.Split(',');
+                P1 = Convert.ToDouble(valuess[0]);
+                P2 = Convert.ToDouble(valuess[1]);
+                P3 = Convert.ToDouble(valuess[2]);
+                P4 = Convert.ToDouble(valuess[3]);
+                P5 = Convert.ToDouble(valuess[4]);
+                P6 = Convert.ToDouble(valuess[5]);
+                
+                 var CheckCIT = from CCIT in dataclass.CITATQValues
+                                select CCIT;
+                 if (CheckCIT.Count() > 0)
+                 {
+                     foreach(var dd in CheckCIT)
+                     {
+                         int cnt = 1;
+                         foreach (var val in valuess)
+                         {
+                             if (P1 >= dd.FI && cnt==1)
+                             {
+                                 result = "GREEN";
+                             }
+                             else if (P1 < dd.FI && P1 >= 40 && cnt==1)
+                             {
+                                 result = "ORANGE";
+                             }
+                             else if (P1<40 && cnt==1)
+                             {
+                                 result = "RED";
+                             }
+                             if (P2 >= dd.AI && cnt==2)
+                             {
+                                 result = "GREEN";
+                             }
+                             else if (P2 < dd.AI && P2 >= 40 && cnt == 2)
+                             {
+                                 result = "ORANGE";
+                             }
+                             else if (P2 < 40 && cnt == 2)
+                             {
+                                 result = "RED";
+                             }
+                             if (P3 >= dd.VI && cnt==3)
+                             {
+                                 result = "GREEN";
+                             }
+                             else if (P3 < dd.VI && P3 >= 40 && cnt == 3)
+                             {
+                                 result = "ORANGE";
+                             }
+                             else if(P3<40 && cnt==3)
+                             {
+                                 result = "RED";
+                             }
+                             if (P4 >= dd.QI && cnt==4)
+                             {
+                                 result = "GREEN";
+                             }
+                             else if (P4 < dd.QI && P4 >= 40 && cnt == 4)
+                             {
+                                 result = "ORANGE";
+                             }
+                             else if(P4<40 && cnt==4)
+                             {
+                                 result = "RED";
+                             }
+                             if (P5 >= dd.SI && cnt==5)
+                             {
+                                 result = "GREEN";
+                             }
+                             else if (P5 < dd.SI && P5 >= 40 && cnt == 5)
+                             {
+                                 result = "ORANGE";
+                             }
+                             else if(P5<40  && cnt==5)
+                             {
+                                 result = "RED";
+                             }
+                             if (P6 >= dd.EI && cnt==6)
+                             {
+                                 result = "GREEN";
+                             }
+                             else if (P6 < dd.EI && P6 >= 40 && cnt == 6)
+                             {
+                                 result = "ORANGE";
+                             }
+                             else if (P6<40  && cnt==6)
+                             {
+                                 result = "RED";
+                             }
+                             cnt = cnt + 1;
+                             res +=result + " ";
+                         }
+                         jobvalues += dd.CCategory + "|" + dd.CTitle + "|" + res + ",";
+                         res = "";
+                         
+                     }
+                     Session["CList"] = jobvalues;
+                 }
             
-
+            }     
 
         }
         catch (Exception ex) { lblMessage.Text += "hi..." + ex.Message; }

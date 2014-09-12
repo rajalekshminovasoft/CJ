@@ -65,7 +65,9 @@ public partial class ReportCIA : System.Web.UI.UserControl
         }
         if (Session["usertype"].ToString() == "OrgAdmin" || Session["usertype"].ToString() == "GrpAdmin" || Session["usertype"].ToString() == "SuperAdmin" || Session["usertype"].ToString() == "User")
         { lbtnBack.Visible = true; lbtnBack0.Visible = true; }
+
         GetReportGraphDetailsFromDB();
+        GetReportGraphDetailsFromDBCAT();
         goToPrintPage();//bip 17062010
     }
     private void goToPrintPage()
@@ -465,7 +467,7 @@ public partial class ReportCIA : System.Web.UI.UserControl
             string quesrystring = "SELECT DISTINCT EvaluationResult.QuestionID, TestBaseQuestionList.TestId, TestBaseQuestionList.TestSectionId,TestBaseQuestionList.Status, EvaluationResult.Question, " +
                       " EvaluationResult.Answer, EvaluationResult.UserId, EvaluationResult.Category, TestBaseQuestionList.SectionId, " +
                       " TestBaseQuestionList.FirstVariableId, TestBaseQuestionList.SecondVariableId, TestBaseQuestionList.ThirdVariableId FROM  EvaluationResult INNER JOIN TestBaseQuestionList ON EvaluationResult.QuestionID = TestBaseQuestionList.QuestionId " +
-                      " WHERE     (TestBaseQuestionList.Status = 1) and EvaluationResult.UserId=" + userid + " and TestBaseQuestionList.TestId=" + testid + " order by TestBaseQuestionList.TestSectionId ";
+                      " WHERE     (TestBaseQuestionList.Status = 1) and EvaluationResult.UserId=" + userid + " and TestBaseQuestionList.TestId=34 order by TestBaseQuestionList.TestSectionId ";
 
             DataSet dsEvaluationdetails = new DataSet();
             dsEvaluationdetails = clsClasses.GetValuesFromDB(quesrystring);
@@ -1887,8 +1889,616 @@ public partial class ReportCIA : System.Web.UI.UserControl
         catch (Exception ex) { lblMessage.Text += "hi..." + ex.Message; }
 
     }
+    private void GetReportGraphDetailsFromDBCAT()
+    {
+        try
+        {
+            dtTestSection = new DataTable();
+            dtTestSection.Columns.Add("TestSectionID");
+            dtTestSection.Columns.Add("TotalMark_sec");
+            DataRow drTestSection;
 
-    //
+            DataRow dr;
+            dt.Columns.Add("SectionID");
+            dt.Columns.Add("SectionName");
+            dt.Columns.Add("TestSectionId");
+            dt.Columns.Add("TestID");
+            dt.Columns.Add("TotalMarks");
+            dt.Columns.Add("BandDescription");
+
+            DataRow drEmptySession;
+            dtEmptySessionList.Columns.Add("SectionName");
+            dtEmptySessionList.Columns.Add("BandDescription");
+            dtEmptySessionList.Columns.Add("TestSectionId");
+            //DataRow dr1;
+            //dt1.Columns.Add("BenchMark");
+            //dt1.Columns.Add("TotalMark");
+            //dt1.Columns.Add("TestID");
+
+            //int userid = int.Parse(Session["UserId_Report"].ToString());
+            int MemmoryTestImage = 0;
+            int MemmoryTestText = 0;
+            int QuesCollection = 0;
+            string sectionname = ""; int TestSecionID = 0;
+            //SqlConnection conn;
+            //SqlCommand cmd;
+            //SqlDataAdapter da;
+            DataSet ds;
+            Table tblDisplay = new Table();
+            TableCell tblCell = new TableCell();
+            TableRow tblRow;
+            Label label;
+            //int i = 0;
+            int rowid = 0;
+            int totalmarks = 0;
+            int sectionid = 0;
+            int testid = int.Parse(Session["UserTestID_Report"].ToString());
+
+
+            string quesrystring = "SELECT DISTINCT EvaluationResult.QuestionID, TestBaseQuestionList.TestId, TestBaseQuestionList.TestSectionId,TestBaseQuestionList.Status, EvaluationResult.Question, " +
+                      " EvaluationResult.Answer, EvaluationResult.UserId, EvaluationResult.Category, TestBaseQuestionList.SectionId, " +
+                      " TestBaseQuestionList.FirstVariableId, TestBaseQuestionList.SecondVariableId, TestBaseQuestionList.ThirdVariableId FROM  EvaluationResult INNER JOIN TestBaseQuestionList ON EvaluationResult.QuestionID = TestBaseQuestionList.QuestionId " +
+                      " WHERE     (TestBaseQuestionList.Status = 1) and EvaluationResult.UserId=" + userid + " and TestBaseQuestionList.TestId=40 order by TestBaseQuestionList.TestSectionId ";
+
+            DataSet dsEvaluationdetails = new DataSet();
+            dsEvaluationdetails = clsClasses.GetValuesFromDB(quesrystring);
+            if (dsEvaluationdetails != null)
+                if (dsEvaluationdetails.Tables.Count > 0)
+                    if (dsEvaluationdetails.Tables[0].Rows.Count > 0)
+                    {
+                        //lblMessage.Text += " after db access..."; return;
+                        //var UserAnsws1 = from UserAnsws in dataclass.EvaluationResults
+                        //                 where UserAnsws.UserId == userid   // && UserAnsws.TestId == testid
+                        //                 select UserAnsws;
+
+                        //if (UserAnsws1.Count() > 0)
+                        //{
+                        // foreach (var UserAnswers in UserAnsws1)
+
+                        for (int i = 0; i < dsEvaluationdetails.Tables[0].Rows.Count; i++)
+                        {
+                            int marks = 0;
+                            int currentmarks = 0;
+                            sectionid = 0;
+                            //if (UserAnswers.Category == "MemTestWords")
+                            if (dsEvaluationdetails.Tables[0].Rows[i]["Category"].ToString() == "MemTestWords")
+                            {
+                                var MemWords1 = from MemWords in dataclass.MemmoryTestTextQuesCollections
+                                                where MemWords.Question == dsEvaluationdetails.Tables[0].Rows[i]["Question"].ToString() && MemWords.QuestionID == int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["QuestionID"].ToString()) //UserAnswers.Question && MemWords.QuestionID == UserAnswers.QuestionID
+                                                select MemWords;
+                                if (MemWords1.Count() > 0)
+                                {
+                                    if (dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString() != "")
+                                        TestSecionID = int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString());// int.Parse(UserAnswers.TestSectionId.ToString());
+                                    sectionname = MemWords1.First().SectionName.ToString();
+                                    sectionid = int.Parse(MemWords1.First().SectionId.ToString());
+                                    if (sectionid > 0)// bip 05122009
+                                        if (MemWords1.First().Answer == dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString())// UserAnswers.Answer)
+                                            marks = 1;
+                                }
+                            }
+                            else if (dsEvaluationdetails.Tables[0].Rows[i]["Category"].ToString() == "MemTestImages")
+                            {
+                                var MemImages1 = from MemImages in dataclass.MemmoryTestImageQuesCollections
+                                                 where MemImages.Question == dsEvaluationdetails.Tables[0].Rows[i]["Question"].ToString() && MemImages.QuestionID == int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["QuestionID"].ToString())//UserAnswers.Question && MemImages.QuestionID == UserAnswers.QuestionID
+                                                 select MemImages;
+                                if (MemImages1.Count() > 0)
+                                {
+                                    if (dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString() != "")
+                                        TestSecionID = int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString());// int.Parse(UserAnswers.TestSectionId.ToString());
+                                    sectionname = MemImages1.First().SectionName.ToString();
+                                    sectionid = int.Parse(MemImages1.First().SectionId.ToString());
+                                    if (sectionid > 0)// bip 05122009
+                                        if (MemImages1.First().Answer == dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString())// UserAnswers.Answer)
+                                            marks = 1;
+                                }
+                            }
+                            else if (dsEvaluationdetails.Tables[0].Rows[i]["Category"].ToString() == "FillBlanks")
+                            {
+                                var FillQues1 = from FillQues in dataclass.QuestionCollections
+                                                where FillQues.Question == dsEvaluationdetails.Tables[0].Rows[i]["Question"].ToString() && FillQues.QuestionID == int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["QuestionID"].ToString())//UserAnswers.Question && FillQues.QuestionID == UserAnswers.QuestionID
+                                                select FillQues;
+                                if (FillQues1.Count() > 0)
+                                {
+                                    if (dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString() != "")
+                                        TestSecionID = int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString());// int.Parse(UserAnswers.TestSectionId.ToString());
+                                    sectionname = FillQues1.First().SectionName.ToString();
+                                    sectionid = int.Parse(FillQues1.First().SectionId.ToString());
+
+                                    //if (FillQues1.First().Option1 == UserAnswers.Answer || FillQues1.First().Option2 == UserAnswers.Answer ||
+                                    //    FillQues1.First().Option3 == UserAnswers.Answer || FillQues1.First().Option4 == UserAnswers.Answer ||
+                                    //    FillQues1.First().Option5 == UserAnswers.Answer)
+                                    if (sectionid > 0)// bip 05122009
+                                        if (FillQues1.First().Option1 == dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString() || FillQues1.First().Option2 == dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString() ||
+                                             FillQues1.First().Option3 == dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString() || FillQues1.First().Option4 == dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString() ||
+                                             FillQues1.First().Option5 == dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString())
+                                            marks = 1;
+                                }
+                            }
+                            else if (dsEvaluationdetails.Tables[0].Rows[i]["Category"].ToString() == "RatingType")
+                            {
+                                var FillQues1 = from FillQues in dataclass.QuestionCollections
+                                                where FillQues.Question == dsEvaluationdetails.Tables[0].Rows[i]["Question"].ToString() && FillQues.QuestionID == int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["QuestionID"].ToString())//UserAnswers.Question && FillQues.QuestionID == UserAnswers.QuestionID
+                                                select FillQues;
+                                if (FillQues1.Count() > 0)
+                                {
+                                    if (dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString() != "")
+                                        TestSecionID = int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString());// int.Parse(UserAnswers.TestSectionId.ToString());
+                                    sectionname = FillQues1.First().SectionName.ToString();
+                                    sectionid = int.Parse(FillQues1.First().SectionId.ToString());
+                                    ////if (sectionname == "Test2")
+                                    ////    sectionid = 40;
+                                    //if (FillQues1.First().Answer == UserAnswers.Answer)
+                                    //{
+
+                                    // if (sectionid > 0)// bip 05122009
+                                    //     marks = int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString());// int.Parse(UserAnswers.Answer.ToString());
+
+                                    if (sectionid > 0)// bip 05062011 "-" is added if the user leave the anwser while taking the test
+                                        if (dsEvaluationdetails.Tables[0].Rows[i]["Answer"] != null)
+                                            if (dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString() != "-")
+                                                marks = int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString());
+
+                                    //if (sectionname == "Clarity of Communication")
+                                    //    lblMessage.Text += " " + sectionname + " mark " + marks.ToString(); // 021209 bip
+                                    //// marks = ratingmark;
+                                    // dataclass.ProcSectionMarks(userid, testid, sectionid, sectionname, marks);
+                                    ////}
+                                    //}
+                                }
+                            }
+                            else
+                            {
+                                var OtherQues1 = from OtherQues in dataclass.QuestionCollections
+                                                 where OtherQues.Question == dsEvaluationdetails.Tables[0].Rows[i]["Question"].ToString() && OtherQues.QuestionID == int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["QuestionID"].ToString())//UserAnswers.Question && OtherQues.QuestionID == UserAnswers.QuestionID
+                                                 select OtherQues;
+                                if (OtherQues1.Count() > 0)
+                                {
+                                    if (dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString() != "")
+                                        TestSecionID = int.Parse(dsEvaluationdetails.Tables[0].Rows[i]["TestSectionId"].ToString()); //int.Parse(UserAnswers.TestSectionId.ToString());
+                                    sectionname = OtherQues1.First().SectionName.ToString();
+                                    sectionid = int.Parse(OtherQues1.First().SectionId.ToString());
+                                    if (sectionid > 0)// bip 05122009
+                                        if (OtherQues1.First().Answer == dsEvaluationdetails.Tables[0].Rows[i]["Answer"].ToString())// UserAnswers.Answer)
+                                            marks = 1;
+                                }
+                            }
+                            //if (sectionname == "Clarity of Communication")
+                            if (marks >= 0)
+                            {
+                                bool testsecExists = false; int j = 0;
+                                if (dtTestSection.Rows.Count > 0)
+                                {
+                                    for (int n = 0; n < dtTestSection.Rows.Count; n++)
+                                    {
+                                        if (dtTestSection.Rows[n]["TestSectionID"].ToString() == TestSecionID.ToString())
+                                        { testsecExists = true; j = n; break; }
+                                    }
+                                }
+                                if (testsecExists == true)
+                                {
+                                    int currentmarks_testsecid = 0;
+                                    drTestSection = dtTestSection.Rows[j];
+                                    currentmarks_testsecid = int.Parse(drTestSection["TotalMark_sec"].ToString());
+                                    currentmarks_testsecid = currentmarks_testsecid + marks;
+                                    drTestSection["TotalMark_sec"] = currentmarks_testsecid.ToString();
+                                }
+                                else
+                                {
+                                    drTestSection = dtTestSection.NewRow();
+                                    drTestSection["TestSectionID"] = TestSecionID.ToString();
+                                    drTestSection["TotalMark_sec"] = marks.ToString();
+                                    dtTestSection.Rows.Add(drTestSection);
+                                }
+
+                                Boolean exists = CheckExistence(sectionname, TestSecionID);
+                                if (exists == true)
+                                {
+                                    rowid = int.Parse(Session["RowID"].ToString());
+                                    dr = dt.Rows[rowid];
+                                    currentmarks = int.Parse(dr["TotalMarks"].ToString());
+                                    currentmarks = currentmarks + marks;
+                                    dr["TotalMarks"] = currentmarks;
+                                    marks = 0; Session["RowID"] = null;
+                                    // lblMessage.Text += " || " + sectionname + " totmarknew= " + currentmarks + " || ";
+                                }
+                                else
+                                {
+                                    //if (currentmarks > 0)
+                                    //    marks = currentmarks;
+
+                                    dr = dt.NewRow();
+                                    //dr["SectionID"] = sectionid;
+                                    dr["SectionName"] = sectionname;
+                                    dr["TestID"] = testid;
+                                    dr["TestSectionId"] = TestSecionID;
+                                    if (exists == false)
+                                        dr["TotalMarks"] = marks;
+                                    else
+                                        dr["TotalMarks"] = "0";
+
+                                    ///CAT Exammmm
+                                    if (sectionname == "Fluid Intelligence")
+                                    {
+                                        dr["BandDescription"] = "FI";
+                                    }
+                                    else if (sectionname == "Analytical Intelligence")
+                                    {
+                                        dr["BandDescription"] = "AI";
+                                    }
+                                    else if (sectionname == "Verbal Intelligence")
+                                    {
+                                        dr["BandDescription"] = "VI";
+                                    }
+                                    else if (sectionname == "Quantitative Intelligence")
+                                    {
+                                        dr["BandDescription"] = "QI";
+                                    }
+                                    else if (sectionname == "Spatial Intelligence")
+                                    {
+                                        dr["BandDescription"] = "SI";
+                                    }
+                                    else if (sectionname == "Executive Intelligence")
+                                    {
+                                        dr["BandDescription"] = "EI";
+                                    }
+                                    ///CAT Exammmm
+                                    else
+                                    {
+                                        dr["BandDescription"] = "";
+                                    }
+
+                                    dt.Rows.Add(dr);
+                                    marks = 0;
+                                    // lblMessage.Text += " sec..." + sectionname + " ";
+                                }
+                            }
+                            else
+                            {
+
+                                bool sesExists = false;
+                                if (dtEmptySessionList.Rows.Count > 0)
+                                {
+                                    for (int e = 0; e < dtEmptySessionList.Rows.Count; e++)
+                                    {
+                                        if (dtEmptySessionList.Rows[e][0].ToString() == sectionname && dtEmptySessionList.Rows[e][2].ToString() == TestSecionID.ToString())
+                                            sesExists = true;
+                                    }
+                                }
+                                if (sesExists == false)
+                                {
+                                    drEmptySession = dtEmptySessionList.NewRow();
+                                    drEmptySession["SectionName"] = sectionname;
+
+                                    string remarks = GetBandDescription(0, sectionname);
+                                    drEmptySession["BandDescription"] = remarks;
+                                    drEmptySession["TestSectionId"] = TestSecionID;
+                                    dtEmptySessionList.Rows.Add(drEmptySession);
+                                }
+                                if (dtEmptySessionList.Rows.Count > 0)
+                                {
+                                    for (int e = 0; e < dtEmptySessionList.Rows.Count; e++)
+                                    {
+                                        Boolean exists = CheckExistence(dtEmptySessionList.Rows[e][0].ToString(), TestSecionID);
+                                        if (exists == true)
+                                        {
+                                            dtEmptySessionList.Rows[e].Delete();
+                                        }
+                                    }
+                                }
+                            }//
+                        }
+                    }
+
+
+
+            GridView1.DataSource = dt;
+            GridView1.DataBind(); //return;// bip 19122009
+            // lblMessage.Text = scoretype; return;
+            //if (Session["DiagramType"].ToString() == "PieGraph")
+            //{
+            if (GridView1.Rows.Count > 0)
+            {
+
+
+                if (scoretype == "Percentile")
+                {
+                    //lblMessage.Text += "hi..."; return;
+                    int count = 0;
+                    // lblMessage.Text += " rptgridParts= " + GridView1.Rows.Count.ToString() + " marks= ";
+                    for (int k = 0; k < GridView1.Rows.Count; k++)
+                    {
+                        int curmark = int.Parse(GridView1.Rows[k].Cells[4].Text);
+                        string remarks = GetBandDescription(curmark, GridView1.Rows[k].Cells[1].Text);
+                        GridView1.Rows[k].Cells[5].Text = remarks;
+                        if (GridView1.Rows[k].Cells[4].Text != "0" && GridView1.Rows[k].Cells[4].Text != "&nbsp;")
+                        {
+                            float mark1 = float.Parse(GridView1.Rows[k].Cells[4].Text);
+                            float currentmark = 0;
+                            currentmark = GetPercentileScoreUserwise(mark1, GridView1.Rows[k].Cells[1].Text, GridView1.Rows[k].Cells[2].Text);
+                            currentmark = float.Parse(currentmark.ToString("0.00"));
+                            GridView1.Rows[k].Cells[4].Text = currentmark.ToString();
+                            count++;
+                        }
+                    }
+
+                    if (Session["ReportType"].ToString() == "TestSectionwise")
+                    {
+
+                        for (int k = 0; k < dtTestSection.Rows.Count; k++)
+                        {
+                            int curmark = 0;
+                            if (dtTestSection.Rows[k][1].ToString() != "" && dtTestSection.Rows[k][1].ToString() != "Infinity")
+                                curmark = int.Parse(dtTestSection.Rows[k]["TotalMark_sec"].ToString());
+
+                            int testsecid = int.Parse(dtTestSection.Rows[k]["TestSectionID"].ToString());
+                            if (curmark > 0)
+                            {
+                                float mark1 = float.Parse(curmark.ToString());
+                                float currentmark = 0;
+                                currentmark = GetPercentileScoreUserwise_testsec(mark1, testsecid);
+                                currentmark = float.Parse(currentmark.ToString("0.00"));
+                                drTestSection = dtTestSection.Rows[k];
+                                drTestSection["TotalMark_sec"] = currentmark.ToString();
+                            }
+                        }
+
+                        for (int k = 0; k < dtTestSection.Rows.Count; k++)
+                        {
+                            if (dtTestSection.Rows[k][1].ToString() != "" && dtTestSection.Rows[k][1].ToString() != "Infinity")
+                            {
+                                float curmark = float.Parse(dtTestSection.Rows[k][1].ToString());
+                                if (txtValues.Text.Trim() != "")
+                                    txtValues.Text = txtValues.Text.Trim() + ",";
+                                txtValues.Text = txtValues.Text.Trim() + curmark.ToString();//currentmark;// mark1;//
+                                txtParts.Text = (k + 1).ToString();
+                            }
+                            else
+                            {
+                                if (txtValues.Text.Trim() != "")
+                                    txtValues.Text = txtValues.Text.Trim() + ",";
+                                txtValues.Text = txtValues.Text.Trim() + "0";
+                                txtParts.Text = (k + 1).ToString();
+                            }
+                        }
+                        /* bipson 20-02-2011 commented this code... no preview is need, allow admin for direct print....
+                        DrawPieGraph_TestSecwise("imgReportGraph1_" + userid + "_" + DateTime.Now.Millisecond.ToString() + ".jpg");
+                        DrawBarGraph();
+                         */
+                        return;
+                    }
+                }
+
+                else //(scoretype == "Percentage")
+                {
+
+                    for (int k = 0; k < GridView1.Rows.Count; k++)
+                    {
+                        int curmark = int.Parse(GridView1.Rows[k].Cells[4].Text);
+                        string remarks = GetBandDescription(curmark, GridView1.Rows[k].Cells[1].Text);
+                        GridView1.Rows[k].Cells[5].Text = remarks;
+
+                        if (GridView1.Rows[k].Cells[4].Text != "0" && GridView1.Rows[k].Cells[4].Text != "&nbsp;")
+                        {
+                            float mark1 = float.Parse(GridView1.Rows[k].Cells[4].Text);
+                            //mark1 = ((mark1 * 100) / 360);
+                            float totalMarksectionwise = 0, currentmark = 0;
+                            totalMarksectionwise = GetSectionwiseTotalQuestionMarks(GridView1.Rows[k].Cells[1].Text, GridView1.Rows[k].Cells[2].Text, 0);
+                            if (totalMarksectionwise > 0)
+                            {
+                                //mark1 = (mark1 / totalMarksectionwise) * 100;
+                                //lblMessage.Text += " tot_F=" + totalMarksectionwise + " &,& " + currentmark.ToString();
+                                // lblMessage.Text += GridView1.Rows[k].Cells[1].Text +" tot=" + totalMarksectionwise ;//+ " &,& " 
+                                currentmark = (mark1 / totalMarksectionwise) * 100;
+                                // lblMessage.Text += " mark=" + mark1.ToString() + "curMark &,& " + currentmark.ToString();
+                                currentmark = float.Parse(currentmark.ToString("0.00"));
+                                GridView1.Rows[k].Cells[4].Text = currentmark.ToString();
+
+                                // lblMessage.Text += GridView1.Rows[k].Cells[1].Text + " currentmark &&& " + currentmark.ToString();
+                            }
+                        }
+                    }
+                    if (Session["ReportType"].ToString() == "TestSectionwise")
+                    {
+                        //testsection mark details
+
+                        for (int k = 0; k < dtTestSection.Rows.Count; k++)
+                        {
+                            int curmark = int.Parse(dtTestSection.Rows[k]["TotalMark_sec"].ToString());
+                            int testsecid = int.Parse(dtTestSection.Rows[k]["TestSectionID"].ToString());
+
+                            float mark1 = float.Parse(curmark.ToString());
+                            //mark1 = ((mark1 * 100) / 360);
+                            float totMarktestsecwise = 0, currentmark = 0;
+                            totMarktestsecwise = GetSectionwiseTotalQuestionMarks("", testsecid.ToString(), 1);
+
+                            if (totMarktestsecwise > 0)
+                            {
+                                //float mark1 = float.Parse(curmark.ToString());
+                                ////mark1 = ((mark1 * 100) / 360);
+                                //float totMarktestsecwise = 0, currentmark = 0;
+                                //totMarktestsecwise = GetSectionwiseTotalQuestionMarks("", testsecid.ToString(), 1);
+                                ////mark1 = (mark1 / totalMarksectionwise) * 100;
+                                // if (totMarktestsecwise > 0 && mark1 > 0)
+                                currentmark = (mark1 / totMarktestsecwise) * 100;
+                                //else currentmark = 0;
+                                currentmark = float.Parse(currentmark.ToString("0.00"));
+                                //drTestSection = dtTestSection.Rows[k];
+                                //drTestSection["TotalMark_sec"] = currentmark.ToString();
+                            }
+                            else
+                            {
+                                currentmark = 0;
+                            }
+                            drTestSection = dtTestSection.Rows[k];
+                            drTestSection["TotalMark_sec"] = currentmark.ToString();
+                        }
+
+                        for (int k = 0; k < dtTestSection.Rows.Count; k++)
+                        {
+                            if (dtTestSection.Rows[k][1].ToString() != "" && dtTestSection.Rows[k][1].ToString() != "Infinity")
+                            {
+                                float curmark = float.Parse(dtTestSection.Rows[k][1].ToString());
+                                if (txtValues.Text.Trim() != "")
+                                    txtValues.Text = txtValues.Text.Trim() + ",";
+                                txtValues.Text = txtValues.Text.Trim() + curmark.ToString();//currentmark;// mark1;//
+                                txtParts.Text = (k + 1).ToString();
+                            }
+                            else
+                            {
+                                if (txtValues.Text.Trim() != "")
+                                    txtValues.Text = txtValues.Text.Trim() + ",";
+                                txtValues.Text = txtValues.Text.Trim() + "0";//currentmark;// mark1;//
+                                txtParts.Text = (k + 1).ToString();
+                            }
+                        }
+                        /* bipson 20-02-2011 commented this code... no preview is need, allow admin for direct print....
+                        DrawPieGraph_TestSecwise("imgReportGraph1_" + userid + "_" + DateTime.Now.Millisecond.ToString() + ".jpg");
+                        DrawBarGraph();
+                        */
+                        return;
+                    }
+                }
+                int totvalues = 0;
+                for (int j = 0; j < GridView1.Rows.Count; j++)
+                {
+                    if (GridView1.Rows[j].Cells[1].Text != "&nbsp;")
+                        if (GridView1.Rows[j].Cells[4].Text != "&nbsp;")
+                        {
+                            totvalues++;
+                            if (txtValues.Text.Trim() != "")
+                                txtValues.Text = txtValues.Text.Trim() + ",";
+                            txtValues.Text = txtValues.Text.Trim() + GridView1.Rows[j].Cells[4].Text;//currentmark;// mark1;//
+                            txtParts.Text = totvalues.ToString();
+                        }
+                }
+            }
+            /* bipson 20-02-2011 commented this code... no preview is need, allow admin for direct print....
+            DrawPieGraph("imgReportGraph1_" + userid + "_" + DateTime.Now.Millisecond.ToString() + ".jpg", 1);
+            DrawBarGraph();
+             */
+
+            //////////Modification for new report
+            if (txtValues.Text != "")
+            {
+                double P1 = 0, P2 = 0, P3 = 0, P4 = 0, P5 = 0, P6 = 0;
+                //txtValues.Text = "20,25,40,45,45,39";
+                txtValues.Text = "93.75,75,81.25,61.53846,56.25,85.71429";
+                string txtval = txtValues.Text.Trim();
+                string result = "";
+                string res = "";
+                string jobvalues = "";
+                char[] Inputstring = txtval.ToCharArray();
+                char Ch = ',';
+                int cntofchar = txtval.Length;
+                string[] valuess = txtval.Split(',');
+                P1 = Convert.ToDouble(valuess[0]);
+                P2 = Convert.ToDouble(valuess[1]);
+                P3 = Convert.ToDouble(valuess[2]);
+                P4 = Convert.ToDouble(valuess[3]);
+                P5 = Convert.ToDouble(valuess[4]);
+                P6 = Convert.ToDouble(valuess[5]);
+
+                var CheckCIT = from CCIT in dataclass.CITATQValues
+                               select CCIT;
+                if (CheckCIT.Count() > 0)
+                {
+                    foreach (var dd in CheckCIT)
+                    {
+                        int cnt = 1;
+                        foreach (var val in valuess)
+                        {
+                            if (P1 >= dd.FI && cnt == 1)
+                            {
+                                result = "GREEN";
+                            }
+                            else if (P1 < dd.FI && P1 >= 40 && cnt == 1)
+                            {
+                                result = "ORANGE";
+                            }
+                            else if (P1 < 40 && cnt == 1)
+                            {
+                                result = "RED";
+                            }
+                            if (P2 >= dd.AI && cnt == 2)
+                            {
+                                result = "GREEN";
+                            }
+                            else if (P2 < dd.AI && P2 >= 40 && cnt == 2)
+                            {
+                                result = "ORANGE";
+                            }
+                            else if (P2 < 40 && cnt == 2)
+                            {
+                                result = "RED";
+                            }
+                            if (P3 >= dd.VI && cnt == 3)
+                            {
+                                result = "GREEN";
+                            }
+                            else if (P3 < dd.VI && P3 >= 40 && cnt == 3)
+                            {
+                                result = "ORANGE";
+                            }
+                            else if (P3 < 40 && cnt == 3)
+                            {
+                                result = "RED";
+                            }
+                            if (P4 >= dd.QI && cnt == 4)
+                            {
+                                result = "GREEN";
+                            }
+                            else if (P4 < dd.QI && P4 >= 40 && cnt == 4)
+                            {
+                                result = "ORANGE";
+                            }
+                            else if (P4 < 40 && cnt == 4)
+                            {
+                                result = "RED";
+                            }
+                            if (P5 >= dd.SI && cnt == 5)
+                            {
+                                result = "GREEN";
+                            }
+                            else if (P5 < dd.SI && P5 >= 40 && cnt == 5)
+                            {
+                                result = "ORANGE";
+                            }
+                            else if (P5 < 40 && cnt == 5)
+                            {
+                                result = "RED";
+                            }
+                            if (P6 >= dd.EI && cnt == 6)
+                            {
+                                result = "GREEN";
+                            }
+                            else if (P6 < dd.EI && P6 >= 40 && cnt == 6)
+                            {
+                                result = "ORANGE";
+                            }
+                            else if (P6 < 40 && cnt == 6)
+                            {
+                                result = "RED";
+                            }
+                            cnt = cnt + 1;
+                            res += result + " ";
+                        }
+                        jobvalues += dd.CCategory + "|" + dd.CTitle + "|" + res + ",";
+                        res = "";
+
+                    }
+                    Session["CList"] = jobvalues;
+                }
+
+            }
+
+        }
+        catch (Exception ex) { lblMessage.Text += "hi..." + ex.Message; }
+
+    }
+
+
+    
 
     private float GetPercentileScoreUserwise(float totalmark, string sectionname, string testsecId)
     {

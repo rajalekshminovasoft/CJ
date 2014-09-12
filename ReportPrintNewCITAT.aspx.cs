@@ -291,48 +291,57 @@ public partial class ReportPrintNewCITAT : System.Web.UI.Page
                     tblDisplay.Rows.Add(tblRow);
 
                     ////////////////////////
-                    tblRow = new TableRow(); tblRow.BackColor = clrRow1;
-                    tblCell = new TableCell();
-                    tblCell.BorderWidth = 2;
-                    tblCell.Width = tableftcellwidth;
-                    label = new Label();
-                    label.Text = "&nbsp;&nbsp; Profile Code";
-                    label.Font.Bold = true;
-                    tblCell.Controls.Add(label);
-                    tblRow.Cells.Add(tblCell);
-
-                    tblCell = new TableCell();
-                    tblCell.BorderWidth = 2;
-                    tblCell.Width = tabrightcellwidth;
-                    label = new Label(); label.Font.Bold = true; label.ForeColor = clrTextcolor;
-                    label.Text = "&nbsp;&nbsp; " + Session["ProfileCode"].ToString();
-
-                    tblCell.Controls.Add(label);
-                    tblRow.Cells.Add(tblCell);
-                    tblDisplay.Rows.Add(tblRow);
+                   
                     //-----------------------------------------
                     if (Session["CList"] != "")
                     {
                         string[] res;
-                        string[] Rate = Session["CList"].ToString().Split('|');
-                        for (int i = 1; i < Rate.Count(); i = i + 3)
+                        string[] Rate = Session["CList"].ToString().Split(',');
+                        for (int i = 0; i < Rate.Count()-1; i++)
                         {
-                            //res[i] = Rate[i].ToString() + "  " +Rate[i+1].ToString()+ "  "+Rate[i+2].ToString();
+                            res = Rate[i].Split('|');
                             tblRow = new TableRow(); tblRow.BackColor = clrRow1;
                             tblCell = new TableCell();
                             tblCell.BorderWidth = 2;
                             tblCell.Width = tableftcellwidth;
                             label = new Label();
-                            label.Text = "&nbsp;&nbsp; Rate List";
+                            label.Text = res[0];
                             label.Font.Bold = true;
                             tblCell.Controls.Add(label);
                             tblRow.Cells.Add(tblCell);
 
                             tblCell = new TableCell();
                             tblCell.BorderWidth = 2;
+                            tblCell.Width = tableftcellwidth;
+                            label = new Label();
+                            //Rate[i] =res[1];
+                            label.Text = res[1];
+                            label.Font.Bold = true;
+                            tblCell.Controls.Add(label);
+                            tblRow.Cells.Add(tblCell);
+                            //res = res[2].Split(' ');
+                            tblCell = new TableCell();
+                            tblCell.BorderWidth = 2;
                             tblCell.Width = tabrightcellwidth;
-                            label = new Label(); label.Font.Bold = true; label.ForeColor = clrTextcolor;
-                            label.Text = "&nbsp;&nbsp; " + Rate[i].ToString() + "  " + Rate[i + 1].ToString() + "  " + Rate[i + 2].ToString(); ;
+                            label = new Label(); label.Font.Bold = true; label.Text = res[2];
+                            string result = "";
+                            //foreach (var dd in res)
+                            //{
+                            //    if (dd == "RED")
+                            //    {
+                            //        label.BackColor = Color.Red;
+                            //    }
+                            //    if (dd == "ORANGE")
+                            //    {
+                            //        label.BackColor = Color.Orange;
+                            //    }
+                            //    if (dd == "GREEN")
+                            //    {
+                            //        label.BackColor = Color.Green;
+                            //    }
+                            //}
+                            //label.BackColor = clrTextcolor;
+                            //label.Text = "&nbsp;&nbsp; " + Rate[i].ToString();
 
                             tblCell.Controls.Add(label);
                             tblRow.Cells.Add(tblCell);
