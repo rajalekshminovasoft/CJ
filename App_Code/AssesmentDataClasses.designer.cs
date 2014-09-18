@@ -128,9 +128,6 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
   partial void InsertUserTestList(UserTestList instance);
   partial void UpdateUserTestList(UserTestList instance);
   partial void DeleteUserTestList(UserTestList instance);
-  partial void InsertUserProfile(UserProfile instance);
-  partial void UpdateUserProfile(UserProfile instance);
-  partial void DeleteUserProfile(UserProfile instance);
   partial void InsertCIACode(CIACode instance);
   partial void UpdateCIACode(CIACode instance);
   partial void DeleteCIACode(CIACode instance);
@@ -140,6 +137,9 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
   partial void InsertTestList(TestList instance);
   partial void UpdateTestList(TestList instance);
   partial void DeleteTestList(TestList instance);
+  partial void InsertUserProfile(UserProfile instance);
+  partial void UpdateUserProfile(UserProfile instance);
+  partial void DeleteUserProfile(UserProfile instance);
   #endregion
 	
 	public AssesmentDataClassesDataContext() : 
@@ -660,14 +660,6 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
 		}
 	}
 	
-	public System.Data.Linq.Table<UserProfile> UserProfiles
-	{
-		get
-		{
-			return this.GetTable<UserProfile>();
-		}
-	}
-	
 	public System.Data.Linq.Table<View_UserTestList> View_UserTestLists
 	{
 		get
@@ -697,6 +689,14 @@ public partial class AssesmentDataClassesDataContext : System.Data.Linq.DataCont
 		get
 		{
 			return this.GetTable<TestList>();
+		}
+	}
+	
+	public System.Data.Linq.Table<UserProfile> UserProfiles
+	{
+		get
+		{
+			return this.GetTable<UserProfile>();
 		}
 	}
 	
@@ -21385,932 +21385,6 @@ public partial class View_UserTest
 	}
 }
 
-[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserProfile")]
-public partial class UserProfile : INotifyPropertyChanging, INotifyPropertyChanged
-{
-	
-	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-	
-	private int _UserId;
-	
-	private string _UserName;
-	
-	private string _Password;
-	
-	private string _UserType;
-	
-	private string _FirstName;
-	
-	private string _MiddleName;
-	
-	private string _LastName;
-	
-	private string _Gender;
-	
-	private System.Nullable<int> _Age;
-	
-	private string _EmailId;
-	
-	private System.Nullable<int> _OrganizationID;
-	
-	private System.Nullable<int> _CompanyID;
-	
-	private System.Nullable<int> _JobCategoryID;
-	
-	private System.Nullable<int> _GrpUserID;
-	
-	private string _Designation;
-	
-	private System.Nullable<int> _TotWorkExpYrs;
-	
-	private System.Nullable<int> _TotWorkExpMonths;
-	
-	private System.Nullable<int> _PresJobExpYrs;
-	
-	private System.Nullable<int> _PresJobExpMonths;
-	
-	private string _EducQualifications;
-	
-	private string _ProfCertifications;
-	
-	private System.Nullable<int> _Status;
-	
-	private System.Nullable<int> _CreatedBy;
-	
-	private System.Nullable<System.DateTime> _CreatedOn;
-	
-	private System.Nullable<System.DateTime> _ModifiedOn;
-	
-	private System.Nullable<int> _ModifiedBy;
-	
-	private System.Nullable<System.DateTime> _LoginFromDate;
-	
-	private System.Nullable<System.DateTime> _LoginToDate;
-	
-	private System.Nullable<int> _ReportAccess;
-	
-	private string _PhoneNum;
-	
-	private System.Nullable<System.DateTime> _FirstLoginDate;
-	
-	private System.Nullable<System.DateTime> _LogoutDate;
-	
-	private System.Nullable<int> _Testid;
-	
-	private System.Nullable<int> _AdminAccess;
-	
-	private string _Recruiter;
-	
-	private string _Testid1;
-	
-	private System.Nullable<int> _Testid2;
-	
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUserIdChanging(int value);
-    partial void OnUserIdChanged();
-    partial void OnUserNameChanging(string value);
-    partial void OnUserNameChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    partial void OnUserTypeChanging(string value);
-    partial void OnUserTypeChanged();
-    partial void OnFirstNameChanging(string value);
-    partial void OnFirstNameChanged();
-    partial void OnMiddleNameChanging(string value);
-    partial void OnMiddleNameChanged();
-    partial void OnLastNameChanging(string value);
-    partial void OnLastNameChanged();
-    partial void OnGenderChanging(string value);
-    partial void OnGenderChanged();
-    partial void OnAgeChanging(System.Nullable<int> value);
-    partial void OnAgeChanged();
-    partial void OnEmailIdChanging(string value);
-    partial void OnEmailIdChanged();
-    partial void OnOrganizationIDChanging(System.Nullable<int> value);
-    partial void OnOrganizationIDChanged();
-    partial void OnCompanyIDChanging(System.Nullable<int> value);
-    partial void OnCompanyIDChanged();
-    partial void OnJobCategoryIDChanging(System.Nullable<int> value);
-    partial void OnJobCategoryIDChanged();
-    partial void OnGrpUserIDChanging(System.Nullable<int> value);
-    partial void OnGrpUserIDChanged();
-    partial void OnDesignationChanging(string value);
-    partial void OnDesignationChanged();
-    partial void OnTotWorkExpYrsChanging(System.Nullable<int> value);
-    partial void OnTotWorkExpYrsChanged();
-    partial void OnTotWorkExpMonthsChanging(System.Nullable<int> value);
-    partial void OnTotWorkExpMonthsChanged();
-    partial void OnPresJobExpYrsChanging(System.Nullable<int> value);
-    partial void OnPresJobExpYrsChanged();
-    partial void OnPresJobExpMonthsChanging(System.Nullable<int> value);
-    partial void OnPresJobExpMonthsChanged();
-    partial void OnEducQualificationsChanging(string value);
-    partial void OnEducQualificationsChanged();
-    partial void OnProfCertificationsChanging(string value);
-    partial void OnProfCertificationsChanged();
-    partial void OnStatusChanging(System.Nullable<int> value);
-    partial void OnStatusChanged();
-    partial void OnCreatedByChanging(System.Nullable<int> value);
-    partial void OnCreatedByChanged();
-    partial void OnCreatedOnChanging(System.Nullable<System.DateTime> value);
-    partial void OnCreatedOnChanged();
-    partial void OnModifiedOnChanging(System.Nullable<System.DateTime> value);
-    partial void OnModifiedOnChanged();
-    partial void OnModifiedByChanging(System.Nullable<int> value);
-    partial void OnModifiedByChanged();
-    partial void OnLoginFromDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnLoginFromDateChanged();
-    partial void OnLoginToDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnLoginToDateChanged();
-    partial void OnReportAccessChanging(System.Nullable<int> value);
-    partial void OnReportAccessChanged();
-    partial void OnPhoneNumChanging(string value);
-    partial void OnPhoneNumChanged();
-    partial void OnFirstLoginDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnFirstLoginDateChanged();
-    partial void OnLogoutDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnLogoutDateChanged();
-    partial void OnTestidChanging(System.Nullable<int> value);
-    partial void OnTestidChanged();
-    partial void OnAdminAccessChanging(System.Nullable<int> value);
-    partial void OnAdminAccessChanged();
-    partial void OnRecruiterChanging(string value);
-    partial void OnRecruiterChanged();
-    partial void OnTestid1Changing(string value);
-    partial void OnTestid1Changed();
-    partial void OnTestid2Changing(System.Nullable<int> value);
-    partial void OnTestid2Changed();
-    #endregion
-	
-	public UserProfile()
-	{
-		OnCreated();
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-	public int UserId
-	{
-		get
-		{
-			return this._UserId;
-		}
-		set
-		{
-			if ((this._UserId != value))
-			{
-				this.OnUserIdChanging(value);
-				this.SendPropertyChanging();
-				this._UserId = value;
-				this.SendPropertyChanged("UserId");
-				this.OnUserIdChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
-	public string UserName
-	{
-		get
-		{
-			return this._UserName;
-		}
-		set
-		{
-			if ((this._UserName != value))
-			{
-				this.OnUserNameChanging(value);
-				this.SendPropertyChanging();
-				this._UserName = value;
-				this.SendPropertyChanged("UserName");
-				this.OnUserNameChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
-	public string Password
-	{
-		get
-		{
-			return this._Password;
-		}
-		set
-		{
-			if ((this._Password != value))
-			{
-				this.OnPasswordChanging(value);
-				this.SendPropertyChanging();
-				this._Password = value;
-				this.SendPropertyChanged("Password");
-				this.OnPasswordChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserType", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
-	public string UserType
-	{
-		get
-		{
-			return this._UserType;
-		}
-		set
-		{
-			if ((this._UserType != value))
-			{
-				this.OnUserTypeChanging(value);
-				this.SendPropertyChanging();
-				this._UserType = value;
-				this.SendPropertyChanged("UserType");
-				this.OnUserTypeChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="NVarChar(100)")]
-	public string FirstName
-	{
-		get
-		{
-			return this._FirstName;
-		}
-		set
-		{
-			if ((this._FirstName != value))
-			{
-				this.OnFirstNameChanging(value);
-				this.SendPropertyChanging();
-				this._FirstName = value;
-				this.SendPropertyChanged("FirstName");
-				this.OnFirstNameChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MiddleName", DbType="NVarChar(100)")]
-	public string MiddleName
-	{
-		get
-		{
-			return this._MiddleName;
-		}
-		set
-		{
-			if ((this._MiddleName != value))
-			{
-				this.OnMiddleNameChanging(value);
-				this.SendPropertyChanging();
-				this._MiddleName = value;
-				this.SendPropertyChanged("MiddleName");
-				this.OnMiddleNameChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="NVarChar(100)")]
-	public string LastName
-	{
-		get
-		{
-			return this._LastName;
-		}
-		set
-		{
-			if ((this._LastName != value))
-			{
-				this.OnLastNameChanging(value);
-				this.SendPropertyChanging();
-				this._LastName = value;
-				this.SendPropertyChanged("LastName");
-				this.OnLastNameChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="NVarChar(10)")]
-	public string Gender
-	{
-		get
-		{
-			return this._Gender;
-		}
-		set
-		{
-			if ((this._Gender != value))
-			{
-				this.OnGenderChanging(value);
-				this.SendPropertyChanging();
-				this._Gender = value;
-				this.SendPropertyChanged("Gender");
-				this.OnGenderChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Age", DbType="Int")]
-	public System.Nullable<int> Age
-	{
-		get
-		{
-			return this._Age;
-		}
-		set
-		{
-			if ((this._Age != value))
-			{
-				this.OnAgeChanging(value);
-				this.SendPropertyChanging();
-				this._Age = value;
-				this.SendPropertyChanged("Age");
-				this.OnAgeChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailId", DbType="NVarChar(100)")]
-	public string EmailId
-	{
-		get
-		{
-			return this._EmailId;
-		}
-		set
-		{
-			if ((this._EmailId != value))
-			{
-				this.OnEmailIdChanging(value);
-				this.SendPropertyChanging();
-				this._EmailId = value;
-				this.SendPropertyChanged("EmailId");
-				this.OnEmailIdChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationID", DbType="Int")]
-	public System.Nullable<int> OrganizationID
-	{
-		get
-		{
-			return this._OrganizationID;
-		}
-		set
-		{
-			if ((this._OrganizationID != value))
-			{
-				this.OnOrganizationIDChanging(value);
-				this.SendPropertyChanging();
-				this._OrganizationID = value;
-				this.SendPropertyChanged("OrganizationID");
-				this.OnOrganizationIDChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyID", DbType="Int")]
-	public System.Nullable<int> CompanyID
-	{
-		get
-		{
-			return this._CompanyID;
-		}
-		set
-		{
-			if ((this._CompanyID != value))
-			{
-				this.OnCompanyIDChanging(value);
-				this.SendPropertyChanging();
-				this._CompanyID = value;
-				this.SendPropertyChanged("CompanyID");
-				this.OnCompanyIDChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobCategoryID", DbType="Int")]
-	public System.Nullable<int> JobCategoryID
-	{
-		get
-		{
-			return this._JobCategoryID;
-		}
-		set
-		{
-			if ((this._JobCategoryID != value))
-			{
-				this.OnJobCategoryIDChanging(value);
-				this.SendPropertyChanging();
-				this._JobCategoryID = value;
-				this.SendPropertyChanged("JobCategoryID");
-				this.OnJobCategoryIDChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GrpUserID", DbType="Int")]
-	public System.Nullable<int> GrpUserID
-	{
-		get
-		{
-			return this._GrpUserID;
-		}
-		set
-		{
-			if ((this._GrpUserID != value))
-			{
-				this.OnGrpUserIDChanging(value);
-				this.SendPropertyChanging();
-				this._GrpUserID = value;
-				this.SendPropertyChanged("GrpUserID");
-				this.OnGrpUserIDChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Designation", DbType="NVarChar(100)")]
-	public string Designation
-	{
-		get
-		{
-			return this._Designation;
-		}
-		set
-		{
-			if ((this._Designation != value))
-			{
-				this.OnDesignationChanging(value);
-				this.SendPropertyChanging();
-				this._Designation = value;
-				this.SendPropertyChanged("Designation");
-				this.OnDesignationChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotWorkExpYrs", DbType="Int")]
-	public System.Nullable<int> TotWorkExpYrs
-	{
-		get
-		{
-			return this._TotWorkExpYrs;
-		}
-		set
-		{
-			if ((this._TotWorkExpYrs != value))
-			{
-				this.OnTotWorkExpYrsChanging(value);
-				this.SendPropertyChanging();
-				this._TotWorkExpYrs = value;
-				this.SendPropertyChanged("TotWorkExpYrs");
-				this.OnTotWorkExpYrsChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotWorkExpMonths", DbType="Int")]
-	public System.Nullable<int> TotWorkExpMonths
-	{
-		get
-		{
-			return this._TotWorkExpMonths;
-		}
-		set
-		{
-			if ((this._TotWorkExpMonths != value))
-			{
-				this.OnTotWorkExpMonthsChanging(value);
-				this.SendPropertyChanging();
-				this._TotWorkExpMonths = value;
-				this.SendPropertyChanged("TotWorkExpMonths");
-				this.OnTotWorkExpMonthsChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PresJobExpYrs", DbType="Int")]
-	public System.Nullable<int> PresJobExpYrs
-	{
-		get
-		{
-			return this._PresJobExpYrs;
-		}
-		set
-		{
-			if ((this._PresJobExpYrs != value))
-			{
-				this.OnPresJobExpYrsChanging(value);
-				this.SendPropertyChanging();
-				this._PresJobExpYrs = value;
-				this.SendPropertyChanged("PresJobExpYrs");
-				this.OnPresJobExpYrsChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PresJobExpMonths", DbType="Int")]
-	public System.Nullable<int> PresJobExpMonths
-	{
-		get
-		{
-			return this._PresJobExpMonths;
-		}
-		set
-		{
-			if ((this._PresJobExpMonths != value))
-			{
-				this.OnPresJobExpMonthsChanging(value);
-				this.SendPropertyChanging();
-				this._PresJobExpMonths = value;
-				this.SendPropertyChanged("PresJobExpMonths");
-				this.OnPresJobExpMonthsChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EducQualifications", DbType="NVarChar(200)")]
-	public string EducQualifications
-	{
-		get
-		{
-			return this._EducQualifications;
-		}
-		set
-		{
-			if ((this._EducQualifications != value))
-			{
-				this.OnEducQualificationsChanging(value);
-				this.SendPropertyChanging();
-				this._EducQualifications = value;
-				this.SendPropertyChanged("EducQualifications");
-				this.OnEducQualificationsChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProfCertifications", DbType="NVarChar(200)")]
-	public string ProfCertifications
-	{
-		get
-		{
-			return this._ProfCertifications;
-		}
-		set
-		{
-			if ((this._ProfCertifications != value))
-			{
-				this.OnProfCertificationsChanging(value);
-				this.SendPropertyChanging();
-				this._ProfCertifications = value;
-				this.SendPropertyChanged("ProfCertifications");
-				this.OnProfCertificationsChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int")]
-	public System.Nullable<int> Status
-	{
-		get
-		{
-			return this._Status;
-		}
-		set
-		{
-			if ((this._Status != value))
-			{
-				this.OnStatusChanging(value);
-				this.SendPropertyChanging();
-				this._Status = value;
-				this.SendPropertyChanged("Status");
-				this.OnStatusChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedBy", DbType="Int")]
-	public System.Nullable<int> CreatedBy
-	{
-		get
-		{
-			return this._CreatedBy;
-		}
-		set
-		{
-			if ((this._CreatedBy != value))
-			{
-				this.OnCreatedByChanging(value);
-				this.SendPropertyChanging();
-				this._CreatedBy = value;
-				this.SendPropertyChanged("CreatedBy");
-				this.OnCreatedByChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime")]
-	public System.Nullable<System.DateTime> CreatedOn
-	{
-		get
-		{
-			return this._CreatedOn;
-		}
-		set
-		{
-			if ((this._CreatedOn != value))
-			{
-				this.OnCreatedOnChanging(value);
-				this.SendPropertyChanging();
-				this._CreatedOn = value;
-				this.SendPropertyChanged("CreatedOn");
-				this.OnCreatedOnChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedOn", DbType="DateTime")]
-	public System.Nullable<System.DateTime> ModifiedOn
-	{
-		get
-		{
-			return this._ModifiedOn;
-		}
-		set
-		{
-			if ((this._ModifiedOn != value))
-			{
-				this.OnModifiedOnChanging(value);
-				this.SendPropertyChanging();
-				this._ModifiedOn = value;
-				this.SendPropertyChanged("ModifiedOn");
-				this.OnModifiedOnChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedBy", DbType="Int")]
-	public System.Nullable<int> ModifiedBy
-	{
-		get
-		{
-			return this._ModifiedBy;
-		}
-		set
-		{
-			if ((this._ModifiedBy != value))
-			{
-				this.OnModifiedByChanging(value);
-				this.SendPropertyChanging();
-				this._ModifiedBy = value;
-				this.SendPropertyChanged("ModifiedBy");
-				this.OnModifiedByChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoginFromDate", DbType="DateTime")]
-	public System.Nullable<System.DateTime> LoginFromDate
-	{
-		get
-		{
-			return this._LoginFromDate;
-		}
-		set
-		{
-			if ((this._LoginFromDate != value))
-			{
-				this.OnLoginFromDateChanging(value);
-				this.SendPropertyChanging();
-				this._LoginFromDate = value;
-				this.SendPropertyChanged("LoginFromDate");
-				this.OnLoginFromDateChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoginToDate", DbType="DateTime")]
-	public System.Nullable<System.DateTime> LoginToDate
-	{
-		get
-		{
-			return this._LoginToDate;
-		}
-		set
-		{
-			if ((this._LoginToDate != value))
-			{
-				this.OnLoginToDateChanging(value);
-				this.SendPropertyChanging();
-				this._LoginToDate = value;
-				this.SendPropertyChanged("LoginToDate");
-				this.OnLoginToDateChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportAccess", DbType="Int")]
-	public System.Nullable<int> ReportAccess
-	{
-		get
-		{
-			return this._ReportAccess;
-		}
-		set
-		{
-			if ((this._ReportAccess != value))
-			{
-				this.OnReportAccessChanging(value);
-				this.SendPropertyChanging();
-				this._ReportAccess = value;
-				this.SendPropertyChanged("ReportAccess");
-				this.OnReportAccessChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNum", DbType="NVarChar(20)")]
-	public string PhoneNum
-	{
-		get
-		{
-			return this._PhoneNum;
-		}
-		set
-		{
-			if ((this._PhoneNum != value))
-			{
-				this.OnPhoneNumChanging(value);
-				this.SendPropertyChanging();
-				this._PhoneNum = value;
-				this.SendPropertyChanged("PhoneNum");
-				this.OnPhoneNumChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstLoginDate", DbType="DateTime")]
-	public System.Nullable<System.DateTime> FirstLoginDate
-	{
-		get
-		{
-			return this._FirstLoginDate;
-		}
-		set
-		{
-			if ((this._FirstLoginDate != value))
-			{
-				this.OnFirstLoginDateChanging(value);
-				this.SendPropertyChanging();
-				this._FirstLoginDate = value;
-				this.SendPropertyChanged("FirstLoginDate");
-				this.OnFirstLoginDateChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogoutDate", DbType="DateTime")]
-	public System.Nullable<System.DateTime> LogoutDate
-	{
-		get
-		{
-			return this._LogoutDate;
-		}
-		set
-		{
-			if ((this._LogoutDate != value))
-			{
-				this.OnLogoutDateChanging(value);
-				this.SendPropertyChanging();
-				this._LogoutDate = value;
-				this.SendPropertyChanged("LogoutDate");
-				this.OnLogoutDateChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Testid", DbType="Int")]
-	public System.Nullable<int> Testid
-	{
-		get
-		{
-			return this._Testid;
-		}
-		set
-		{
-			if ((this._Testid != value))
-			{
-				this.OnTestidChanging(value);
-				this.SendPropertyChanging();
-				this._Testid = value;
-				this.SendPropertyChanged("Testid");
-				this.OnTestidChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdminAccess", DbType="Int")]
-	public System.Nullable<int> AdminAccess
-	{
-		get
-		{
-			return this._AdminAccess;
-		}
-		set
-		{
-			if ((this._AdminAccess != value))
-			{
-				this.OnAdminAccessChanging(value);
-				this.SendPropertyChanging();
-				this._AdminAccess = value;
-				this.SendPropertyChanged("AdminAccess");
-				this.OnAdminAccessChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Recruiter", DbType="NVarChar(250)")]
-	public string Recruiter
-	{
-		get
-		{
-			return this._Recruiter;
-		}
-		set
-		{
-			if ((this._Recruiter != value))
-			{
-				this.OnRecruiterChanging(value);
-				this.SendPropertyChanging();
-				this._Recruiter = value;
-				this.SendPropertyChanged("Recruiter");
-				this.OnRecruiterChanged();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Testid1", DbType="NVarChar(250)")]
-	public string Testid1
-	{
-		get
-		{
-			return this._Testid1;
-		}
-		set
-		{
-			if ((this._Testid1 != value))
-			{
-				this.OnTestid1Changing(value);
-				this.SendPropertyChanging();
-				this._Testid1 = value;
-				this.SendPropertyChanged("Testid1");
-				this.OnTestid1Changed();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Testid2", DbType="Int")]
-	public System.Nullable<int> Testid2
-	{
-		get
-		{
-			return this._Testid2;
-		}
-		set
-		{
-			if ((this._Testid2 != value))
-			{
-				this.OnTestid2Changing(value);
-				this.SendPropertyChanging();
-				this._Testid2 = value;
-				this.SendPropertyChanged("Testid2");
-				this.OnTestid2Changed();
-			}
-		}
-	}
-	
-	public event PropertyChangingEventHandler PropertyChanging;
-	
-	public event PropertyChangedEventHandler PropertyChanged;
-	
-	protected virtual void SendPropertyChanging()
-	{
-		if ((this.PropertyChanging != null))
-		{
-			this.PropertyChanging(this, emptyChangingEventArgs);
-		}
-	}
-	
-	protected virtual void SendPropertyChanged(String propertyName)
-	{
-		if ((this.PropertyChanged != null))
-		{
-			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
-}
-
 [global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.View_UserTestList")]
 public partial class View_UserTestList
 {
@@ -23237,6 +22311,884 @@ public partial class TestList : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Remark = value;
 				this.SendPropertyChanged("Remark");
 				this.OnRemarkChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserProfile")]
+public partial class UserProfile : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _UserId;
+	
+	private string _UserName;
+	
+	private string _Password;
+	
+	private string _UserType;
+	
+	private string _FirstName;
+	
+	private string _MiddleName;
+	
+	private string _LastName;
+	
+	private string _Gender;
+	
+	private System.Nullable<int> _Age;
+	
+	private string _EmailId;
+	
+	private System.Nullable<int> _OrganizationID;
+	
+	private System.Nullable<int> _CompanyID;
+	
+	private System.Nullable<int> _JobCategoryID;
+	
+	private System.Nullable<int> _GrpUserID;
+	
+	private string _Designation;
+	
+	private System.Nullable<int> _TotWorkExpYrs;
+	
+	private System.Nullable<int> _TotWorkExpMonths;
+	
+	private System.Nullable<int> _PresJobExpYrs;
+	
+	private System.Nullable<int> _PresJobExpMonths;
+	
+	private string _EducQualifications;
+	
+	private string _ProfCertifications;
+	
+	private System.Nullable<int> _Status;
+	
+	private System.Nullable<int> _CreatedBy;
+	
+	private System.Nullable<System.DateTime> _CreatedOn;
+	
+	private System.Nullable<System.DateTime> _ModifiedOn;
+	
+	private System.Nullable<int> _ModifiedBy;
+	
+	private System.Nullable<System.DateTime> _LoginFromDate;
+	
+	private System.Nullable<System.DateTime> _LoginToDate;
+	
+	private System.Nullable<int> _ReportAccess;
+	
+	private string _PhoneNum;
+	
+	private System.Nullable<System.DateTime> _FirstLoginDate;
+	
+	private System.Nullable<System.DateTime> _LogoutDate;
+	
+	private System.Nullable<int> _Testid;
+	
+	private System.Nullable<int> _AdminAccess;
+	
+	private string _Recruiter;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnUserTypeChanging(string value);
+    partial void OnUserTypeChanged();
+    partial void OnFirstNameChanging(string value);
+    partial void OnFirstNameChanged();
+    partial void OnMiddleNameChanging(string value);
+    partial void OnMiddleNameChanged();
+    partial void OnLastNameChanging(string value);
+    partial void OnLastNameChanged();
+    partial void OnGenderChanging(string value);
+    partial void OnGenderChanged();
+    partial void OnAgeChanging(System.Nullable<int> value);
+    partial void OnAgeChanged();
+    partial void OnEmailIdChanging(string value);
+    partial void OnEmailIdChanged();
+    partial void OnOrganizationIDChanging(System.Nullable<int> value);
+    partial void OnOrganizationIDChanged();
+    partial void OnCompanyIDChanging(System.Nullable<int> value);
+    partial void OnCompanyIDChanged();
+    partial void OnJobCategoryIDChanging(System.Nullable<int> value);
+    partial void OnJobCategoryIDChanged();
+    partial void OnGrpUserIDChanging(System.Nullable<int> value);
+    partial void OnGrpUserIDChanged();
+    partial void OnDesignationChanging(string value);
+    partial void OnDesignationChanged();
+    partial void OnTotWorkExpYrsChanging(System.Nullable<int> value);
+    partial void OnTotWorkExpYrsChanged();
+    partial void OnTotWorkExpMonthsChanging(System.Nullable<int> value);
+    partial void OnTotWorkExpMonthsChanged();
+    partial void OnPresJobExpYrsChanging(System.Nullable<int> value);
+    partial void OnPresJobExpYrsChanged();
+    partial void OnPresJobExpMonthsChanging(System.Nullable<int> value);
+    partial void OnPresJobExpMonthsChanged();
+    partial void OnEducQualificationsChanging(string value);
+    partial void OnEducQualificationsChanged();
+    partial void OnProfCertificationsChanging(string value);
+    partial void OnProfCertificationsChanged();
+    partial void OnStatusChanging(System.Nullable<int> value);
+    partial void OnStatusChanged();
+    partial void OnCreatedByChanging(System.Nullable<int> value);
+    partial void OnCreatedByChanged();
+    partial void OnCreatedOnChanging(System.Nullable<System.DateTime> value);
+    partial void OnCreatedOnChanged();
+    partial void OnModifiedOnChanging(System.Nullable<System.DateTime> value);
+    partial void OnModifiedOnChanged();
+    partial void OnModifiedByChanging(System.Nullable<int> value);
+    partial void OnModifiedByChanged();
+    partial void OnLoginFromDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnLoginFromDateChanged();
+    partial void OnLoginToDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnLoginToDateChanged();
+    partial void OnReportAccessChanging(System.Nullable<int> value);
+    partial void OnReportAccessChanged();
+    partial void OnPhoneNumChanging(string value);
+    partial void OnPhoneNumChanged();
+    partial void OnFirstLoginDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnFirstLoginDateChanged();
+    partial void OnLogoutDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnLogoutDateChanged();
+    partial void OnTestidChanging(System.Nullable<int> value);
+    partial void OnTestidChanged();
+    partial void OnAdminAccessChanging(System.Nullable<int> value);
+    partial void OnAdminAccessChanged();
+    partial void OnRecruiterChanging(string value);
+    partial void OnRecruiterChanged();
+    #endregion
+	
+	public UserProfile()
+	{
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int UserId
+	{
+		get
+		{
+			return this._UserId;
+		}
+		set
+		{
+			if ((this._UserId != value))
+			{
+				this.OnUserIdChanging(value);
+				this.SendPropertyChanging();
+				this._UserId = value;
+				this.SendPropertyChanged("UserId");
+				this.OnUserIdChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+	public string UserName
+	{
+		get
+		{
+			return this._UserName;
+		}
+		set
+		{
+			if ((this._UserName != value))
+			{
+				this.OnUserNameChanging(value);
+				this.SendPropertyChanging();
+				this._UserName = value;
+				this.SendPropertyChanged("UserName");
+				this.OnUserNameChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+	public string Password
+	{
+		get
+		{
+			return this._Password;
+		}
+		set
+		{
+			if ((this._Password != value))
+			{
+				this.OnPasswordChanging(value);
+				this.SendPropertyChanging();
+				this._Password = value;
+				this.SendPropertyChanged("Password");
+				this.OnPasswordChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserType", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+	public string UserType
+	{
+		get
+		{
+			return this._UserType;
+		}
+		set
+		{
+			if ((this._UserType != value))
+			{
+				this.OnUserTypeChanging(value);
+				this.SendPropertyChanging();
+				this._UserType = value;
+				this.SendPropertyChanged("UserType");
+				this.OnUserTypeChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="NVarChar(100)")]
+	public string FirstName
+	{
+		get
+		{
+			return this._FirstName;
+		}
+		set
+		{
+			if ((this._FirstName != value))
+			{
+				this.OnFirstNameChanging(value);
+				this.SendPropertyChanging();
+				this._FirstName = value;
+				this.SendPropertyChanged("FirstName");
+				this.OnFirstNameChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MiddleName", DbType="NVarChar(100)")]
+	public string MiddleName
+	{
+		get
+		{
+			return this._MiddleName;
+		}
+		set
+		{
+			if ((this._MiddleName != value))
+			{
+				this.OnMiddleNameChanging(value);
+				this.SendPropertyChanging();
+				this._MiddleName = value;
+				this.SendPropertyChanged("MiddleName");
+				this.OnMiddleNameChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="NVarChar(100)")]
+	public string LastName
+	{
+		get
+		{
+			return this._LastName;
+		}
+		set
+		{
+			if ((this._LastName != value))
+			{
+				this.OnLastNameChanging(value);
+				this.SendPropertyChanging();
+				this._LastName = value;
+				this.SendPropertyChanged("LastName");
+				this.OnLastNameChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="NVarChar(10)")]
+	public string Gender
+	{
+		get
+		{
+			return this._Gender;
+		}
+		set
+		{
+			if ((this._Gender != value))
+			{
+				this.OnGenderChanging(value);
+				this.SendPropertyChanging();
+				this._Gender = value;
+				this.SendPropertyChanged("Gender");
+				this.OnGenderChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Age", DbType="Int")]
+	public System.Nullable<int> Age
+	{
+		get
+		{
+			return this._Age;
+		}
+		set
+		{
+			if ((this._Age != value))
+			{
+				this.OnAgeChanging(value);
+				this.SendPropertyChanging();
+				this._Age = value;
+				this.SendPropertyChanged("Age");
+				this.OnAgeChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailId", DbType="NVarChar(100)")]
+	public string EmailId
+	{
+		get
+		{
+			return this._EmailId;
+		}
+		set
+		{
+			if ((this._EmailId != value))
+			{
+				this.OnEmailIdChanging(value);
+				this.SendPropertyChanging();
+				this._EmailId = value;
+				this.SendPropertyChanged("EmailId");
+				this.OnEmailIdChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationID", DbType="Int")]
+	public System.Nullable<int> OrganizationID
+	{
+		get
+		{
+			return this._OrganizationID;
+		}
+		set
+		{
+			if ((this._OrganizationID != value))
+			{
+				this.OnOrganizationIDChanging(value);
+				this.SendPropertyChanging();
+				this._OrganizationID = value;
+				this.SendPropertyChanged("OrganizationID");
+				this.OnOrganizationIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyID", DbType="Int")]
+	public System.Nullable<int> CompanyID
+	{
+		get
+		{
+			return this._CompanyID;
+		}
+		set
+		{
+			if ((this._CompanyID != value))
+			{
+				this.OnCompanyIDChanging(value);
+				this.SendPropertyChanging();
+				this._CompanyID = value;
+				this.SendPropertyChanged("CompanyID");
+				this.OnCompanyIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobCategoryID", DbType="Int")]
+	public System.Nullable<int> JobCategoryID
+	{
+		get
+		{
+			return this._JobCategoryID;
+		}
+		set
+		{
+			if ((this._JobCategoryID != value))
+			{
+				this.OnJobCategoryIDChanging(value);
+				this.SendPropertyChanging();
+				this._JobCategoryID = value;
+				this.SendPropertyChanged("JobCategoryID");
+				this.OnJobCategoryIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GrpUserID", DbType="Int")]
+	public System.Nullable<int> GrpUserID
+	{
+		get
+		{
+			return this._GrpUserID;
+		}
+		set
+		{
+			if ((this._GrpUserID != value))
+			{
+				this.OnGrpUserIDChanging(value);
+				this.SendPropertyChanging();
+				this._GrpUserID = value;
+				this.SendPropertyChanged("GrpUserID");
+				this.OnGrpUserIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Designation", DbType="NVarChar(100)")]
+	public string Designation
+	{
+		get
+		{
+			return this._Designation;
+		}
+		set
+		{
+			if ((this._Designation != value))
+			{
+				this.OnDesignationChanging(value);
+				this.SendPropertyChanging();
+				this._Designation = value;
+				this.SendPropertyChanged("Designation");
+				this.OnDesignationChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotWorkExpYrs", DbType="Int")]
+	public System.Nullable<int> TotWorkExpYrs
+	{
+		get
+		{
+			return this._TotWorkExpYrs;
+		}
+		set
+		{
+			if ((this._TotWorkExpYrs != value))
+			{
+				this.OnTotWorkExpYrsChanging(value);
+				this.SendPropertyChanging();
+				this._TotWorkExpYrs = value;
+				this.SendPropertyChanged("TotWorkExpYrs");
+				this.OnTotWorkExpYrsChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotWorkExpMonths", DbType="Int")]
+	public System.Nullable<int> TotWorkExpMonths
+	{
+		get
+		{
+			return this._TotWorkExpMonths;
+		}
+		set
+		{
+			if ((this._TotWorkExpMonths != value))
+			{
+				this.OnTotWorkExpMonthsChanging(value);
+				this.SendPropertyChanging();
+				this._TotWorkExpMonths = value;
+				this.SendPropertyChanged("TotWorkExpMonths");
+				this.OnTotWorkExpMonthsChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PresJobExpYrs", DbType="Int")]
+	public System.Nullable<int> PresJobExpYrs
+	{
+		get
+		{
+			return this._PresJobExpYrs;
+		}
+		set
+		{
+			if ((this._PresJobExpYrs != value))
+			{
+				this.OnPresJobExpYrsChanging(value);
+				this.SendPropertyChanging();
+				this._PresJobExpYrs = value;
+				this.SendPropertyChanged("PresJobExpYrs");
+				this.OnPresJobExpYrsChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PresJobExpMonths", DbType="Int")]
+	public System.Nullable<int> PresJobExpMonths
+	{
+		get
+		{
+			return this._PresJobExpMonths;
+		}
+		set
+		{
+			if ((this._PresJobExpMonths != value))
+			{
+				this.OnPresJobExpMonthsChanging(value);
+				this.SendPropertyChanging();
+				this._PresJobExpMonths = value;
+				this.SendPropertyChanged("PresJobExpMonths");
+				this.OnPresJobExpMonthsChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EducQualifications", DbType="NVarChar(200)")]
+	public string EducQualifications
+	{
+		get
+		{
+			return this._EducQualifications;
+		}
+		set
+		{
+			if ((this._EducQualifications != value))
+			{
+				this.OnEducQualificationsChanging(value);
+				this.SendPropertyChanging();
+				this._EducQualifications = value;
+				this.SendPropertyChanged("EducQualifications");
+				this.OnEducQualificationsChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProfCertifications", DbType="NVarChar(200)")]
+	public string ProfCertifications
+	{
+		get
+		{
+			return this._ProfCertifications;
+		}
+		set
+		{
+			if ((this._ProfCertifications != value))
+			{
+				this.OnProfCertificationsChanging(value);
+				this.SendPropertyChanging();
+				this._ProfCertifications = value;
+				this.SendPropertyChanged("ProfCertifications");
+				this.OnProfCertificationsChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int")]
+	public System.Nullable<int> Status
+	{
+		get
+		{
+			return this._Status;
+		}
+		set
+		{
+			if ((this._Status != value))
+			{
+				this.OnStatusChanging(value);
+				this.SendPropertyChanging();
+				this._Status = value;
+				this.SendPropertyChanged("Status");
+				this.OnStatusChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedBy", DbType="Int")]
+	public System.Nullable<int> CreatedBy
+	{
+		get
+		{
+			return this._CreatedBy;
+		}
+		set
+		{
+			if ((this._CreatedBy != value))
+			{
+				this.OnCreatedByChanging(value);
+				this.SendPropertyChanging();
+				this._CreatedBy = value;
+				this.SendPropertyChanged("CreatedBy");
+				this.OnCreatedByChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime")]
+	public System.Nullable<System.DateTime> CreatedOn
+	{
+		get
+		{
+			return this._CreatedOn;
+		}
+		set
+		{
+			if ((this._CreatedOn != value))
+			{
+				this.OnCreatedOnChanging(value);
+				this.SendPropertyChanging();
+				this._CreatedOn = value;
+				this.SendPropertyChanged("CreatedOn");
+				this.OnCreatedOnChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedOn", DbType="DateTime")]
+	public System.Nullable<System.DateTime> ModifiedOn
+	{
+		get
+		{
+			return this._ModifiedOn;
+		}
+		set
+		{
+			if ((this._ModifiedOn != value))
+			{
+				this.OnModifiedOnChanging(value);
+				this.SendPropertyChanging();
+				this._ModifiedOn = value;
+				this.SendPropertyChanged("ModifiedOn");
+				this.OnModifiedOnChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedBy", DbType="Int")]
+	public System.Nullable<int> ModifiedBy
+	{
+		get
+		{
+			return this._ModifiedBy;
+		}
+		set
+		{
+			if ((this._ModifiedBy != value))
+			{
+				this.OnModifiedByChanging(value);
+				this.SendPropertyChanging();
+				this._ModifiedBy = value;
+				this.SendPropertyChanged("ModifiedBy");
+				this.OnModifiedByChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoginFromDate", DbType="DateTime")]
+	public System.Nullable<System.DateTime> LoginFromDate
+	{
+		get
+		{
+			return this._LoginFromDate;
+		}
+		set
+		{
+			if ((this._LoginFromDate != value))
+			{
+				this.OnLoginFromDateChanging(value);
+				this.SendPropertyChanging();
+				this._LoginFromDate = value;
+				this.SendPropertyChanged("LoginFromDate");
+				this.OnLoginFromDateChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoginToDate", DbType="DateTime")]
+	public System.Nullable<System.DateTime> LoginToDate
+	{
+		get
+		{
+			return this._LoginToDate;
+		}
+		set
+		{
+			if ((this._LoginToDate != value))
+			{
+				this.OnLoginToDateChanging(value);
+				this.SendPropertyChanging();
+				this._LoginToDate = value;
+				this.SendPropertyChanged("LoginToDate");
+				this.OnLoginToDateChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportAccess", DbType="Int")]
+	public System.Nullable<int> ReportAccess
+	{
+		get
+		{
+			return this._ReportAccess;
+		}
+		set
+		{
+			if ((this._ReportAccess != value))
+			{
+				this.OnReportAccessChanging(value);
+				this.SendPropertyChanging();
+				this._ReportAccess = value;
+				this.SendPropertyChanged("ReportAccess");
+				this.OnReportAccessChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNum", DbType="NVarChar(20)")]
+	public string PhoneNum
+	{
+		get
+		{
+			return this._PhoneNum;
+		}
+		set
+		{
+			if ((this._PhoneNum != value))
+			{
+				this.OnPhoneNumChanging(value);
+				this.SendPropertyChanging();
+				this._PhoneNum = value;
+				this.SendPropertyChanged("PhoneNum");
+				this.OnPhoneNumChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstLoginDate", DbType="DateTime")]
+	public System.Nullable<System.DateTime> FirstLoginDate
+	{
+		get
+		{
+			return this._FirstLoginDate;
+		}
+		set
+		{
+			if ((this._FirstLoginDate != value))
+			{
+				this.OnFirstLoginDateChanging(value);
+				this.SendPropertyChanging();
+				this._FirstLoginDate = value;
+				this.SendPropertyChanged("FirstLoginDate");
+				this.OnFirstLoginDateChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogoutDate", DbType="DateTime")]
+	public System.Nullable<System.DateTime> LogoutDate
+	{
+		get
+		{
+			return this._LogoutDate;
+		}
+		set
+		{
+			if ((this._LogoutDate != value))
+			{
+				this.OnLogoutDateChanging(value);
+				this.SendPropertyChanging();
+				this._LogoutDate = value;
+				this.SendPropertyChanged("LogoutDate");
+				this.OnLogoutDateChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Testid", DbType="Int")]
+	public System.Nullable<int> Testid
+	{
+		get
+		{
+			return this._Testid;
+		}
+		set
+		{
+			if ((this._Testid != value))
+			{
+				this.OnTestidChanging(value);
+				this.SendPropertyChanging();
+				this._Testid = value;
+				this.SendPropertyChanged("Testid");
+				this.OnTestidChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdminAccess", DbType="Int")]
+	public System.Nullable<int> AdminAccess
+	{
+		get
+		{
+			return this._AdminAccess;
+		}
+		set
+		{
+			if ((this._AdminAccess != value))
+			{
+				this.OnAdminAccessChanging(value);
+				this.SendPropertyChanging();
+				this._AdminAccess = value;
+				this.SendPropertyChanged("AdminAccess");
+				this.OnAdminAccessChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Recruiter", DbType="NVarChar(250)")]
+	public string Recruiter
+	{
+		get
+		{
+			return this._Recruiter;
+		}
+		set
+		{
+			if ((this._Recruiter != value))
+			{
+				this.OnRecruiterChanging(value);
+				this.SendPropertyChanging();
+				this._Recruiter = value;
+				this.SendPropertyChanged("Recruiter");
+				this.OnRecruiterChanged();
 			}
 		}
 	}

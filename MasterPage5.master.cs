@@ -217,12 +217,12 @@ public partial class MasterPage5 : System.Web.UI.MasterPage
                 {
                     int testid = 0;
                     int testid1 = 0;
-                    if ((LoginDetails1.First().Testid != null && LoginDetails1.First().Testid != 0)||(LoginDetails1.First().Testid2 != null && LoginDetails1.First().Testid2 != 0))
+                    if ((LoginDetails1.First().Testid != null && LoginDetails1.First().Testid != 0))
                     {
                         Session["UserTestId"] = int.Parse(LoginDetails1.First().Testid.ToString());
                         testid = int.Parse(LoginDetails1.First().Testid.ToString());
-                        Session["UserTestId1"] = int.Parse(LoginDetails1.First().Testid2.ToString());
-                        testid1 = int.Parse(LoginDetails1.First().Testid2.ToString());
+                        //Session["UserTestId1"] = int.Parse(LoginDetails1.First().Testid2.ToString());
+                        //testid1 = int.Parse(LoginDetails1.First().Testid2.ToString());
                     }
                     else
                     {

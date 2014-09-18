@@ -1873,7 +1873,7 @@ public partial class ReportCIA : System.Web.UI.UserControl
                         double summ;
                         summ = ser + theor + verb + enter + soc + ment;
                         summ = summ / 115 * 100;                
-                        ////////////////////////////f//
+                        //////////////////////////////
                         Session["CCategory"] = "|" + dd.CCategory + "|" + dd.CTitle + "|" + summ.ToString();
                         //Session["CTitle"] += "|" + dd.CTitle;
                         //Session["Rate"] += "|" + summ.ToString();

@@ -313,7 +313,7 @@ public partial class MasterPage4 : System.Web.UI.MasterPage
                         testid = int.Parse(LoginDetails1.First().Testid.ToString());
                         //int tst;
                         //string tst1 = LoginDetails1.First().Testid1.ToString();
-                        Session["UserTestId1"] = int.Parse(LoginDetails1.First().Testid2.ToString());
+                       // Session["UserTestId1"] = int.Parse(LoginDetails1.First().Testid2.ToString());
                     }
                     else
                     {
